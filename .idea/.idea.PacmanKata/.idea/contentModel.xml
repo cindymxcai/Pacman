@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/16.4.0/build/netcoreapp2.1" t="Include">
+      <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
+    </e>
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/nunit.engine.api.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/nunit.engine.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/NUnit3.TestAdapter.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_PacmanKata.-2086253469.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Pacman" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Display.cs" t="Include" />
+        <e p="Enums" t="Include">
+          <e p="Direction.cs" t="Include" />
+          <e p="TileType.cs" t="Include" />
+        </e>
+        <e p="FileReader.cs" t="Include" />
+        <e p="Game.cs" t="Include" />
+        <e p="GameEngine.cs" t="Include" />
+        <e p="GameLogic.cs" t="Include" />
+        <e p="IFileReader.cs" t="Include" />
+        <e p="IMaze.cs" t="Include" />
+        <e p="IPlayerInput.cs" t="Include" />
+        <e p="IRng.cs" t="Include" />
+        <e p="Level.cs" t="Include" />
+        <e p="level1.txt" t="Include" />
+        <e p="level2.txt" t="Include" />
+        <e p="Maze.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Pacman.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="packages.config" t="Include" />
+        <e p="Pacman.csproj" t="IncludeRecursive" />
+        <e p="Parser.cs" t="Include" />
+        <e p="PlayerInput.cs" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Rng.cs" t="Include" />
+        <e p="Sprites" t="Include">
+          <e p="GhostSprite.cs" t="Include" />
+          <e p="IGhostBehaviour.cs" t="Include" />
+          <e p="IGhostSprite.cs" t="Include" />
+          <e p="IPacmanSprite.cs" t="Include" />
+          <e p="ISprite.cs" t="Include" />
+          <e p="PacmanSprite.cs" t="Include" />
+          <e p="RandomGhostBehaviour.cs" t="Include" />
+        </e>
+        <e p="Tile.cs" t="Include" />
+      </e>
+      <e p="PacmanKata.sln" t="IncludeFlat" />
+      <e p="PacmanTests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="GhostTest.cs" t="Include" />
+        <e p="LevelTest.cs" t="Include" />
+        <e p="MazeTest.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="PacmanTests.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="packages.config" t="Include" />
+        <e p="PacmanSpriteTest.cs" t="Include" />
+        <e p="PacmanTests.csproj" t="IncludeRecursive" />
+        <e p="ParsingTest.cs" t="Include" />
+        <e p="PlayerInputTest.cs" t="Include" />
+        <e p="UnitTest1.cs" t="Include" />
+      </e>
+    </e>
+  </component>
+</project>

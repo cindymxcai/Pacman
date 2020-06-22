@@ -1,0 +1,12 @@
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/Pacman.deps.json
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/Pacman.runtimeconfig.json
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/Pacman.runtimeconfig.dev.json
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/Pacman.dll
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/Pacman.pdb
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.csprojAssemblyReference.cache
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.AssemblyInfoInputs.cache
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.AssemblyInfo.cs
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.csproj.CoreCompileInputs.cache
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.dll
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.pdb
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.genruntimeconfig.cache
