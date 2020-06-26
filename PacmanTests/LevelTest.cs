@@ -23,14 +23,14 @@ namespace PacmanTests
         }
         
         [Theory]
-        [InlineData(Direction.Up, 2, TileType.PacmanRight)]
-        [InlineData(Direction.Left, 1, TileType.PacmanChomp)]
-        public void UpdatesMazeWithCorrectTile(Direction direction, int counter, TileType tileType)
+        [InlineData( 2, TileType.PacmanRight)]
+        [InlineData( 1, TileType.PacmanChomp)]
+        public void UpdatesMazeWithCorrectTile(int counter, TileType tileType)
         {
             var level = new Level( 2, new FileReader());
-            GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
-            GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze);
-            GameEngine.UpdateMazeTileDisplays(counter, level.GameMaze, level.Pacman, level.Ghosts);
+            level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
+            level.GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze, level.GameLogicValidator);
+            level.GameEngine.UpdateMazeTileDisplays(counter, level.GameMaze, level.Pacman, level.Ghosts);
 
             Assert.Equal(new Tile(TileType.Empty).Display, level.GameMaze.MazeArray[level.Pacman.PrevX, level.Pacman.PrevY].Display);
             var tile = new Tile(tileType);
@@ -44,21 +44,22 @@ namespace PacmanTests
             var mockGhost = new Mock<IGhostBehaviour>();
             mockGhost.Setup(ghostBehaviour => ghostBehaviour.ChooseDirection()).Returns(Direction.Left);
             level.Ghosts[1] = new GhostSprite(0,0, mockGhost.Object);
-            Assert.True(GameLogic.HasCollidedWithGhost(level.Pacman, level.Ghosts));
+            Assert.True(level.GameLogicValidator.HasCollidedWithGhost(level.Pacman, level.Ghosts));
         }
 
         [Fact]
         public void HasEatenAllPelletsIfRemainingPelletsEqualsZero()
         {
-            Assert.True(GameLogic.HasEatenAllPellets(0));
-            Assert.False(GameLogic.HasEatenAllPellets(2));
+            var level = new Level(1, new FileReader());
+            Assert.True(level.GameLogicValidator.HasEatenAllPellets(0));
+            Assert.False(level.GameLogicValidator.HasEatenAllPellets(2));
         }
         
         [Fact]
         public void HasNotWonLevelIfLivesLeftIs0()
         {
             var level = new Level(1, new FileReader()) {LivesLeft = 0};
-            Assert.False(level.HasWonLevel());
+            Assert.False(level.HasWon);
         }
         
         [Fact]

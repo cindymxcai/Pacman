@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using Pacman.Enums;
 
 namespace Pacman
@@ -43,17 +46,11 @@ namespace Pacman
         private static string[] GetMazeData(int level, IFileReader fileReader)
         {
             string[] mazeData = null;
+            string jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            LevelObject levels = JsonConvert.DeserializeObject<LevelObject>(json);
 
-            switch (level)
-            {
-                case 1:
-                    mazeData = fileReader.ReadFile("/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/level1.txt");
-                    break;
-                case 2:
-                    mazeData = fileReader.ReadFile("/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/level2.txt");
-                    break;
-            }
-            return mazeData;
+            return fileReader.ReadFile(levels.levels[level-1]);
         }
 
         public void UpdateMazeArray(int x, int y, TileType tileType)

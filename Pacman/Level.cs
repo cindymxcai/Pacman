@@ -16,8 +16,14 @@ namespace Pacman
         public bool HasWon { get; set; }
         public int Score { get; private set; }
 
+        public IGameEngine GameEngine { get; }
+        
+        public IGameLogicValidator GameLogicValidator { get; }
+
         public Level(int level, IFileReader fileReader)
         {
+            GameLogicValidator = new GameLogicValidator();
+            GameEngine = new GameEngine();
             LivesLeft = 3;
             PlayerInput = new PlayerInput();
             GameMaze = new Maze(level, fileReader);
@@ -31,23 +37,22 @@ namespace Pacman
             var counter = 0;
             while (!HasWon)
             {
-                var input = Console.ReadKey(true).Key;
+                var input = Console.ReadKey().Key;
                 var newDirection = PlayerInput.TakeInput(Pacman.CurrentDirection, input);
                 while (!Console.KeyAvailable)
                 {
                     var remainingPellets =
                         GameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType == TileType.Pellet);
                     
-                    Score = (GameMaze.Pellets - remainingPellets) * 10; 
-                    //TODO: CONVERT TO CONSTANT  OR OBJECT
+                    Score = Constants.GetScore(GameMaze.Pellets, remainingPellets);
                     
                     UpdateSpritePositions(newDirection);
                     GameEngine.UpdateMazeTileDisplays(counter, GameMaze, Pacman, Ghosts);
                     
-                    if (GameLogic.HasCollidedWithGhost(Pacman, Ghosts)) HandleDeath();
+                    if (GameLogicValidator.HasCollidedWithGhost(Pacman, Ghosts)) HandleDeath();
                     if (LivesLeft != 0)
                     {
-                        HasWon = GameLogic.HasEatenAllPellets(remainingPellets);
+                        HasWon = GameLogicValidator.HasEatenAllPellets(remainingPellets);
                         Console.Clear();
                         
                         Display.MazeOutput(GameMaze);
@@ -78,11 +83,11 @@ namespace Pacman
         private void UpdateSpritePositions(Direction newDirection)
         {
             Pacman.UpdateFacingDirection(newDirection);
-            GameEngine.UpdateSpritePosition(Pacman, GameMaze);
+            GameEngine.UpdateSpritePosition(Pacman, GameMaze, GameLogicValidator);
             foreach (var ghostSprite in Ghosts)
             {
                 ghostSprite.CurrentDirection = ghostSprite.Behaviour.ChooseDirection();
-                GameEngine.UpdateSpritePosition(ghostSprite, GameMaze);
+                GameEngine.UpdateSpritePosition(ghostSprite, GameMaze, GameLogicValidator);
             }
         }
     }

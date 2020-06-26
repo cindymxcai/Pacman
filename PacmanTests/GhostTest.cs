@@ -1,6 +1,5 @@
 using Moq;
 using Pacman;
-using PacmanTests;
 using Pacman.Enums;
 using Pacman.Sprites;
 using Xunit;
@@ -46,7 +45,9 @@ namespace PacmanTests
             mockRandom.Setup(m => m.ChooseDirection()).Returns(newDirection);
             var level = new Level( 1, new FileReader())
                 {Ghosts = { new GhostSprite(4, 5, mockRandom.Object)}};
-            var (x, y) = GameEngine.GetNewPosition(level.Ghosts[2], level.GameMaze);
+            var gameEngine = new GameEngine();
+
+            var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], level.GameMaze);
             level.Ghosts[2].SetNewPosition(x, y);
             Assert.Equal(newX, level.Ghosts[2].X);
             Assert.Equal(newY, level.Ghosts[2].Y);

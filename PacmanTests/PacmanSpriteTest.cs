@@ -16,8 +16,8 @@ namespace PacmanTests
             var mockInput = new Mock<IPlayerInput>();
             mockInput.Setup(input => input.TakeInput(newDirection, ConsoleKey.RightArrow)).Returns(newDirection);
             var level = new Level(1, new FileReader()){PlayerInput = mockInput.Object};
-            GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
-            GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze);
+            level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
+            level.GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze, level.GameLogicValidator);
            
             Assert.Equal(newX, level.Pacman.X);
             Assert.Equal(newY, level.Pacman.Y);
@@ -29,9 +29,10 @@ namespace PacmanTests
             var mockInput = new Mock<IPlayerInput>();
             mockInput.Setup(input => input.TakeInput(Direction.Right, ConsoleKey.RightArrow)).Returns(Direction.Right);
             var level = new Level(1, new FileReader()){PlayerInput = mockInput.Object};
+
             level.GameMaze.MazeArray[1, 2].TileType = TileType.Wall;
-            GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
-            GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze);
+            level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
+            level.GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze, level.GameLogicValidator);
            
             Assert.Equal(1, level.Pacman.X);
             Assert.Equal(1, level.Pacman.Y); 

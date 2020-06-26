@@ -1,5 +1,4 @@
 using System;
-
 namespace Pacman
 {
     public static class Game
@@ -33,7 +32,7 @@ namespace Pacman
                     IsPlaying = false;
                 }
             }
-
+            
             Display.WonGame();
         }
 

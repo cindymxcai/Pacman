@@ -5,9 +5,9 @@ using Pacman.Sprites;
 
 namespace Pacman
 {
-    public static class GameEngine
+    public class GameEngine : IGameEngine
     {
-        public static void UpdateMazeTileDisplays(int counter, IMaze gameMaze, ISprite pacman,
+        public void UpdateMazeTileDisplays(int counter, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
             Display.UpdatePacmanDisplay(counter, gameMaze, pacman, pacman.CurrentDirection);
@@ -23,14 +23,14 @@ namespace Pacman
             }
         }
 
-        public static void UpdateSpritePosition(ISprite sprite, IMaze gameMaze)
+        public void UpdateSpritePosition(ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator)
         {
             var (x, y) = GetNewPosition(sprite, gameMaze);
-            if (!GameLogic.HasCollidedWithWall((x, y), gameMaze)) 
+            if (!gameLogicValidator.HasCollidedWithWall((x, y), gameMaze)) 
                 sprite.SetNewPosition(x, y);
         }
 
-        public static (int, int) GetNewPosition(ISprite sprite, IMaze gameMaze)
+        public (int, int) GetNewPosition(ISprite sprite, IMaze gameMaze)
         {
             return sprite.CurrentDirection switch
             {
