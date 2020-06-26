@@ -2,7 +2,7 @@ using Pacman.Enums;
 
 namespace Pacman.Sprites
 {
-    public interface IGhostBehaviour
+    public interface ISpriteBehaviour
     { 
         Direction ChooseDirection();
     }

@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using Moq;
+using Newtonsoft.Json;
 using Pacman;
 using Pacman.Enums;
 using Pacman.Sprites;
@@ -11,14 +14,20 @@ namespace PacmanTests
         [Fact]
         public void ScoreShouldInitiallyBe0()
         {
-            var level = new Level(1, new FileReader());
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput());
             Assert.Equal(0, level.Score);
         }
         
         [Fact]
         public void LivesLeftShouldStartAt3()
         {
-            var level = new Level(1, new FileReader());
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput());
             Assert.Equal(3, level.LivesLeft);
         }
         
@@ -27,7 +36,10 @@ namespace PacmanTests
         [InlineData( 1, TileType.PacmanChomp)]
         public void UpdatesMazeWithCorrectTile(int counter, TileType tileType)
         {
-            var level = new Level( 2, new FileReader());
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 2,  new GameLogicValidator(), new GameEngine(), new PlayerInput());
             level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
             level.GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze, level.GameLogicValidator);
             level.GameEngine.UpdateMazeTileDisplays(counter, level.GameMaze, level.Pacman, level.Ghosts);
@@ -40,17 +52,23 @@ namespace PacmanTests
         [Fact]
         public void GhostCollisionIsTrueIfGhostAndPacmanAreOnSameTileOrPassEachOther()
         {
-            var level = new Level(1, new FileReader()) {Pacman = new PacmanSprite(0, 0, Direction.Down)};
-            var mockGhost = new Mock<IGhostBehaviour>();
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput()) {Pacman = new Sprite(0, 0, new PacmanBehaviour())};
+            var mockGhost = new Mock<ISpriteBehaviour>();
             mockGhost.Setup(ghostBehaviour => ghostBehaviour.ChooseDirection()).Returns(Direction.Left);
-            level.Ghosts[1] = new GhostSprite(0,0, mockGhost.Object);
+            level.Ghosts[1] = new Sprite(0,0, mockGhost.Object);
             Assert.True(level.GameLogicValidator.HasCollidedWithGhost(level.Pacman, level.Ghosts));
         }
 
         [Fact]
         public void HasEatenAllPelletsIfRemainingPelletsEqualsZero()
         {
-            var level = new Level(1, new FileReader());
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput());
             Assert.True(level.GameLogicValidator.HasEatenAllPellets(0));
             Assert.False(level.GameLogicValidator.HasEatenAllPellets(2));
         }
@@ -58,21 +76,30 @@ namespace PacmanTests
         [Fact]
         public void HasNotWonLevelIfLivesLeftIs0()
         {
-            var level = new Level(1, new FileReader()) {LivesLeft = 0};
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput()) {LivesLeft = 0};
             Assert.False(level.HasWon);
         }
         
         [Fact]
         public void HasWonLevelIfLivesLeftIsNot0AndHasWon()
         {
-            var level = new Level(1, new FileReader()) {HasWon = true};
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput()) {HasWon = true};
             Assert.True(level.HasWonLevel());
         }
         
         [Fact]
         public void HandlesDeathIfGhostCollision()
         {
-            var level = new Level(1, new FileReader());
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level(new FileReader(), levels, 1, new GameLogicValidator(), new GameEngine(), new PlayerInput());
             level.HandleDeath();
             Assert.Equal(2, level.LivesLeft);
             Assert.Equal(1, level.Pacman.X);

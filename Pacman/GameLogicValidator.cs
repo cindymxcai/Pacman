@@ -13,7 +13,7 @@ namespace Pacman
             return gameMaze.MazeArray[x, y].TileType == TileType.Wall;
         }
 
-        public bool HasCollidedWithGhost(IPacmanSprite pacmanSprite, IEnumerable<IGhostSprite> ghostSprites)
+        public bool HasCollidedWithGhost(ISprite pacmanSprite, IEnumerable<ISprite> ghostSprites)
         {
             return ghostSprites.Any(ghost =>
                 ghost.X == pacmanSprite.X && ghost.Y == pacmanSprite.Y || ghost.PrevX == pacmanSprite.X &&

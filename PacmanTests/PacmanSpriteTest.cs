@@ -1,6 +1,8 @@
 ﻿﻿using System;
-using Moq;
-using Pacman;
+ using System.IO;
+ using Moq;
+ using Newtonsoft.Json;
+ using Pacman;
 using Pacman.Enums;
 using Pacman.Sprites;
 using Xunit;
@@ -15,7 +17,12 @@ namespace PacmanTests
         {
             var mockInput = new Mock<IPlayerInput>();
             mockInput.Setup(input => input.TakeInput(newDirection, ConsoleKey.RightArrow)).Returns(newDirection);
-            var level = new Level(1, new FileReader()){PlayerInput = mockInput.Object};
+            
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            
+            var level = new Level( new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput()){PlayerInput = mockInput.Object};
             level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
             level.GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze, level.GameLogicValidator);
            
@@ -28,7 +35,10 @@ namespace PacmanTests
         {
             var mockInput = new Mock<IPlayerInput>();
             mockInput.Setup(input => input.TakeInput(Direction.Right, ConsoleKey.RightArrow)).Returns(Direction.Right);
-            var level = new Level(1, new FileReader()){PlayerInput = mockInput.Object};
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level( new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput()){PlayerInput = mockInput.Object};
 
             level.GameMaze.MazeArray[1, 2].TileType = TileType.Wall;
             level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
@@ -41,7 +51,7 @@ namespace PacmanTests
         [Fact]
         public void SetNewPositionShouldUpdateOldPositionToo()
         {
-            var pacman = new PacmanSprite(3,0, Direction.Down);
+            var pacman = new Sprite(3,0, new PacmanBehaviour());
             pacman.SetNewPosition(1,2);
             Assert.Equal(1,pacman.X);
             Assert.Equal(2,pacman.Y);
@@ -52,8 +62,8 @@ namespace PacmanTests
         [Fact]
         public void UpdateFacingDirectionChangesPacmansCurrentPosition()
         {
-            var pacman = new PacmanSprite(0,0, Direction.Down);
-            pacman.UpdateFacingDirection(Direction.Up);
+            var pacman = new Sprite(0,0, new PacmanBehaviour());
+            pacman.UpdateCurrentDirection(Direction.Up);
             Assert.Equal(Direction.Up, pacman.CurrentDirection);
         }
     }

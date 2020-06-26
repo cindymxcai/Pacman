@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using Newtonsoft.Json;
+
 namespace Pacman
 {
     public static class Game
@@ -6,6 +9,10 @@ namespace Pacman
         private static bool IsPlaying { get; set; } = true;
         private static int CurrentLevelNumber { get; set; }
         private static readonly IFileReader FileReader = new FileReader();
+        private static readonly IGameLogicValidator gameLogicValidator = new GameLogicValidator();
+        private static readonly IGameEngine gameEngine = new GameEngine();
+        private static readonly IPlayerInput playerInput = new PlayerInput();
+
 
         public static void PlayGame()
         {
@@ -13,9 +20,14 @@ namespace Pacman
             Display.Welcome();
             while (IsPlaying)
             {
+                
+                var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+                var json = File.ReadAllText(jsonFileName);
+                var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+                
                 try
                 {
-                    var level = new Level(CurrentLevelNumber, FileReader);
+                    var level = new Level(FileReader, levels, CurrentLevelNumber, gameLogicValidator,gameEngine, playerInput);
                     if (level.HasWonLevel())
                     {
                         Display.CongratulationsNewLevel(CurrentLevelNumber);

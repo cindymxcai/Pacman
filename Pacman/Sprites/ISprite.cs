@@ -10,5 +10,10 @@ namespace Pacman.Sprites
         int PrevY { get; }
         Direction CurrentDirection { get; set; }
         void SetNewPosition(int x, int y);
+        
+        ISpriteBehaviour Behaviour { get; }
+
+        void UpdateCurrentDirection(Direction newDirection);
+
     }
 }

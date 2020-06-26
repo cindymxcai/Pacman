@@ -9,8 +9,8 @@ namespace Pacman
     public class Level
     {
         public IPlayerInput PlayerInput;
-        public IPacmanSprite Pacman;
-        public readonly List<IGhostSprite> Ghosts = new List<IGhostSprite>();
+        public ISprite Pacman;
+        public readonly List<ISprite> Ghosts = new List<ISprite>();
         public IMaze GameMaze { get; }
         public int LivesLeft { get; set; }
         public bool HasWon { get; set; }
@@ -20,16 +20,16 @@ namespace Pacman
         
         public IGameLogicValidator GameLogicValidator { get; }
 
-        public Level(int level, IFileReader fileReader)
+        public Level(IFileReader fileReader, LevelObject levelObject, int level, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput)
         {
-            GameLogicValidator = new GameLogicValidator();
-            GameEngine = new GameEngine();
+            GameLogicValidator = gameLogicValidator;
+            GameEngine = gameEngine;
             LivesLeft = 3;
-            PlayerInput = new PlayerInput();
-            GameMaze = new Maze(level, fileReader);
-            Pacman = new PacmanSprite(1, 1, Direction.Right);
-            Ghosts.Add(new GhostSprite(9, 9, new RandomGhostBehaviour()));
-            Ghosts.Add(new GhostSprite(9, 10, new RandomGhostBehaviour()));
+            PlayerInput = playerInput;
+            GameMaze = new Maze(fileReader, levelObject, level);
+            Pacman = new Sprite(1, 1, new PacmanBehaviour());
+            Ghosts.Add(new Sprite(9, 9, new RandomSpriteBehaviour()));
+            Ghosts.Add(new Sprite(9, 10, new RandomSpriteBehaviour()));
         }
 
         public bool HasWonLevel()
@@ -77,12 +77,12 @@ namespace Pacman
             GameMaze.UpdateMazeArray(Pacman.X, Pacman.Y,
                 GameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? TileType.Empty : TileType.Pellet);
             
-            Pacman = new PacmanSprite(1, 1, Direction.Right);
+            Pacman = new Sprite(1, 1, new PacmanBehaviour());
         }
 
         private void UpdateSpritePositions(Direction newDirection)
         {
-            Pacman.UpdateFacingDirection(newDirection);
+            Pacman.UpdateCurrentDirection(newDirection);
             GameEngine.UpdateSpritePosition(Pacman, GameMaze, GameLogicValidator);
             foreach (var ghostSprite in Ghosts)
             {

@@ -14,9 +14,9 @@ namespace Pacman
         public int Width { get; private set; } 
         public int Pellets { get; private set; }
 
-        public Maze(int level, IFileReader fileReader)
+        public Maze(IFileReader fileReader, LevelObject levelObject, int level)
         {
-           var mazeData=  GetMazeData(level, fileReader);
+           var mazeData=  GetMazeData(fileReader, levelObject, level );
            CreateMaze(mazeData);
         }
 
@@ -43,13 +43,8 @@ namespace Pacman
             }
         }
 
-        private static string[] GetMazeData(int level, IFileReader fileReader)
+        private static string[] GetMazeData( IFileReader fileReader, LevelObject levels, int level)
         {
-            string[] mazeData = null;
-            string jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
-            var json = File.ReadAllText(jsonFileName);
-            LevelObject levels = JsonConvert.DeserializeObject<LevelObject>(json);
-
             return fileReader.ReadFile(levels.levels[level-1]);
         }
 

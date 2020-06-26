@@ -9,13 +9,13 @@ namespace PacmanTests
     {
         [Theory]
         [InlineData(ConsoleKey.UpArrow, Direction.Up)]
-        [InlineData(ConsoleKey.UpArrow, Direction.Up)]
-        [InlineData(ConsoleKey.UpArrow, Direction.Up)]
-        [InlineData(ConsoleKey.UpArrow, Direction.Up)]
+        [InlineData(ConsoleKey.DownArrow, Direction.Down)]
+        [InlineData(ConsoleKey.LeftArrow, Direction.Left)]
+        [InlineData(ConsoleKey.RightArrow, Direction.Right)]
         public void GivenConsoleKeyShouldReturnCorrectDirection(ConsoleKey consoleKey, Direction direction)
         {
             var playerInput = new PlayerInput();
-            Assert.Equal(direction, playerInput.TakeInput(Direction.Up, consoleKey));
+            Assert.Equal(direction, playerInput.TakeInput(Direction.Left, consoleKey));
         }
     }
 }

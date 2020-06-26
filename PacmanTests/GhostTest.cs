@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using Moq;
+using Newtonsoft.Json;
 using Pacman;
 using Pacman.Enums;
 using Pacman.Sprites;
@@ -11,10 +14,10 @@ namespace PacmanTests
         [Fact]
         public void GivenRandomDirectionShouldChangeCorrectly()
         {
-            var mockRandom = new Mock<IGhostBehaviour>();
+            var mockRandom = new Mock<ISpriteBehaviour>();
             mockRandom.Setup(m => m.ChooseDirection()).Returns(Direction.Right);
 
-            var ghost = new GhostSprite(0,0, mockRandom.Object);
+            var ghost = new Sprite(0,0, mockRandom.Object);
             Assert.Equal(Direction.Right,ghost.CurrentDirection);
         }
 
@@ -29,7 +32,7 @@ namespace PacmanTests
             var mockRandom = new Mock<IRng>();
             mockRandom.Setup(m => m.Next(0,4)).Returns(randomNumber);
 
-            var randomGhostBehaviour = new RandomGhostBehaviour{Rng = mockRandom.Object};
+            var randomGhostBehaviour = new RandomSpriteBehaviour{Rng = mockRandom.Object};
             Assert.Equal(expectedDirection,randomGhostBehaviour.ChooseDirection());
         }
         
@@ -41,10 +44,14 @@ namespace PacmanTests
 
         public void ShouldContinueToMoveInCurrentDirection(Direction newDirection, int newX, int newY )
         {
-            var mockRandom = new Mock<IGhostBehaviour>();
+            var mockRandom = new Mock<ISpriteBehaviour>();
             mockRandom.Setup(m => m.ChooseDirection()).Returns(newDirection);
-            var level = new Level( 1, new FileReader())
-                {Ghosts = { new GhostSprite(4, 5, mockRandom.Object)}};
+            
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var level = new Level( new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput())
+                {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
             var gameEngine = new GameEngine();
 
             var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], level.GameMaze);
