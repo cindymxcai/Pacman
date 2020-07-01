@@ -20,19 +20,19 @@ namespace Pacman
         
         public IGameLogicValidator GameLogicValidator { get; }
 
-        public Level(IFileReader fileReader, LevelObject levelObject, int level, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput)
+        public Level(IMaze maze, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput)
         {
             GameLogicValidator = gameLogicValidator;
             GameEngine = gameEngine;
             LivesLeft = 3;
             PlayerInput = playerInput;
-            GameMaze = new Maze(fileReader, levelObject, level);
+            GameMaze = maze;
             Pacman = new Sprite(1, 1, new PacmanBehaviour());
-            Ghosts.Add(new Sprite(9, 9, new RandomSpriteBehaviour()));
-            Ghosts.Add(new Sprite(9, 10, new RandomSpriteBehaviour()));
+            Ghosts.Add(new Sprite(9, 9, new RandomGhostBehaviour()));
+            Ghosts.Add(new Sprite(9, 10, new RandomGhostBehaviour()));
         }
 
-        public bool HasWonLevel()
+        public void PlayLevel()
         {
             var counter = 0;
             while (!HasWon)
@@ -49,25 +49,26 @@ namespace Pacman
                     UpdateSpritePositions(newDirection);
                     GameEngine.UpdateMazeTileDisplays(counter, GameMaze, Pacman, Ghosts);
                     
-                    if (GameLogicValidator.HasCollidedWithGhost(Pacman, Ghosts)) HandleDeath();
-                    if (LivesLeft != 0)
-                    {
-                        HasWon = GameLogicValidator.HasEatenAllPellets(remainingPellets);
-                        Console.Clear();
-                        
-                        Display.MazeOutput(GameMaze);
-                        Display.GameStats(Score, LivesLeft);
-                        
-                        counter++;
-                        System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.2));
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    if (GameLogicValidator.HasCollidedWithGhost(Pacman, Ghosts)) 
+                        HandleDeath();
+                    
+                    if (LivesLeft == 0)
+                        break;
+
+                    HasWon = GameLogicValidator.HasEatenAllPellets(remainingPellets);
+                    
+                    Console.Clear();
+
+                    Display.MazeOutput(GameMaze);
+                    Display.GameStats(Score, LivesLeft);
+
+                    counter++;
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.2));
+                    
                 }
+                if (LivesLeft != 0) continue;
+                break;
             }
-            return true;
         }
 
         public void HandleDeath()

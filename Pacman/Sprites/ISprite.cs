@@ -14,6 +14,5 @@ namespace Pacman.Sprites
         ISpriteBehaviour Behaviour { get; }
 
         void UpdateCurrentDirection(Direction newDirection);
-
     }
 }

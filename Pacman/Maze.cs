@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using Pacman.Enums;
 
 namespace Pacman
@@ -14,9 +11,8 @@ namespace Pacman
         public int Width { get; private set; } 
         public int Pellets { get; private set; }
 
-        public Maze(IFileReader fileReader, LevelObject levelObject, int level)
+        public Maze(IReadOnlyList<string> mazeData)
         {
-           var mazeData=  GetMazeData(fileReader, levelObject, level );
            CreateMaze(mazeData);
         }
 
@@ -41,11 +37,6 @@ namespace Pacman
                 }
                 x++;
             }
-        }
-
-        private static string[] GetMazeData( IFileReader fileReader, LevelObject levels, int level)
-        {
-            return fileReader.ReadFile(levels.levels[level-1]);
         }
 
         public void UpdateMazeArray(int x, int y, TileType tileType)

@@ -129,7 +129,7 @@ namespace Pacman
             Console.WriteLine(@"|  _>| . || \ |/  _> | . \| . ||_ _|| | || |  | . ||_ _|| || . || \ |/ __>");
             Console.WriteLine(@"| <__| | ||   || <_/\|   /|   | | | | ' || |_ |   | | | | || | ||   |\__ \");
             Console.WriteLine(@"`___/`___'|_\_|`____/|_\_\|_|_| |_| `___'|___||_|_| |_| |_|`___'|_\_|<___/");
-            Console.WriteLine("You Won the game!!!");
+            Console.WriteLine("You finished the game!!!");
             Console.ResetColor();
         }
     }

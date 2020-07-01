@@ -3,11 +3,11 @@ using Pacman.Enums;
 
 namespace Pacman.Sprites
 {
-    public class RandomSpriteBehaviour : ISpriteBehaviour
+    public class RandomGhostBehaviour : ISpriteBehaviour
     {
         public IRng Rng;
 
-        public RandomSpriteBehaviour()
+        public RandomGhostBehaviour()
         {
             Rng = new Rng();
         }

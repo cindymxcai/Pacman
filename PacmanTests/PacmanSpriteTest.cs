@@ -20,9 +20,12 @@ namespace PacmanTests
             
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
+            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var fileReader = new FileReader();
+            var mazeData = fileReader.ReadFile(levels.levels[1]);
+            var maze = new Maze(mazeData);
             
-            var level = new Level( new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput()){PlayerInput = mockInput.Object};
+            var level = new Level(maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput()){PlayerInput = mockInput.Object};
             level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
             level.GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze, level.GameLogicValidator);
            
@@ -37,8 +40,11 @@ namespace PacmanTests
             mockInput.Setup(input => input.TakeInput(Direction.Right, ConsoleKey.RightArrow)).Returns(Direction.Right);
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
-            var level = new Level( new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput()){PlayerInput = mockInput.Object};
+            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var fileReader = new FileReader();
+            var mazeData = fileReader.ReadFile(levels.levels[1]);
+            var maze = new Maze(mazeData);
+            var level = new Level( maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput()){PlayerInput = mockInput.Object};
 
             level.GameMaze.MazeArray[1, 2].TileType = TileType.Wall;
             level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);

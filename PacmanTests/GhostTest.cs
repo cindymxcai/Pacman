@@ -32,7 +32,7 @@ namespace PacmanTests
             var mockRandom = new Mock<IRng>();
             mockRandom.Setup(m => m.Next(0,4)).Returns(randomNumber);
 
-            var randomGhostBehaviour = new RandomSpriteBehaviour{Rng = mockRandom.Object};
+            var randomGhostBehaviour = new RandomGhostBehaviour{Rng = mockRandom.Object};
             Assert.Equal(expectedDirection,randomGhostBehaviour.ChooseDirection());
         }
         
@@ -49,8 +49,11 @@ namespace PacmanTests
             
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
-            var level = new Level( new FileReader(), levels, 1,  new GameLogicValidator(), new GameEngine(), new PlayerInput())
+            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var fileReader = new FileReader();
+            var mazeData = fileReader.ReadFile(levels.levels[1]);
+            var maze = new Maze(mazeData);
+            var level = new Level( maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput())
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
             var gameEngine = new GameEngine();
 

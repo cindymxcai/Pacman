@@ -16,8 +16,10 @@ namespace PacmanTests
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
-            var maze = new Maze(new FileReader(), levels, level);
+            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var fileReader = new FileReader();
+            var mazeData = fileReader.ReadFile(levels.levels[level-1]);
+            var maze = new Maze(mazeData);
             Assert.Equal(height, maze.Height);
             Assert.Equal(width, maze.Width);
         }
@@ -27,8 +29,10 @@ namespace PacmanTests
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelObject>(json);
-            var maze = new Maze(new FileReader(), levels, 1);
+            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var fileReader = new FileReader();
+            var mazeData = fileReader.ReadFile(levels.levels[0]);
+            var maze = new Maze(mazeData);
             Assert.Equal(11, maze.Height);
             Assert.Equal(25, maze.Width);
             Assert.Equal(new Tile(TileType.Wall).Display, maze.MazeArray[0,2].Display);

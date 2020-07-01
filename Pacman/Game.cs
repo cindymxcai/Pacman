@@ -9,26 +9,27 @@ namespace Pacman
         private static bool IsPlaying { get; set; } = true;
         private static int CurrentLevelNumber { get; set; }
         private static readonly IFileReader FileReader = new FileReader();
-        private static readonly IGameLogicValidator gameLogicValidator = new GameLogicValidator();
-        private static readonly IGameEngine gameEngine = new GameEngine();
-        private static readonly IPlayerInput playerInput = new PlayerInput();
-
+        private static readonly IGameLogicValidator GameLogicValidator = new GameLogicValidator();
+        private static readonly IGameEngine GameEngine = new GameEngine();
+        private static readonly IPlayerInput PlayerInput = new PlayerInput();
 
         public static void PlayGame()
         {
             CurrentLevelNumber = 1;
             Display.Welcome();
+            var levelData = GetLevelData();
+
             while (IsPlaying)
             {
-                
-                var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
-                var json = File.ReadAllText(jsonFileName);
-                var levels = JsonConvert.DeserializeObject<LevelObject>(json);
-                
                 try
                 {
-                    var level = new Level(FileReader, levels, CurrentLevelNumber, gameLogicValidator,gameEngine, playerInput);
-                    if (level.HasWonLevel())
+                    var mazeData = FileReader.ReadFile(levelData.levels[CurrentLevelNumber - 1]);
+                    var maze = new Maze(mazeData);
+                    var level = new Level(maze, GameLogicValidator,GameEngine, PlayerInput);
+                   
+                    level.PlayLevel();
+                    
+                    if (level.HasWon)
                     {
                         Display.CongratulationsNewLevel(CurrentLevelNumber);
                         System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -48,13 +49,19 @@ namespace Pacman
             Display.WonGame();
         }
 
+        private static LevelData GetLevelData()
+        {
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            return JsonConvert.DeserializeObject<LevelData>(json);
+        }
+
         private static void HandleLostLevel()
         {
-            Console.WriteLine("\nPress any key to replay, or Q to quit");
+            Console.WriteLine("\nPress enter to replay, or Q to quit");
             var input = Console.ReadKey().Key;
             if (input == ConsoleKey.Q)
             {
-                IsPlaying = false;
                 Display.GameEnd(CurrentLevelNumber);
             }
             else
