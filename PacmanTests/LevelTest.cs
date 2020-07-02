@@ -17,7 +17,7 @@ namespace PacmanTests
             var json = File.ReadAllText(jsonFileName);
             var levels = JsonConvert.DeserializeObject<LevelData>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.levels[1]);
+            var mazeData = fileReader.ReadFile(levels.Levels[1]);
             return new Maze(mazeData);
         }
         
@@ -71,7 +71,6 @@ namespace PacmanTests
             var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.False(level.HasWon);
         }
-        
         
         [Fact]
         public void HandlesDeathIfGhostCollision()

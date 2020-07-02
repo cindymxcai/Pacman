@@ -22,7 +22,7 @@ namespace PacmanTests
             var json = File.ReadAllText(jsonFileName);
             var levels = JsonConvert.DeserializeObject<LevelData>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.levels[1]);
+            var mazeData = fileReader.ReadFile(levels.Levels[1]);
             var maze = new Maze(mazeData);
             
             var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
@@ -42,7 +42,7 @@ namespace PacmanTests
             var json = File.ReadAllText(jsonFileName);
             var levels = JsonConvert.DeserializeObject<LevelData>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.levels[1]);
+            var mazeData = fileReader.ReadFile(levels.Levels[1]);
             var maze = new Maze(mazeData);
             var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
 

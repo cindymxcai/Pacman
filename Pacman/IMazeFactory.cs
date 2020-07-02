@@ -5,7 +5,7 @@ namespace Pacman
         IMaze CreateMaze(string[] mazeData);
     }
 
-    class MazeFactory : IMazeFactory
+    public class MazeFactory : IMazeFactory
     {
         public IMaze CreateMaze(string[] mazeData)
         {

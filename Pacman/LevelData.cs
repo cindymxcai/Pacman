@@ -4,6 +4,7 @@ namespace Pacman
 {
     public class LevelData
     {
-        public string[] levels { get; set; }
+        public string[] Levels { get; set; }
+        public int MaxLevels { get; set; }
     }
 }

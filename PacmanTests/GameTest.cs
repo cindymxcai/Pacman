@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Pacman;
 using Pacman.Enums;
+using Pacman.Sprites;
 using Xunit;
 
 namespace PacmanTests
@@ -18,7 +19,7 @@ namespace PacmanTests
             var json = File.ReadAllText(jsonFileName);
             var levels = JsonConvert.DeserializeObject<LevelData>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.levels[level-1]);
+            var mazeData = fileReader.ReadFile(levels.Levels[level-1]);
             var maze = new Maze(mazeData);
             Assert.Equal(height, maze.Height);
             Assert.Equal(width, maze.Width);
@@ -31,12 +32,22 @@ namespace PacmanTests
             var json = File.ReadAllText(jsonFileName);
             var levels = JsonConvert.DeserializeObject<LevelData>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.levels[0]);
+            var mazeData = fileReader.ReadFile(levels.Levels[0]);
             var maze = new Maze(mazeData);
             Assert.Equal(11, maze.Height);
             Assert.Equal(25, maze.Width);
             Assert.Equal(new Tile(TileType.Wall).Display, maze.MazeArray[0,2].Display);
             Assert.Equal(new Tile(TileType.Pellet).Display, maze.MazeArray[1,1].Display );
+        }
+
+        [Fact]
+        public void LevelSettingsFileShouldReturnCorrectInfo()
+        {
+            var level = new Level(new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
+                new PacmanBehaviour(), new RandomGhostBehaviour());
+            var game = new Game(new MazeFactory(), level, new FileReader(), new PlayerInput() );
+            var levelData = game.GetLevelData();
+            Assert.Equal(3, levelData.MaxLevels);
         }
     }
 }

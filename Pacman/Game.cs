@@ -28,9 +28,7 @@ namespace Pacman
 
             while (IsPlaying)
             {
-                try
-                {
-                    var mazeData = _fileReader.ReadFile(levelData.levels[CurrentLevelNumber - 1]);
+                var mazeData = _fileReader.ReadFile(levelData.Levels[CurrentLevelNumber - 1]);
                     var maze = _mazeFactory.CreateMaze(mazeData);
                     _level.PlayLevel(maze);
                     
@@ -44,17 +42,17 @@ namespace Pacman
                     {
                         HandleLostLevel();
                     }
-                }
-                catch
-                {
-                    IsPlaying = false;
-                }
+                
+                    if(CurrentLevelNumber >= levelData.MaxLevels)
+                    {
+                        IsPlaying = false;
+                    }
             }
             
             Display.WonGame();
         } 
 
-        private static LevelData GetLevelData()
+        public LevelData GetLevelData()
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
             var json = File.ReadAllText(jsonFileName);
