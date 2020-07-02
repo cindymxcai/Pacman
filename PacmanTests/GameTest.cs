@@ -43,10 +43,7 @@ namespace PacmanTests
         [Fact]
         public void LevelSettingsFileShouldReturnCorrectInfo()
         {
-            var level = new Level(new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
-                new PacmanBehaviour(), new RandomGhostBehaviour());
-            var game = new Game(new MazeFactory(), level, new FileReader(), new PlayerInput() );
-            var levelData = game.GetLevelData();
+            var levelData = Game.GetLevelData();
             Assert.Equal(3, levelData.MaxLevels);
         }
     }

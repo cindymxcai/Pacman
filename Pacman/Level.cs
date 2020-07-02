@@ -9,12 +9,12 @@ namespace Pacman
 {
     public class Level
     {
-        public IPlayerInput PlayerInput;
-        public ISprite Pacman;
+        private readonly IPlayerInput _playerInput;
+        public readonly ISprite Pacman;
         public readonly List<ISprite> Ghosts = new List<ISprite>();
         public int LivesLeft { get; set; }
-        public bool HasWon { get; set; }
-        public int Score { get; private set; }
+        public bool HasWon { get; private set; }
+        public int LevelScore { get; private set; }
         public IGameEngine GameEngine { get; }
         public IGameLogicValidator GameLogicValidator { get; }
 
@@ -22,7 +22,7 @@ namespace Pacman
         {
             GameLogicValidator = gameLogicValidator;
             GameEngine = gameEngine;
-            PlayerInput = playerInput;
+            _playerInput = playerInput;
             Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
             Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour));
             Ghosts.Add(spriteFactory.CreateSprite(9,10, ghostBehaviour));
@@ -36,13 +36,13 @@ namespace Pacman
             while (!HasWon)
             {
                 var input = Console.ReadKey().Key;
-                var newDirection = PlayerInput.TakeInput(Pacman.CurrentDirection, input);
+                var newDirection = _playerInput.TakeInput(Pacman.CurrentDirection, input);
                 while (!Console.KeyAvailable)
                 {
                     var remainingPellets =
                         gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType == TileType.Pellet);
                     
-                    Score = Constants.GetScore(gameMaze.Pellets, remainingPellets);
+                    LevelScore = Score.GetTotal(gameMaze.Pellets, remainingPellets);
                     
                     UpdateSpritePositions(newDirection, gameMaze);
                     GameEngine.UpdateMazeTileDisplays(counter, gameMaze, Pacman, Ghosts);
@@ -58,7 +58,7 @@ namespace Pacman
                     Console.Clear();
 
                     Display.MazeOutput(gameMaze);
-                    Display.GameStats(Score, LivesLeft);
+                    Display.GameStats(LevelScore, LivesLeft);
 
                     counter++;
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.2));

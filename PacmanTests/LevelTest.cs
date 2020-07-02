@@ -25,7 +25,7 @@ namespace PacmanTests
         public void ScoreShouldInitiallyBe0()
         {
            var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
-            Assert.Equal(0, level.Score);
+            Assert.Equal(0, level.LevelScore);
         }
         
         

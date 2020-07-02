@@ -4,55 +4,56 @@ using Newtonsoft.Json;
 
 namespace Pacman
 {
-    public  class Game
+    public class Game
     {
         private readonly IMazeFactory _mazeFactory;
         private readonly Level _level;
         private readonly IFileReader _fileReader;
         private readonly IPlayerInput _playerInput;
-        private  bool IsPlaying { get; set; } = true;
+        private bool IsPlaying { get; set; } = true;
         private int CurrentLevelNumber { get; set; }
-        
-        public Game(IMazeFactory mazeFactory,Level level, IFileReader fileReader, IPlayerInput playerInput)
+
+        public Game(IMazeFactory mazeFactory, Level level, IFileReader fileReader, IPlayerInput playerInput)
         {
             _mazeFactory = mazeFactory;
             _level = level;
             _fileReader = fileReader;
             _playerInput = playerInput;
         }
+
         public void PlayGame()
         {
             CurrentLevelNumber = 1;
             Display.Welcome();
             var levelData = GetLevelData();
-
             while (IsPlaying)
             {
                 var mazeData = _fileReader.ReadFile(levelData.Levels[CurrentLevelNumber - 1]);
-                    var maze = _mazeFactory.CreateMaze(mazeData);
-                    _level.PlayLevel(maze);
-                    
-                    if (_level.HasWon)
-                    {
-                        Display.CongratulationsNewLevel(CurrentLevelNumber);
-                        System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                        CurrentLevelNumber++;
-                    }
-                    else
-                    {
-                        HandleLostLevel();
-                    }
+                var maze = _mazeFactory.CreateMaze(mazeData);
+                _level.PlayLevel(maze);
                 
-                    if(CurrentLevelNumber >= levelData.MaxLevels)
-                    {
-                        IsPlaying = false;
-                    }
-            }
-            
-            Display.WonGame();
-        } 
+                if (_level.HasWon)
+                {
+                    Display.CongratulationsNewLevel(CurrentLevelNumber);
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    CurrentLevelNumber++;
+                }
+                
+                else
+                {
+                    HandleLostLevel();
+                }
 
-        public LevelData GetLevelData()
+                if (CurrentLevelNumber >= levelData.MaxLevels)
+                {
+                    IsPlaying = false;
+                }
+            }
+
+            Display.WonGame();
+        }
+
+        public static LevelData GetLevelData()
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
             var json = File.ReadAllText(jsonFileName);

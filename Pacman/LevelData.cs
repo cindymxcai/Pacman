@@ -1,10 +1,14 @@
-using System.Collections.Generic;
-
 namespace Pacman
 {
     public class LevelData
     {
-        public string[] Levels { get; set; }
-        public int MaxLevels { get; set; }
+        public LevelData(string[] levels, int maxLevels)
+        {
+            Levels = levels;
+            MaxLevels = maxLevels;
+        }
+
+        public string[] Levels { get; }
+        public int MaxLevels { get; }
     }
 }

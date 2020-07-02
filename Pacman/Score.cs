@@ -1,8 +1,8 @@
 namespace Pacman
 {
-    public static class Constants
+    public static class Score
     {
-        public static int GetScore(int totalPellets, int remainingPellets)
+        public static int GetTotal(int totalPellets, int remainingPellets)
         {
             return (totalPellets - remainingPellets) * 10;
         }

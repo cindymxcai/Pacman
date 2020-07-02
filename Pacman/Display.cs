@@ -42,7 +42,7 @@ namespace Pacman
         public static void GameStats(int score, int livesLeft)
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine($"Score: {score}                                                Lives Left: {livesLeft}");
+            Console.WriteLine($"LevelScore: {score}                                                Lives Left: {livesLeft}");
             Console.ResetColor();
         }
 
