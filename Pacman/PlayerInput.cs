@@ -17,7 +17,12 @@ namespace Pacman
             }
             return currentDirection;
         }
-        
+
+        public bool IsStillPlaying()
+        {
+            return Console.ReadKey().Key != ConsoleKey.Q;
+        }
+
         private static bool IsInputValid(ConsoleKey input)
         {
             return input == ConsoleKey.UpArrow || input == ConsoleKey.DownArrow || input == ConsoleKey.LeftArrow ||

@@ -53,11 +53,12 @@ namespace PacmanTests
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.levels[1]);
             var maze = new Maze(mazeData);
-            var level = new Level( maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput())
+            var spriteFactory = new SpriteFactory();
+            var level = new Level( spriteFactory,  new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
             var gameEngine = new GameEngine();
 
-            var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], level.GameMaze);
+            var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], maze);
             level.Ghosts[2].SetNewPosition(x, y);
             Assert.Equal(newX, level.Ghosts[2].X);
             Assert.Equal(newY, level.Ghosts[2].Y);

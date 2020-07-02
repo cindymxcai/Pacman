@@ -4,8 +4,8 @@ namespace Pacman.Sprites
 {
     public class Sprite : ISprite
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public int X { get; set; }
+        public int Y { get; set; }
         public int PrevX { get; private set; }
         public int PrevY { get; private set; }
         public Direction CurrentDirection { get; set; }

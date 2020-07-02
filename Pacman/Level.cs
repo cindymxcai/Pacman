@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Pacman.Enums;
 using Pacman.Sprites;
@@ -11,29 +12,26 @@ namespace Pacman
         public IPlayerInput PlayerInput;
         public ISprite Pacman;
         public readonly List<ISprite> Ghosts = new List<ISprite>();
-        public IMaze GameMaze { get; }
         public int LivesLeft { get; set; }
         public bool HasWon { get; set; }
         public int Score { get; private set; }
-
         public IGameEngine GameEngine { get; }
-        
         public IGameLogicValidator GameLogicValidator { get; }
 
-        public Level(IMaze maze, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput)
+        public Level( ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
         {
             GameLogicValidator = gameLogicValidator;
             GameEngine = gameEngine;
-            LivesLeft = 3;
             PlayerInput = playerInput;
-            GameMaze = maze;
-            Pacman = new Sprite(1, 1, new PacmanBehaviour());
-            Ghosts.Add(new Sprite(9, 9, new RandomGhostBehaviour()));
-            Ghosts.Add(new Sprite(9, 10, new RandomGhostBehaviour()));
+            Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
+            Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour));
+            Ghosts.Add(spriteFactory.CreateSprite(9,10, ghostBehaviour));
         }
 
-        public void PlayLevel()
+        public void PlayLevel(IMaze gameMaze)
         {
+            HasWon = false;
+            LivesLeft = 3;
             var counter = 0;
             while (!HasWon)
             {
@@ -42,15 +40,15 @@ namespace Pacman
                 while (!Console.KeyAvailable)
                 {
                     var remainingPellets =
-                        GameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType == TileType.Pellet);
+                        gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType == TileType.Pellet);
                     
-                    Score = Constants.GetScore(GameMaze.Pellets, remainingPellets);
+                    Score = Constants.GetScore(gameMaze.Pellets, remainingPellets);
                     
-                    UpdateSpritePositions(newDirection);
-                    GameEngine.UpdateMazeTileDisplays(counter, GameMaze, Pacman, Ghosts);
+                    UpdateSpritePositions(newDirection, gameMaze);
+                    GameEngine.UpdateMazeTileDisplays(counter, gameMaze, Pacman, Ghosts);
                     
                     if (GameLogicValidator.HasCollidedWithGhost(Pacman, Ghosts)) 
-                        HandleDeath();
+                        HandleDeath(gameMaze);
                     
                     if (LivesLeft == 0)
                         break;
@@ -59,7 +57,7 @@ namespace Pacman
                     
                     Console.Clear();
 
-                    Display.MazeOutput(GameMaze);
+                    Display.MazeOutput(gameMaze);
                     Display.GameStats(Score, LivesLeft);
 
                     counter++;
@@ -71,24 +69,25 @@ namespace Pacman
             }
         }
 
-        public void HandleDeath()
+        public void HandleDeath(IMaze gameMaze)
         {
             LivesLeft--;
             Display.LostLife(LivesLeft);
-            GameMaze.UpdateMazeArray(Pacman.X, Pacman.Y,
-                GameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? TileType.Empty : TileType.Pellet);
-            
-            Pacman = new Sprite(1, 1, new PacmanBehaviour());
+            gameMaze.UpdateMazeArray(Pacman.X, Pacman.Y,
+                gameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? TileType.Empty : TileType.Pellet);
+
+            Pacman.X = 1;
+            Pacman.Y = 1;
         }
 
-        private void UpdateSpritePositions(Direction newDirection)
-        {
+        private void UpdateSpritePositions(Direction newDirection, IMaze gameMaze)
+        { 
             Pacman.UpdateCurrentDirection(newDirection);
-            GameEngine.UpdateSpritePosition(Pacman, GameMaze, GameLogicValidator);
+            GameEngine.UpdateSpritePosition(Pacman, gameMaze, GameLogicValidator);
             foreach (var ghostSprite in Ghosts)
             {
                 ghostSprite.CurrentDirection = ghostSprite.Behaviour.ChooseDirection();
-                GameEngine.UpdateSpritePosition(ghostSprite, GameMaze, GameLogicValidator);
+                GameEngine.UpdateSpritePosition(ghostSprite, gameMaze, GameLogicValidator);
             }
         }
     }

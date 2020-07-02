@@ -24,18 +24,10 @@ namespace PacmanTests
         [Fact]
         public void ScoreShouldInitiallyBe0()
         {
-           var maze = MazeSetUp();
-            var level = new Level(maze, new GameLogicValidator(), new GameEngine(), new PlayerInput());
+           var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.Equal(0, level.Score);
         }
         
-        [Fact]
-        public void LivesLeftShouldStartAt3()
-        {
-            var maze = MazeSetUp();
-            var level = new Level( maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput());
-            Assert.Equal(3, level.LivesLeft);
-        }
         
         [Theory]
         [InlineData( 2, TileType.PacmanRight)]
@@ -44,34 +36,31 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
 
-            var level = new Level(maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput());
-            level.GameEngine.GetNewPosition(level.Pacman, level.GameMaze);
-            level.GameEngine.UpdateSpritePosition( level.Pacman, level.GameMaze, level.GameLogicValidator);
-            level.GameEngine.UpdateMazeTileDisplays(counter, level.GameMaze, level.Pacman, level.Ghosts);
+            var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            level.GameEngine.GetNewPosition(level.Pacman, maze);
+            level.GameEngine.UpdateSpritePosition( level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateMazeTileDisplays(counter, maze, level.Pacman, level.Ghosts);
 
-            Assert.Equal(new Tile(TileType.Empty).Display, level.GameMaze.MazeArray[level.Pacman.PrevX, level.Pacman.PrevY].Display);
+            Assert.Equal(new Tile(TileType.Empty).Display, maze.MazeArray[level.Pacman.PrevX, level.Pacman.PrevY].Display);
             var tile = new Tile(tileType);
-            Assert.Equal(tile.Display, level.GameMaze.MazeArray[level.Pacman.X, level.Pacman.Y].Display);
+            Assert.Equal(tile.Display, maze.MazeArray[level.Pacman.X, level.Pacman.Y].Display);
         }
         
         [Fact]
         public void GhostCollisionIsTrueIfGhostAndPacmanAreOnSameTileOrPassEachOther()
         {
-            var maze = MazeSetUp();
-
-            var level = new Level(maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput()) {Pacman = new Sprite(0, 0, new PacmanBehaviour())};
-            var mockGhost = new Mock<ISpriteBehaviour>();
-            mockGhost.Setup(ghostBehaviour => ghostBehaviour.ChooseDirection()).Returns(Direction.Left);
-            level.Ghosts[1] = new Sprite(0,0, mockGhost.Object);
+            var level = new Level(new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
+                new PacmanBehaviour(), new RandomGhostBehaviour()) {Pacman = {X = 3, Y = 3}};
+            level.Ghosts[0].X = 3;
+            level.Ghosts[0].Y = 3;
             Assert.True(level.GameLogicValidator.HasCollidedWithGhost(level.Pacman, level.Ghosts));
         }
 
         [Fact]
         public void HasEatenAllPelletsIfRemainingPelletsEqualsZero()
         {
-            var maze = MazeSetUp();
 
-            var level = new Level(maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput());
+            var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.True(level.GameLogicValidator.HasEatenAllPellets(0));
             Assert.False(level.GameLogicValidator.HasEatenAllPellets(2));
         }
@@ -79,28 +68,19 @@ namespace PacmanTests
         [Fact]
         public void HasNotWonLevelIfLivesLeftIs0()
         {
-            var maze = MazeSetUp();
-            var level = new Level(maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput()) {LivesLeft = 0};
+            var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.False(level.HasWon);
         }
         
-        [Fact]
-        public void HasWonLevelIfLivesLeftIsNot0AndHasWon()
-        {
-            var maze = MazeSetUp();
-
-            var level = new Level(maze,  new GameLogicValidator(), new GameEngine(), new PlayerInput()) {HasWon = true};
-            level.PlayLevel();
-            Assert.True(level.HasWon);
-        }
         
         [Fact]
         public void HandlesDeathIfGhostCollision()
         {
             var maze = MazeSetUp();
 
-            var level = new Level(maze, new GameLogicValidator(), new GameEngine(), new PlayerInput());
-            level.HandleDeath();
+            var level = new Level(new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
+                new PacmanBehaviour(), new RandomGhostBehaviour()) {LivesLeft = 3};
+            level.HandleDeath(maze);
             Assert.Equal(2, level.LivesLeft);
             Assert.Equal(1, level.Pacman.X);
             Assert.Equal(1, level.Pacman.Y);

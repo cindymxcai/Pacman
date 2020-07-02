@@ -4,16 +4,23 @@ using Newtonsoft.Json;
 
 namespace Pacman
 {
-    public static class Game
+    public  class Game
     {
-        private static bool IsPlaying { get; set; } = true;
-        private static int CurrentLevelNumber { get; set; }
-        private static readonly IFileReader FileReader = new FileReader();
-        private static readonly IGameLogicValidator GameLogicValidator = new GameLogicValidator();
-        private static readonly IGameEngine GameEngine = new GameEngine();
-        private static readonly IPlayerInput PlayerInput = new PlayerInput();
-
-        public static void PlayGame()
+        private readonly IMazeFactory _mazeFactory;
+        private readonly Level _level;
+        private readonly IFileReader _fileReader;
+        private readonly IPlayerInput _playerInput;
+        private  bool IsPlaying { get; set; } = true;
+        private int CurrentLevelNumber { get; set; }
+        
+        public Game(IMazeFactory mazeFactory,Level level, IFileReader fileReader, IPlayerInput playerInput)
+        {
+            _mazeFactory = mazeFactory;
+            _level = level;
+            _fileReader = fileReader;
+            _playerInput = playerInput;
+        }
+        public void PlayGame()
         {
             CurrentLevelNumber = 1;
             Display.Welcome();
@@ -23,13 +30,11 @@ namespace Pacman
             {
                 try
                 {
-                    var mazeData = FileReader.ReadFile(levelData.levels[CurrentLevelNumber - 1]);
-                    var maze = new Maze(mazeData);
-                    var level = new Level(maze, GameLogicValidator,GameEngine, PlayerInput);
-                   
-                    level.PlayLevel();
+                    var mazeData = _fileReader.ReadFile(levelData.levels[CurrentLevelNumber - 1]);
+                    var maze = _mazeFactory.CreateMaze(mazeData);
+                    _level.PlayLevel(maze);
                     
-                    if (level.HasWon)
+                    if (_level.HasWon)
                     {
                         Display.CongratulationsNewLevel(CurrentLevelNumber);
                         System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -47,7 +52,7 @@ namespace Pacman
             }
             
             Display.WonGame();
-        }
+        } 
 
         private static LevelData GetLevelData()
         {
@@ -56,17 +61,16 @@ namespace Pacman
             return JsonConvert.DeserializeObject<LevelData>(json);
         }
 
-        private static void HandleLostLevel()
+        private void HandleLostLevel()
         {
             Console.WriteLine("\nPress enter to replay, or Q to quit");
-            var input = Console.ReadKey().Key;
-            if (input == ConsoleKey.Q)
+            if (_playerInput.IsStillPlaying())
             {
-                Display.GameEnd(CurrentLevelNumber);
+                CurrentLevelNumber = 1;
             }
             else
             {
-                CurrentLevelNumber = 1;
+                Display.GameEnd(CurrentLevelNumber);
             }
         }
     }

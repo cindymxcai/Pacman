@@ -4,8 +4,8 @@ namespace Pacman.Sprites
 {
     public interface ISprite
     {
-        int X { get; }
-        int Y { get; }
+        int X { get; set; }
+        int Y { get; set; }
         int PrevX { get; }
         int PrevY { get; }
         Direction CurrentDirection { get; set; }
