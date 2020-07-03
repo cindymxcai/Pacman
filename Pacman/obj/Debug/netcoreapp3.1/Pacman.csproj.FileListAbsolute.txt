@@ -17,4 +17,4 @@
 /Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/Levels/level2.txt
 /Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
 /Users/cindy.cai/RiderProjects/PacmanKata/Pacman/obj/Debug/netcoreapp3.1/Pacman.csproj.CopyComplete
-/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/LevelSettings.json
+/Users/cindy.cai/RiderProjects/PacmanKata/Pacman/bin/Debug/netcoreapp3.1/GameSettings.json

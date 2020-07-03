@@ -7,10 +7,16 @@ namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
-        public void UpdateMazeTileDisplays(int counter, IMaze gameMaze, ISprite pacman,
+        private readonly IDisplay _display;
+
+        public GameEngine(IDisplay display)
+        {
+            _display = display;
+        }
+        public void UpdateMazeTileDisplays(bool isChomping, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
-            Display.UpdatePacmanDisplay(counter, gameMaze, pacman, pacman.CurrentDirection);
+            _display.UpdatePacmanDisplay(isChomping, gameMaze, pacman, pacman.CurrentDirection);
             gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, TileType.Empty);
             foreach (var ghostSprite in ghosts)
             {

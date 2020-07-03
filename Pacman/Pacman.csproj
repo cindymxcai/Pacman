@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
+        <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <LangVersion>8.0</LangVersion>
     </PropertyGroup>
@@ -20,7 +20,7 @@
       </Content>
       <None Remove="level2.txt" />
       <None Remove="level1.txt" />
-      <None Update="LevelSettings.json">
+      <None Update="GameSettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

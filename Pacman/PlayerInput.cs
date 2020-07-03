@@ -5,28 +5,26 @@ namespace Pacman
 {
     public class PlayerInput : IPlayerInput
     {
-        public Direction TakeInput(Direction currentDirection, ConsoleKey input) {
-            if (IsInputValid(input)) {
+        public Direction TakeInput(Direction currentDirection) {
+            var input = Console.ReadKey().Key; 
                 return input switch {
                     ConsoleKey.RightArrow => Direction.Right,
                     ConsoleKey.LeftArrow => Direction.Left,
                     ConsoleKey.UpArrow => Direction.Up,
                     ConsoleKey.DownArrow => Direction.Down,
-                    _ => throw new Exception()
+                _ => currentDirection
                 };
-            }
-            return currentDirection;
+            
         }
 
-        public bool IsStillPlaying()
+        public bool isPressedQuit()
         {
-            return Console.ReadKey().Key != ConsoleKey.Q;
+            return Console.ReadKey().Key == ConsoleKey.Q;
         }
 
-        private static bool IsInputValid(ConsoleKey input)
+        public bool HasNewInput()
         {
-            return input == ConsoleKey.UpArrow || input == ConsoleKey.DownArrow || input == ConsoleKey.LeftArrow ||
-                   input == ConsoleKey.RightArrow;
+            return Console.KeyAvailable;
         }
     }
 }

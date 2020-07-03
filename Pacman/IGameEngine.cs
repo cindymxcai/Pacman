@@ -5,7 +5,7 @@ namespace Pacman
 {
     public interface IGameEngine
     {
-        void UpdateMazeTileDisplays(int counter, IMaze gameMaze, ISprite pacman,
+        void UpdateMazeTileDisplays(bool isChomping, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts);
 
         void UpdateSpritePosition(ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator);

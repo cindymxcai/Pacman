@@ -47,16 +47,17 @@ namespace PacmanTests
             var mockRandom = new Mock<ISpriteBehaviour>();
             mockRandom.Setup(m => m.ChooseDirection()).Returns(newDirection);
             
-            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.Levels[1]);
+            var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
             var spriteFactory = new SpriteFactory();
-            var level = new Level( spriteFactory,  new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
+            var display = new Display();
+            var gameEngine = new GameEngine(display);
+            var level = new Level(display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
-            var gameEngine = new GameEngine();
 
             var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], maze);
             level.Ghosts[2].SetNewPosition(x, y);

@@ -4,9 +4,9 @@ using Pacman.Sprites;
 
 namespace Pacman
 {
-    public static class Display
+    public class Display : IDisplay
     {
-        public static void MazeOutput(IMaze maze)
+        public void MazeOutput(IMaze maze)
         {
             for (var i = 0; i < maze.Height; i++)
             {
@@ -39,14 +39,14 @@ namespace Pacman
             }
         }
 
-        public static void GameStats(int score, int livesLeft)
+        public void GameStats(int score, int livesLeft)
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine($"LevelScore: {score}                                                Lives Left: {livesLeft}");
             Console.ResetColor();
         }
 
-        public static void LostLife(int livesLeft)
+        public void LostLife(int livesLeft)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -58,9 +58,9 @@ namespace Pacman
             Console.ResetColor();
         }
 
-        public static void UpdatePacmanDisplay(int counter, IMaze gameMaze, ISprite pacman, Direction direction)
+        public void UpdatePacmanDisplay(bool isChomping, IMaze gameMaze, ISprite pacman, Direction direction)
         {
-            if (counter % 2 == 0)
+            if (!isChomping)
             {
                 switch (direction)
                 {
@@ -87,7 +87,7 @@ namespace Pacman
             }
         }
 
-        public static void Welcome()
+        public void Welcome()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(@" ______    ______     ______     __    __     ______     __   __    ");
@@ -100,7 +100,7 @@ namespace Pacman
             Console.ResetColor();
         }
 
-        public static void CongratulationsNewLevel(int levelNumber)
+        public void CongratulationsNewLevel(int levelNumber)
         {
             Console.Clear();
             Console.WriteLine(@" ___  ___  _ _  ___   ___  ___  ___  _ _  _    ___  ___  _  ___  _ _  ___");
@@ -110,7 +110,7 @@ namespace Pacman
             Console.WriteLine($"Passed {levelNumber}");
         }
 
-        public static void GameEnd(int levelNumber)
+        public void GameEnd(int levelNumber)
         {
             Console.Clear();
             Console.WriteLine(@" ___  _              _         ___                 _            _            _ ");

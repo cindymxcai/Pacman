@@ -15,11 +15,11 @@ namespace PacmanTests
         [InlineData(2, 21, 19)]
         public void GivenLevelShouldBuildCorrectMazeSize(int level, int height, int width)
         {
-            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.Levels[level-1]);
+            var mazeData = fileReader.ReadFile(levels.LevelSettings[level-1]);
             var maze = new Maze(mazeData);
             Assert.Equal(height, maze.Height);
             Assert.Equal(width, maze.Width);
@@ -28,11 +28,11 @@ namespace PacmanTests
         [Fact]
         public void GivenLevelShouldPopulateBasedOnMazeData()
         {
-            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.Levels[0]);
+            var mazeData = fileReader.ReadFile(levels.LevelSettings[0]);
             var maze = new Maze(mazeData);
             Assert.Equal(11, maze.Height);
             Assert.Equal(25, maze.Width);
@@ -43,7 +43,9 @@ namespace PacmanTests
         [Fact]
         public void LevelSettingsFileShouldReturnCorrectInfo()
         {
-            var levelData = Game.GetLevelData();
+            var gameSettingLoader = new GameSettingLoader(new FileReader());
+            var game = new Game(gameSettingLoader,new Display(), new SpriteFactory(),  new GameLogicValidator(), new GameEngine(new Display()), new MazeFactory(), new FileReader(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour() );
+            var levelData = gameSettingLoader.GetLevelData();
             Assert.Equal(3, levelData.MaxLevels);
         }
     }

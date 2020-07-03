@@ -16,16 +16,16 @@ namespace PacmanTests
         public void ShouldContinueToMoveInCurrentDirection(Direction newDirection, int newX, int newY )
         {
             var mockInput = new Mock<IPlayerInput>();
-            mockInput.Setup(input => input.TakeInput(newDirection, ConsoleKey.RightArrow)).Returns(newDirection);
+            mockInput.Setup(input => input.TakeInput(newDirection)).Returns(newDirection);
             
-            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.Levels[1]);
+            var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
             
-            var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( level.Pacman, maze, level.GameLogicValidator);
            
@@ -37,14 +37,14 @@ namespace PacmanTests
         public void ShouldNotMoveInCurrentDirectionIfNextPositionIsAWall()
         {
             var mockInput = new Mock<IPlayerInput>();
-            mockInput.Setup(input => input.TakeInput(Direction.Right, ConsoleKey.RightArrow)).Returns(Direction.Right);
-            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "LevelSettings.json");
+            mockInput.Setup(input => input.TakeInput(Direction.Right)).Returns(Direction.Right);
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<LevelData>(json);
+            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.Levels[1]);
+            var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
-            var level = new Level(new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine( new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
 
             maze.MazeArray[1, 2].TileType = TileType.Wall;
             level.GameEngine.GetNewPosition(level.Pacman, maze);

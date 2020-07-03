@@ -6,8 +6,13 @@ namespace Pacman
     {
         public string[] ReadFile(string fileName)
         {
-            var readValues = File.ReadAllLines(fileName);
-            return readValues;
+           return File.ReadAllLines(fileName);
+        
+        }
+
+        public string ReadAll(string fileName)
+        {
+            return File.ReadAllText(fileName);
         }
     }
 }
