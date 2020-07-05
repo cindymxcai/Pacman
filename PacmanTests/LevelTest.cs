@@ -24,8 +24,8 @@ namespace PacmanTests
         [Fact]
         public void ScoreShouldInitiallyBe0()
         {
-            
-           var level = new Level(new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var maze = MazeSetUp();
+            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.Equal(0, level.LevelScore);
         }
         
@@ -37,7 +37,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
 
-            var level = new Level(new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( level.Pacman, maze, level.GameLogicValidator);
             level.GameEngine.UpdateMazeTileDisplays(isChomping, maze, level.Pacman, level.Ghosts);
@@ -50,7 +50,9 @@ namespace PacmanTests
         [Fact]
         public void GhostCollisionIsTrueIfGhostAndPacmanAreOnSameTileOrPassEachOther()
         {
-            var level = new Level(new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(),
+            var maze = MazeSetUp();
+
+            var level = new Level(maze, new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(),
                 new PacmanBehaviour(), new RandomGhostBehaviour()) {Pacman = {X = 3, Y = 3}};
             level.Ghosts[0].X = 3;
             level.Ghosts[0].Y = 3;
@@ -60,8 +62,9 @@ namespace PacmanTests
         [Fact]
         public void HasEatenAllPelletsIfRemainingPelletsEqualsZero()
         {
+            var maze = MazeSetUp();
 
-            var level = new Level(new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.True(level.GameLogicValidator.HasEatenAllPellets(0));
             Assert.False(level.GameLogicValidator.HasEatenAllPellets(2));
         }
@@ -69,7 +72,9 @@ namespace PacmanTests
         [Fact]
         public void HasNotWonLevelIfLivesLeftIs0()
         {
-            var level = new Level(new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var maze = MazeSetUp();
+
+            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.False(level.HasWon);
         }
         
@@ -77,9 +82,9 @@ namespace PacmanTests
         public void HandlesDeathIfGhostCollision()
         {
             var maze = MazeSetUp();
-            var level = new Level(new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(),
+            var level = new Level(maze, new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(),
                 new PacmanBehaviour(), new RandomGhostBehaviour()) {LivesLeft = 3};
-            level.HandleDeath(maze);
+            level.HandleDeath();
             Assert.Equal(2, level.LivesLeft);
             Assert.Equal(1, level.Pacman.X);
             Assert.Equal(1, level.Pacman.Y);

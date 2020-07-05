@@ -7,8 +7,9 @@ using Pacman.Sprites;
 
 namespace Pacman
 {
-    public class Level
+    public class Level : ILevel
     {
+        private readonly IMaze _gameMaze;
         private readonly IDisplay _display;
         private readonly IPlayerInput _playerInput;
         public readonly ISprite Pacman;
@@ -19,10 +20,11 @@ namespace Pacman
         public IGameEngine GameEngine { get; }
         public IGameLogicValidator GameLogicValidator { get; }
 
-        public Level( IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
+        public Level(IMaze maze,  IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
         {
             GameLogicValidator = gameLogicValidator;
             GameEngine = gameEngine;
+            _gameMaze = maze;
             _display = display;
             _playerInput = playerInput;
             Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
@@ -32,7 +34,7 @@ namespace Pacman
             LivesLeft = 3;
         }
 
-        public void PlayLevel(IMaze gameMaze)
+        public void PlayLevel()
         {
             while (!HasWon)
             {
@@ -42,15 +44,15 @@ namespace Pacman
                 while (!_playerInput.HasNewInput())
                 {
                     var remainingPellets =
-                        gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType == TileType.Pellet);
+                        _gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType == TileType.Pellet);
                     
-                    LevelScore = Score.GetTotal(gameMaze.Pellets, remainingPellets);
+                    LevelScore = Score.GetTotal(_gameMaze.Pellets, remainingPellets);
                     
-                    UpdateSpritePositions(newDirection, gameMaze);
-                    GameEngine.UpdateMazeTileDisplays(isChomping, gameMaze, Pacman, Ghosts);
+                    UpdateSpritePositions(newDirection);
+                    GameEngine.UpdateMazeTileDisplays(isChomping, _gameMaze, Pacman, Ghosts);
                     
                     if (GameLogicValidator.HasCollidedWithGhost(Pacman, Ghosts)) 
-                        HandleDeath(gameMaze);
+                        HandleDeath();
                     
                     if (LivesLeft == 0)
                         break;
@@ -59,7 +61,7 @@ namespace Pacman
                     
                     Console.Clear();
 
-                    _display.MazeOutput(gameMaze); 
+                    _display.MazeOutput(_gameMaze); 
                     _display.GameStats(LevelScore, LivesLeft);
 
                     isChomping = !isChomping;
@@ -71,25 +73,25 @@ namespace Pacman
             }
         }
 
-        public void HandleDeath(IMaze gameMaze)
+        public void HandleDeath()
         {
             LivesLeft--;
             _display.LostLife(LivesLeft);
-            gameMaze.UpdateMazeArray(Pacman.X, Pacman.Y,
-                gameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? TileType.Empty : TileType.Pellet);
+            _gameMaze.UpdateMazeArray(Pacman.X, Pacman.Y,
+                _gameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? TileType.Empty : TileType.Pellet);
 
             Pacman.X = 1;
             Pacman.Y = 1;
         }
 
-        private void UpdateSpritePositions(Direction newDirection, IMaze gameMaze)
+        private void UpdateSpritePositions(Direction newDirection)
         { 
             Pacman.UpdateCurrentDirection(newDirection);
-            GameEngine.UpdateSpritePosition(Pacman, gameMaze, GameLogicValidator);
+            GameEngine.UpdateSpritePosition(Pacman, _gameMaze, GameLogicValidator);
             foreach (var ghostSprite in Ghosts)
             {
                 ghostSprite.CurrentDirection = ghostSprite.Behaviour.ChooseDirection();
-                GameEngine.UpdateSpritePosition(ghostSprite, gameMaze, GameLogicValidator);
+                GameEngine.UpdateSpritePosition(ghostSprite, _gameMaze, GameLogicValidator);
             }
         }
     }

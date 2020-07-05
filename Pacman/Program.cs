@@ -1,4 +1,5 @@
-﻿﻿using Pacman.Sprites;
+﻿﻿using Pacman.Factories;
+ using Pacman.Sprites;
 
  namespace Pacman
 {
@@ -16,7 +17,8 @@
             var pacmanBehaviour  = new PacmanBehaviour();
             var ghostBehaviour = new RandomGhostBehaviour();
             var gameSettingLoader = new GameSettingLoader(fileReader);
-            var game = new Game(gameSettingLoader,display, spriteFactory, gameLogicValidator, gameEngine, mazeFactory, fileReader, playerInput, pacmanBehaviour, ghostBehaviour);
+            var levelFactory = new LevelFactory();
+            var game = new Game(levelFactory, gameSettingLoader,display, spriteFactory, gameLogicValidator, gameEngine, mazeFactory, fileReader, playerInput, pacmanBehaviour, ghostBehaviour);
             game.PlayGame();
         }
         

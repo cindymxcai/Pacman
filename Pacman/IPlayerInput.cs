@@ -6,7 +6,7 @@ namespace Pacman
     public interface IPlayerInput
     {
         Direction TakeInput(Direction currentDirection);
-        bool isPressedQuit();
+        bool hasPressedQuit();
         bool HasNewInput();
     }
 }

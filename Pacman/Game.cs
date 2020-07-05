@@ -1,12 +1,14 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using Pacman.Factories;
 using Pacman.Sprites;
 
 namespace Pacman
 {
     public class Game
     {
+        private readonly ILevelFactory _levelFactory;
         private readonly IGameSettingLoader _gameSettingLoader;
         private readonly IDisplay _display;
         private readonly ISpriteFactory _spriteFactory;
@@ -20,10 +22,11 @@ namespace Pacman
         private bool IsPlaying { get; set; } = true;
         private int CurrentLevelNumber { get; set; }
 
-        public Game(IGameSettingLoader gameSettingLoader, IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator,
+        public Game(ILevelFactory levelFactory, IGameSettingLoader gameSettingLoader, IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator,
             IGameEngine gameEngine, IMazeFactory mazeFactory, IFileReader fileReader, IPlayerInput playerInput,
             ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
         {
+            _levelFactory = levelFactory;
             _gameSettingLoader = gameSettingLoader;
             _display = display;
             _spriteFactory = spriteFactory;
@@ -46,10 +49,10 @@ namespace Pacman
             {
                 var mazeData = _fileReader.ReadFile(gameSettings.LevelSettings[CurrentLevelNumber - 1]);
                 var maze = _mazeFactory.CreateMaze(mazeData);
+
+                var level = _levelFactory.CreateLevel(maze, _display, _spriteFactory, _gameLogicValidator,  _gameEngine, _playerInput, _pacmanBehaviour, _ghostBehaviour );
                 
-                var level = new Level(_display, _spriteFactory, _gameLogicValidator,  _gameEngine, _playerInput, _pacmanBehaviour, _ghostBehaviour );
-                
-                level.PlayLevel(maze);
+                level.PlayLevel();
                 
                 if (level.HasWon)
                 {
@@ -76,10 +79,10 @@ namespace Pacman
         private void HandleLostLevel()
         {
             Console.WriteLine("\nPress enter to replay, or Q to quit");
-            if (_playerInput.isPressedQuit())
+            
+            if (_playerInput.hasPressedQuit())
             {
                 _display.GameEnd(CurrentLevelNumber);
-
             }
             else
             {

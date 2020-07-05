@@ -53,7 +53,7 @@ namespace Pacman
             Console.WriteLine(@" .-. ");
             Console.WriteLine(@"| OO|  ╭⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼╮");
             Console.WriteLine(@"|   | <  Lives left: " + livesLeft + " |");
-            Console.Write(@"'^^^'  ╰⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼╯");
+            Console.WriteLine(@"'^^^'  ╰⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼╯");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             Console.ResetColor();
         }
