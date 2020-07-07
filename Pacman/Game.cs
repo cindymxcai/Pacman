@@ -15,7 +15,6 @@ namespace Pacman
         private readonly IGameLogicValidator _gameLogicValidator;
         private readonly IGameEngine _gameEngine;
         private readonly IMazeFactory _mazeFactory;
-        private readonly IFileReader _fileReader;
         private readonly IPlayerInput _playerInput;
         private readonly ISpriteBehaviour _pacmanBehaviour;
         private readonly ISpriteBehaviour _ghostBehaviour;
@@ -23,7 +22,7 @@ namespace Pacman
         private int CurrentLevelNumber { get; set; }
 
         public Game(ILevelFactory levelFactory, IGameSettingLoader gameSettingLoader, IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator,
-            IGameEngine gameEngine, IMazeFactory mazeFactory, IFileReader fileReader, IPlayerInput playerInput,
+            IGameEngine gameEngine, IMazeFactory mazeFactory, IPlayerInput playerInput,
             ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
         {
             _levelFactory = levelFactory;
@@ -33,7 +32,6 @@ namespace Pacman
             _gameLogicValidator = gameLogicValidator;
             _gameEngine = gameEngine;
             _mazeFactory = mazeFactory;
-            _fileReader = fileReader;
             _playerInput = playerInput;
             _pacmanBehaviour = pacmanBehaviour;
             _ghostBehaviour = ghostBehaviour;
@@ -47,9 +45,7 @@ namespace Pacman
             
             while (IsPlaying)
             {
-                var mazeData = _fileReader.ReadFile(gameSettings.LevelSettings[CurrentLevelNumber - 1]);
-                var maze = _mazeFactory.CreateMaze(mazeData);
-
+                var maze = _mazeFactory.CreateMaze( gameSettings, CurrentLevelNumber);
                 var level = _levelFactory.CreateLevel(maze, _display, _spriteFactory, _gameLogicValidator,  _gameEngine, _playerInput, _pacmanBehaviour, _ghostBehaviour );
                 
                 level.PlayLevel();

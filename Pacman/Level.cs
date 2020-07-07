@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Pacman.Enums;
+using Pacman.Factories;
 using Pacman.Sprites;
 
 namespace Pacman

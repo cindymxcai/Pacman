@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Pacman;
 using Pacman.Enums;
+using Pacman.Factories;
 using Pacman.Sprites;
 using Xunit;
 
@@ -44,7 +45,6 @@ namespace PacmanTests
         public void LevelSettingsFileShouldReturnCorrectInfo()
         {
             var gameSettingLoader = new GameSettingLoader(new FileReader());
-            var game = new Game(gameSettingLoader,new Display(), new SpriteFactory(),  new GameLogicValidator(), new GameEngine(new Display()), new MazeFactory(), new FileReader(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour() );
             var levelData = gameSettingLoader.GetLevelData();
             Assert.Equal(3, levelData.MaxLevels);
         }

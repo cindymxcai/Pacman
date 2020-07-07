@@ -1,6 +1,6 @@
 using Pacman.Sprites;
 
-namespace Pacman
+namespace Pacman.Factories
 {
     public interface ISpriteFactory
     {

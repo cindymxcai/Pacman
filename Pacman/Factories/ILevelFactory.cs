@@ -7,7 +7,7 @@ namespace Pacman.Factories
         ILevel CreateLevel(IMaze maze, IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour);
     }
 
-    class LevelFactory : ILevelFactory
+    public class LevelFactory : ILevelFactory
     {
       
 

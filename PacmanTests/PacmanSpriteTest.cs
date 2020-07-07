@@ -4,7 +4,8 @@
  using Newtonsoft.Json;
  using Pacman;
 using Pacman.Enums;
-using Pacman.Sprites;
+ using Pacman.Factories;
+ using Pacman.Sprites;
 using Xunit;
 
 namespace PacmanTests

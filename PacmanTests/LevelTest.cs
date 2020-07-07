@@ -4,6 +4,7 @@ using Moq;
 using Newtonsoft.Json;
 using Pacman;
 using Pacman.Enums;
+using Pacman.Factories;
 using Pacman.Sprites;
 using Xunit;
 
