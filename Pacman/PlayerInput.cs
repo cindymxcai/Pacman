@@ -17,7 +17,7 @@ namespace Pacman
             
         }
 
-        public bool hasPressedQuit()
+        public bool HasPressedQuit()
         {
             return Console.ReadKey().Key == ConsoleKey.Q;
         }

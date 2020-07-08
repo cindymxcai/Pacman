@@ -11,30 +11,18 @@ namespace Pacman
         private readonly ILevelFactory _levelFactory;
         private readonly IGameSettingLoader _gameSettingLoader;
         private readonly IDisplay _display;
-        private readonly ISpriteFactory _spriteFactory;
-        private readonly IGameLogicValidator _gameLogicValidator;
-        private readonly IGameEngine _gameEngine;
         private readonly IMazeFactory _mazeFactory;
         private readonly IPlayerInput _playerInput;
-        private readonly ISpriteBehaviour _pacmanBehaviour;
-        private readonly ISpriteBehaviour _ghostBehaviour;
         private bool IsPlaying { get; set; } = true;
         private int CurrentLevelNumber { get; set; }
 
-        public Game(ILevelFactory levelFactory, IGameSettingLoader gameSettingLoader, IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator,
-            IGameEngine gameEngine, IMazeFactory mazeFactory, IPlayerInput playerInput,
-            ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
+        public Game(ILevelFactory levelFactory, IGameSettingLoader gameSettingLoader, IDisplay display, IMazeFactory mazeFactory, IPlayerInput playerInput)      
         {
             _levelFactory = levelFactory;
             _gameSettingLoader = gameSettingLoader;
             _display = display;
-            _spriteFactory = spriteFactory;
-            _gameLogicValidator = gameLogicValidator;
-            _gameEngine = gameEngine;
             _mazeFactory = mazeFactory;
             _playerInput = playerInput;
-            _pacmanBehaviour = pacmanBehaviour;
-            _ghostBehaviour = ghostBehaviour;
         }
 
         public void PlayGame()
@@ -46,7 +34,7 @@ namespace Pacman
             while (IsPlaying)
             {
                 var maze = _mazeFactory.CreateMaze( gameSettings, CurrentLevelNumber);
-                var level = _levelFactory.CreateLevel(maze, _display, _spriteFactory, _gameLogicValidator,  _gameEngine, _playerInput, _pacmanBehaviour, _ghostBehaviour );
+                var level = _levelFactory.CreateLevel(maze);
                 
                 level.PlayLevel();
                 
@@ -76,7 +64,7 @@ namespace Pacman
         {
             Console.WriteLine("\nPress enter to replay, or Q to quit");
             
-            if (_playerInput.hasPressedQuit())
+            if (_playerInput.HasPressedQuit())
             {
                 _display.GameEnd(CurrentLevelNumber);
             }
