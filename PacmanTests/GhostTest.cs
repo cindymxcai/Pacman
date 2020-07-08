@@ -56,7 +56,7 @@ namespace PacmanTests
             var maze = new Maze(mazeData);
             var spriteFactory = new SpriteFactory();
             var display = new Display();
-            var gameEngine = new GameEngine(display);
+            var gameEngine = new GameEngine();
             var level = new Level(maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
 

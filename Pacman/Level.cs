@@ -62,7 +62,7 @@ namespace Pacman
                     
                     Console.Clear();
 
-                    _display.MazeOutput(_gameMaze); 
+                    _display.OutputMaze(_gameMaze); 
                     _display.GameStats(LevelScore, LivesLeft);
 
                     isChomping = !isChomping;

@@ -26,7 +26,7 @@ namespace PacmanTests
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
             
-            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( level.Pacman, maze, level.GameLogicValidator);
            
@@ -45,7 +45,7 @@ namespace PacmanTests
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
-            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine( new Display()), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
 
             maze.MazeArray[1, 2].TileType = TileType.Wall;
             level.GameEngine.GetNewPosition(level.Pacman, maze);

@@ -6,7 +6,7 @@ namespace Pacman
 {
     public class Display : IDisplay
     {
-        public void MazeOutput(IMaze maze)
+        public void OutputMaze(IMaze maze)
         {
             for (var i = 0; i < maze.Height; i++)
             {
@@ -57,35 +57,7 @@ namespace Pacman
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             Console.ResetColor();
         }
-
-        public void UpdatePacmanDisplay(bool isChomping, IMaze gameMaze, ISprite pacman, Direction direction)
-        {
-            if (!isChomping)
-            {
-                switch (direction)
-                {
-                    case Direction.Up:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanUp);
-                        break;
-                    case Direction.Down:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanDown);
-                        break;
-                    case Direction.Left:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanLeft);
-                        break;
-                    case Direction.Right:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanRight);
-                        break;
-                    default:
-                        gameMaze.MazeArray[pacman.X, pacman.Y] = gameMaze.MazeArray[pacman.X, pacman.Y];
-                        break;
-                }
-            }
-            else
-            {
-                gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanChomp);
-            }
-        }
+        
 
         public void Welcome()
         {

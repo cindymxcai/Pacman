@@ -5,10 +5,9 @@ namespace Pacman
 {
     public interface IDisplay
     {
-        void MazeOutput(IMaze maze);
+        void OutputMaze(IMaze maze);
         void GameStats(int score, int livesLeft);
-        void LostLife(int livesLeft);
-        void UpdatePacmanDisplay(bool isChomping, IMaze gameMaze, ISprite pacman, Direction direction);
+        void LostLife(int livesLeft); 
         void Welcome();
         void CongratulationsNewLevel(int levelNumber);
         void GameEnd(int levelNumber);

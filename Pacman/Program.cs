@@ -10,7 +10,7 @@
             var display = new Display();
             var fileReader = new FileReader();
             var gameLogicValidator = new GameLogicValidator();
-            var gameEngine = new GameEngine(display);
+            var gameEngine = new GameEngine();
             var playerInput = new PlayerInput();
             var mazeFactory = new MazeFactory(fileReader);
             var spriteFactory = new SpriteFactory();

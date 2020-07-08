@@ -7,16 +7,10 @@ namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
-        private readonly IDisplay _display;
-
-        public GameEngine(IDisplay display)
-        {
-            _display = display;
-        }
         public void UpdateMazeTileDisplays(bool isChomping, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
-            _display.UpdatePacmanDisplay(isChomping, gameMaze, pacman, pacman.CurrentDirection);
+            UpdatePacmanDisplay(isChomping, gameMaze, pacman, pacman.CurrentDirection);
             gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, TileType.Empty);
             foreach (var ghostSprite in ghosts)
             {
@@ -50,6 +44,35 @@ namespace Pacman
                 Direction.Right => (sprite.X, sprite.Y + 1),
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+        
+        public void UpdatePacmanDisplay(bool isChomping, IMaze gameMaze, ISprite pacman, Direction direction)
+        {
+            if (!isChomping)
+            {
+                switch (direction)
+                {
+                    case Direction.Up:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanUp);
+                        break;
+                    case Direction.Down:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanDown);
+                        break;
+                    case Direction.Left:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanLeft);
+                        break;
+                    case Direction.Right:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanRight);
+                        break;
+                    default:
+                        gameMaze.MazeArray[pacman.X, pacman.Y] = gameMaze.MazeArray[pacman.X, pacman.Y];
+                        break;
+                }
+            }
+            else
+            {
+                gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanChomp);
+            }
         }
     }
 }
