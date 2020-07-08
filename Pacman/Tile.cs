@@ -7,6 +7,8 @@ namespace Pacman
     {
         public TileType TileType { get; set; }
         public string Display { get; private set; }
+        
+        public ConsoleColor TileColour { get; private set; }
         public bool HasBeenEaten { get; private set; }
         
         private const string TilePellet = " \u2022 ";
@@ -35,27 +37,35 @@ namespace Pacman
                     break;
                 case TileType.Wall:
                     Display = TileWall;
+                    TileColour = ConsoleColor.Blue;
                     break;
                 case TileType.Pellet:
                     Display = TilePellet;
+                    TileColour = ConsoleColor.Magenta;
                     break;
                 case TileType.PacmanUp:
                     Display = Up;
+                    TileColour = ConsoleColor.Yellow;
                     break;
                 case TileType.PacmanDown:
                     Display = Down;
+                    TileColour = ConsoleColor.Yellow;
                     break;
                 case TileType.PacmanLeft:
                     Display = Left;
+                    TileColour = ConsoleColor.Yellow;
                     break;
                 case TileType.PacmanRight:
+                    TileColour = ConsoleColor.Yellow;
                     Display = Right;
                     break;
                 case TileType.PacmanChomp:
                     Display = PacmanChomp;
+                    TileColour = ConsoleColor.Yellow;
                     break;
                 case TileType.Ghost:
                     Display = Ghost;
+                    TileColour = ConsoleColor.Red;
                     break;
                 default:
                     throw new Exception();

@@ -6,35 +6,21 @@ namespace Pacman
 {
     public class Display : IDisplay
     {
+        private readonly ITileFactory _tileFactory;
+
+
+        public Display(ITileFactory tileFactory)
+        {
+            _tileFactory = tileFactory;
+        }
         public void OutputMaze(IMaze maze)
         {
             for (var i = 0; i < maze.Height; i++)
             {
                 for (var j = 0; j < maze.Width; j++)
                 {
-                    switch (maze.MazeArray[i, j].TileType)
-                    {
-                        case TileType.Wall:
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.Write(maze.MazeArray[i, j].Display);
-                            Console.ResetColor();
-                            break;
-                        case TileType.Pellet:
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.Write(maze.MazeArray[i, j].Display);
-                            Console.ResetColor();
-                            break;
-                        case TileType.Ghost:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(maze.MazeArray[i, j].Display);
-                            Console.ResetColor();
-                            break;
-                        default:
-                            Console.Write(maze.MazeArray[i, j].Display);
-                            break;
-                    }
+                    _tileFactory.DisplayTile(maze.MazeArray[i,j]);
                 }
-
                 Console.WriteLine();
             }
         }

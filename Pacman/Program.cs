@@ -7,7 +7,8 @@
     {
         public static void Main(string[] args)
         {
-            var display = new Display();
+            var tileDisplay = new TileFactory();
+            var display = new Display(tileDisplay);
             var fileReader = new FileReader();
             var gameLogicValidator = new GameLogicValidator();
             var gameEngine = new GameEngine();
