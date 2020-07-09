@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pacman.Enums;
+using Pacman.Interfaces;
 using Pacman.Sprites;
+using Pacman.TileTypes;
 
 namespace Pacman
 {
     public class GameLogicValidator : IGameLogicValidator
     {
-        public bool HasCollidedWithWall((int x, int y) newPosition, IMaze gameMaze)
+        public bool HasCollidedWithWall(ITileType wall,(int x, int y) newPosition, IMaze gameMaze)
         {
             var (x, y) = newPosition;
-            return gameMaze.MazeArray[x, y].TileType == TileType.Wall;
+            return gameMaze.MazeArray[x, y].TileType.Display == wall.Display; 
         }
 
         public bool HasCollidedWithGhost(ISprite pacmanSprite, IEnumerable<ISprite> ghostSprites)

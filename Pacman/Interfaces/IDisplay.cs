@@ -1,7 +1,4 @@
-using Pacman.Enums;
-using Pacman.Sprites;
-
-namespace Pacman
+namespace Pacman.Interfaces
 {
     public interface IDisplay
     {

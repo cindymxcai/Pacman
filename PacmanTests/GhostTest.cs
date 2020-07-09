@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 using Pacman;
 using Pacman.Enums;
 using Pacman.Factories;
+using Pacman.Interfaces;
 using Pacman.Sprites;
+using Pacman.TileTypes;
 using Xunit;
 
 namespace PacmanTests
@@ -58,7 +60,7 @@ namespace PacmanTests
             var tileFactory = new TileFactory();
             var display = new Display(tileFactory);
             var gameEngine = new GameEngine();
-            var level = new Level(maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
+            var level = new Level(new GhostTile(), new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile(), new WallTile(), new EmptyTile(), new PelletTile(), maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
 
             var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], maze);

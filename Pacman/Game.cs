@@ -1,8 +1,6 @@
 using System;
-using System.IO;
-using Newtonsoft.Json;
 using Pacman.Factories;
-using Pacman.Sprites;
+using Pacman.Interfaces;
 
 namespace Pacman
 {

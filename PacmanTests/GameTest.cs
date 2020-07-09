@@ -5,6 +5,7 @@ using Pacman;
 using Pacman.Enums;
 using Pacman.Factories;
 using Pacman.Sprites;
+using Pacman.TileTypes;
 using Xunit;
 
 namespace PacmanTests
@@ -37,8 +38,8 @@ namespace PacmanTests
             var maze = new Maze(mazeData);
             Assert.Equal(11, maze.Height);
             Assert.Equal(25, maze.Width);
-            Assert.Equal(new Tile(TileType.Wall).Display, maze.MazeArray[0,2].Display);
-            Assert.Equal(new Tile(TileType.Pellet).Display, maze.MazeArray[1,1].Display );
+            Assert.Equal(new WallTile().Display, maze.MazeArray[0,2].TileType.Display);
+            Assert.Equal(new PelletTile().Display, maze.MazeArray[1,1].TileType.Display );
         }
 
         [Fact]

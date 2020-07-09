@@ -1,32 +1,34 @@
 using System;
 using System.Collections.Generic;
 using Pacman.Enums;
+using Pacman.Interfaces;
 using Pacman.Sprites;
+using Pacman.TileTypes;
 
 namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
-        public void UpdateMazeTileDisplays(bool isChomping, IMaze gameMaze, ISprite pacman,
+        public void UpdateMazeTileDisplays(ITileType ghost, ITileType pacmanUp, ITileType pacmanDown, ITileType pacmanLeft, ITileType pacmanRight, ITileType pacmanChomp,ITileType empty, ITileType pellet, bool isChomping, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
-            UpdatePacmanDisplay(isChomping, gameMaze, pacman, pacman.CurrentDirection);
-            gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, TileType.Empty);
+            UpdatePacmanDisplay(pacmanUp, pacmanDown, pacmanLeft, pacmanRight, pacmanChomp,isChomping, gameMaze, pacman, pacman.CurrentDirection);
+            gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, empty);
             foreach (var ghostSprite in ghosts)
             {
                 var prevTileType = gameMaze.MazeArray[ghostSprite.PrevX, ghostSprite.PrevY].HasBeenEaten
-                    ? TileType.Empty
-                    : TileType.Pellet;
+                    ? empty
+                    : pellet;
                 
                 gameMaze.UpdateMazeArray(ghostSprite.PrevX, ghostSprite.PrevY, prevTileType);
-                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, TileType.Ghost);
+                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, ghost); 
             }
         }
 
-        public void UpdateSpritePosition(ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator)
+        public void UpdateSpritePosition(ITileType wall, ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator)
         {
             var (x, y) = GetNewPosition(sprite, gameMaze);
-            if (!gameLogicValidator.HasCollidedWithWall((x, y), gameMaze)) 
+            if (!gameLogicValidator.HasCollidedWithWall(wall, (x, y), gameMaze)) 
                 sprite.SetNewPosition(x, y);
         }
 
@@ -45,24 +47,25 @@ namespace Pacman
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        
-        public void UpdatePacmanDisplay(bool isChomping, IMaze gameMaze, ISprite pacman, Direction direction)
+
+        //TODO: SHOULD NOT BE HERE
+        private static void UpdatePacmanDisplay(ITileType pacmanUp, ITileType pacmanDown, ITileType pacmanLeft, ITileType pacmanRight, ITileType pacmanChomp,bool isChomping, IMaze gameMaze, ISprite pacman, Direction direction)
         {
             if (!isChomping)
             {
                 switch (direction)
                 {
                     case Direction.Up:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanUp);
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanUp;
                         break;
                     case Direction.Down:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanDown);
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanDown;
                         break;
                     case Direction.Left:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanLeft);
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanLeft;
                         break;
                     case Direction.Right:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanRight);
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanRight;
                         break;
                     default:
                         gameMaze.MazeArray[pacman.X, pacman.Y] = gameMaze.MazeArray[pacman.X, pacman.Y];
@@ -71,7 +74,7 @@ namespace Pacman
             }
             else
             {
-                gameMaze.MazeArray[pacman.X, pacman.Y].SetTile(TileType.PacmanChomp);
+                gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanChomp;
             }
         }
     }

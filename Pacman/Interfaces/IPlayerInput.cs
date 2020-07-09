@@ -1,7 +1,6 @@
-using System;
 using Pacman.Enums;
 
-namespace Pacman
+namespace Pacman.Interfaces
 {
     public interface IPlayerInput
     {

@@ -1,4 +1,4 @@
-namespace Pacman
+namespace Pacman.Interfaces
 {
     public interface IRng
     {

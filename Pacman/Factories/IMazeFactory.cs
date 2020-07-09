@@ -1,3 +1,5 @@
+using Pacman.Interfaces;
+
 namespace Pacman.Factories
 {
     public interface IMazeFactory

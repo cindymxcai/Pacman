@@ -1,6 +1,7 @@
 using System;
 using Pacman;
 using Pacman.Enums;
+using Pacman.TileTypes;
 using Xunit;
 
 namespace PacmanTests
@@ -8,13 +9,18 @@ namespace PacmanTests
     public class ParsingTest
     {
         
-        [Theory]
-        [InlineData('*', TileType.Wall)]
-        [InlineData('.', TileType.Pellet)]
-        public void GetFieldFromString(char input, TileType tileType)
+        [Fact]
+        public void GetPelletFromString()
         {
-            var inputData  = Parser.GetTileType(input);
-            Assert.Equal(tileType,inputData);
+            var inputData  = Parser.GetTileType('.');
+            Assert.Equal(new PelletTile().Display, inputData.Display);
+        }
+        
+        [Fact]
+        public void GetWallFromString()
+        {
+            var inputData  = Parser.GetTileType('*');
+            Assert.Equal(new WallTile().Display, inputData.Display);
         }
 
         [Fact]

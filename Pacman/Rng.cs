@@ -1,4 +1,5 @@
 using System;
+using Pacman.Interfaces;
 
 namespace Pacman
 {

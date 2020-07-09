@@ -1,13 +1,14 @@
 using Pacman.Enums;
+using Pacman.TileTypes;
 
-namespace Pacman
+namespace Pacman.Interfaces
 {
     public interface IMaze
     {
-        Tile[,] MazeArray { get; }
+        ITile[,] MazeArray { get; }
         int Pellets { get; }
         int Height { get; }
         int Width { get; }
-        void UpdateMazeArray(int x, int y, TileType tileType);
+        void UpdateMazeArray(int x, int y, ITileType tileType);
     }
 }

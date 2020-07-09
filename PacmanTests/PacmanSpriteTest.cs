@@ -5,8 +5,10 @@
  using Pacman;
 using Pacman.Enums;
  using Pacman.Factories;
+ using Pacman.Interfaces;
  using Pacman.Sprites;
-using Xunit;
+ using Pacman.TileTypes;
+ using Xunit;
 
 namespace PacmanTests
 {
@@ -27,9 +29,9 @@ namespace PacmanTests
             var maze = new Maze(mazeData);
             var tileFactory = new TileFactory();
 
-            var level = new Level(maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(new GhostTile(), new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile(), new WallTile(), new EmptyTile(), new PelletTile(), maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition( new PelletTile(), level.Pacman, maze, level.GameLogicValidator);
            
             Assert.Equal(newX, level.Pacman.X);
             Assert.Equal(newY, level.Pacman.Y);
@@ -48,14 +50,32 @@ namespace PacmanTests
             var maze = new Maze(mazeData);
             var tileFactory = new TileFactory();
 
-            var level = new Level(maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var level = new Level(new GhostTile(), new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile(), new WallTile(), new EmptyTile(), new PelletTile(), maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
 
-            maze.MazeArray[1, 2].TileType = TileType.Wall;
+            maze.MazeArray[1, 2].TileType = new WallTile();
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition( maze.MazeArray[1,2].TileType, level.Pacman, maze, level.GameLogicValidator);
            
             Assert.Equal(1, level.Pacman.X);
             Assert.Equal(1, level.Pacman.Y); 
+        }
+
+
+        [Fact]
+        public void WallCollisionIsTrueIfPacmansNextTileIsAWall()
+        {
+            var mockInput = new Mock<IPlayerInput>();
+            mockInput.Setup(input => input.TakeInput(Direction.Right)).Returns(Direction.Right);
+            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
+            var json = File.ReadAllText(jsonFileName);
+            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
+            var fileReader = new FileReader();
+            var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
+            var maze = new Maze(mazeData);
+            var pacman = new Sprite(1,2, new PacmanBehaviour());
+var gameLogicValidator = new GameLogicValidator();
+            maze.MazeArray[1, 2].TileType = new WallTile();
+            Assert.True(gameLogicValidator.HasCollidedWithWall(maze.MazeArray[1,2].TileType, (pacman.X, pacman.Y), maze));
         }
 
         [Fact]

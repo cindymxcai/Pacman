@@ -1,14 +1,12 @@
 using System;
-using Pacman.Enums;
-using Pacman.Sprites;
+using Pacman.Factories;
+using Pacman.Interfaces;
 
 namespace Pacman
 {
     public class Display : IDisplay
     {
         private readonly ITileFactory _tileFactory;
-
-
         public Display(ITileFactory tileFactory)
         {
             _tileFactory = tileFactory;

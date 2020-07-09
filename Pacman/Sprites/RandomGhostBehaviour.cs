@@ -1,5 +1,6 @@
 using System;
 using Pacman.Enums;
+using Pacman.Interfaces;
 
 namespace Pacman.Sprites
 {

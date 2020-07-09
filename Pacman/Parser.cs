@@ -1,18 +1,19 @@
 using System;
 using Pacman.Enums;
+using Pacman.TileTypes;
 
 namespace Pacman
 {
     public static class Parser
     {
-        public static TileType GetTileType(char inputChar)
+        public static ITileType GetTileType(char inputChar)
         {
             switch (inputChar)
             {
                 case '*':
-                    return TileType.Wall;
+                    return new WallTile();
                 case '.':
-                    return TileType.Pellet;
+                    return new PelletTile();
                 default:
                     throw new Exception();
             }
