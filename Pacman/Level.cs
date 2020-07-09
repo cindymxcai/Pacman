@@ -98,7 +98,7 @@ namespace Pacman
             LivesLeft--;
             _display.LostLife(LivesLeft);
             _gameMaze.UpdateMazeArray(Pacman.X, Pacman.Y,
-                _gameMaze.MazeArray[Pacman.X, Pacman.Y].TileType.HasBeenEaten ? _empty: _pellet);
+                _gameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? _empty: _pellet);
 
             Pacman.X = 1;
             Pacman.Y = 1;

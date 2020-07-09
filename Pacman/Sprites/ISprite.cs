@@ -1,4 +1,6 @@
 using Pacman.Enums;
+using Pacman.Interfaces;
+using Pacman.TileTypes;
 
 namespace Pacman.Sprites
 {
@@ -14,5 +16,6 @@ namespace Pacman.Sprites
         ISpriteBehaviour Behaviour { get; }
 
         void UpdateCurrentDirection(Direction newDirection);
+        void UpdatePacmanDisplay(ITileType pacmanUp, ITileType pacmanDown, ITileType pacmanLeft, ITileType pacmanRight, ITileType pacmanChomp, in bool isChomping, IMaze gameMaze, ISprite pacman, Direction pacmanCurrentDirection);
     }
 }

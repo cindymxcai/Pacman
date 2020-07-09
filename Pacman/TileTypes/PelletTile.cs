@@ -6,6 +6,5 @@ namespace Pacman.TileTypes
     {
         public string Display { get; } = " \u2022 ";
         public ConsoleColor TileColour { get; } = ConsoleColor.Magenta;
-        public bool HasBeenEaten { get; set; }
     }
 }

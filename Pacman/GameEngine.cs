@@ -12,7 +12,7 @@ namespace Pacman
         public void UpdateMazeTileDisplays(ITileType ghost, ITileType pacmanUp, ITileType pacmanDown, ITileType pacmanLeft, ITileType pacmanRight, ITileType pacmanChomp,ITileType empty, ITileType pellet, bool isChomping, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
-            UpdatePacmanDisplay(pacmanUp, pacmanDown, pacmanLeft, pacmanRight, pacmanChomp,isChomping, gameMaze, pacman, pacman.CurrentDirection);
+            pacman.UpdatePacmanDisplay(pacmanUp, pacmanDown, pacmanLeft, pacmanRight, pacmanChomp,isChomping, gameMaze, pacman, pacman.CurrentDirection);
             gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, empty);
             foreach (var ghostSprite in ghosts)
             {

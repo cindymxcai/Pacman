@@ -1,4 +1,6 @@
 using Pacman.Enums;
+using Pacman.Interfaces;
+using Pacman.TileTypes;
 
 namespace Pacman.Sprites
 {
@@ -29,5 +31,35 @@ namespace Pacman.Sprites
         {
             CurrentDirection = newDirection;
         }
+
+        public void UpdatePacmanDisplay(ITileType pacmanUp, ITileType pacmanDown, ITileType pacmanLeft, ITileType pacmanRight,
+            ITileType pacmanChomp, in bool isChomping, IMaze gameMaze, ISprite pacman, Direction pacmanCurrentDirection)
+        {
+            if (!isChomping)
+            {
+                switch (pacmanCurrentDirection)
+                {
+                    case Direction.Up:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanUp;
+                        break;
+                    case Direction.Down:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanDown;
+                        break;
+                    case Direction.Left:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanLeft;
+                        break;
+                    case Direction.Right:
+                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanRight;
+                        break;
+                    default:
+                        gameMaze.MazeArray[pacman.X, pacman.Y] = gameMaze.MazeArray[pacman.X, pacman.Y];
+                        break;
+                }
+            }
+            else
+            {
+                gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanChomp;
+            }        }
+        
     }
 }
