@@ -25,13 +25,24 @@ namespace PacmanTests
             var json = File.ReadAllText(jsonFileName);
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
+            var mazeData = fileReader.ReadFile(levels.LevelSettings[0]);
             var maze = new Maze(mazeData);
             var tileFactory = new TileFactory();
 
-            var level = new Level(new GhostTile(), new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile(), new WallTile(), new EmptyTile(), new PelletTile(), maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
+            var wallTile = new WallTile();
+            var emptyTile = new EmptyTile();
+            var pelletTile = new PelletTile();
+            var pacmanChompTile = new PacmanChompTile();
+            var pacmanUpTile = new PacmanUpTile();
+            var pacmanDownTile = new PacmanDownTile();
+            var pacmanLeftTile = new PacmanLeftTile();
+            var pacmanRightTile = new PacmanRightTile();
+            var ghostTile = new GhostTile();
+            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());            maze.MazeArray[1, 2].TileType = new PelletTile();
+            
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( new PelletTile(), level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition( new WallTile(), level.Pacman, maze, level.GameLogicValidator);
            
             Assert.Equal(newX, level.Pacman.X);
             Assert.Equal(newY, level.Pacman.Y);
@@ -50,8 +61,17 @@ namespace PacmanTests
             var maze = new Maze(mazeData);
             var tileFactory = new TileFactory();
 
-            var level = new Level(new GhostTile(), new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile(), new WallTile(), new EmptyTile(), new PelletTile(), maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
-
+            var wallTile = new WallTile();
+            var emptyTile = new EmptyTile();
+            var pelletTile = new PelletTile();
+            var pacmanChompTile = new PacmanChompTile();
+            var pacmanUpTile = new PacmanUpTile();
+            var pacmanDownTile = new PacmanDownTile();
+            var pacmanLeftTile = new PacmanLeftTile();
+            var pacmanRightTile = new PacmanRightTile();
+            var ghostTile = new GhostTile();
+            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             maze.MazeArray[1, 2].TileType = new WallTile();
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( maze.MazeArray[1,2].TileType, level.Pacman, maze, level.GameLogicValidator);
@@ -73,7 +93,7 @@ namespace PacmanTests
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
             var pacman = new Sprite(1,2, new PacmanBehaviour());
-var gameLogicValidator = new GameLogicValidator();
+            var gameLogicValidator = new GameLogicValidator();
             maze.MazeArray[1, 2].TileType = new WallTile();
             Assert.True(gameLogicValidator.HasCollidedWithWall(maze.MazeArray[1,2].TileType, (pacman.X, pacman.Y), maze));
         }

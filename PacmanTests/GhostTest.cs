@@ -60,7 +60,18 @@ namespace PacmanTests
             var tileFactory = new TileFactory();
             var display = new Display(tileFactory);
             var gameEngine = new GameEngine();
-            var level = new Level(new GhostTile(), new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile(), new WallTile(), new EmptyTile(), new PelletTile(), maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
+            var wallTile = new WallTile();
+            var emptyTile = new EmptyTile();
+            var pelletTile = new PelletTile();
+            var pacmanChompTile = new PacmanChompTile();
+            var pacmanUpTile = new PacmanUpTile();
+            var pacmanDownTile = new PacmanDownTile();
+            var pacmanLeftTile = new PacmanLeftTile();
+            var pacmanRightTile = new PacmanRightTile();
+            var ghostTile = new GhostTile();
+            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+
+            var level = new Level(tileTypeFactory, maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour())
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
 
             var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], maze);

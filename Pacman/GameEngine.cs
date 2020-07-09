@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Pacman.Enums;
+using Pacman.Factories;
 using Pacman.Interfaces;
 using Pacman.Sprites;
 using Pacman.TileTypes;
@@ -9,19 +10,19 @@ namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
-        public void UpdateMazeTileDisplays(ITileType ghost, ITileType pacmanUp, ITileType pacmanDown, ITileType pacmanLeft, ITileType pacmanRight, ITileType pacmanChomp,ITileType empty, ITileType pellet, bool isChomping, IMaze gameMaze, ISprite pacman,
+        public void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory,bool isChomping, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
-            pacman.UpdatePacmanDisplay(pacmanUp, pacmanDown, pacmanLeft, pacmanRight, pacmanChomp,isChomping, gameMaze, pacman, pacman.CurrentDirection);
-            gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, empty);
+            pacman.UpdatePacmanDisplay(tileTypeFactory,isChomping, gameMaze, pacman, pacman.CurrentDirection);
+            gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, tileTypeFactory.Empty);
             foreach (var ghostSprite in ghosts)
             {
                 var prevTileType = gameMaze.MazeArray[ghostSprite.PrevX, ghostSprite.PrevY].HasBeenEaten
-                    ? empty
-                    : pellet;
+                    ? tileTypeFactory.Empty
+                    : tileTypeFactory.Pellet;
                 
                 gameMaze.UpdateMazeArray(ghostSprite.PrevX, ghostSprite.PrevY, prevTileType);
-                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, ghost); 
+                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, tileTypeFactory.Ghost); 
             }
         }
 
@@ -46,36 +47,6 @@ namespace Pacman
                 Direction.Right => (sprite.X, sprite.Y + 1),
                 _ => throw new ArgumentOutOfRangeException()
             };
-        }
-
-        //TODO: SHOULD NOT BE HERE
-        private static void UpdatePacmanDisplay(ITileType pacmanUp, ITileType pacmanDown, ITileType pacmanLeft, ITileType pacmanRight, ITileType pacmanChomp,bool isChomping, IMaze gameMaze, ISprite pacman, Direction direction)
-        {
-            if (!isChomping)
-            {
-                switch (direction)
-                {
-                    case Direction.Up:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanUp;
-                        break;
-                    case Direction.Down:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanDown;
-                        break;
-                    case Direction.Left:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanLeft;
-                        break;
-                    case Direction.Right:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanRight;
-                        break;
-                    default:
-                        gameMaze.MazeArray[pacman.X, pacman.Y] = gameMaze.MazeArray[pacman.X, pacman.Y];
-                        break;
-                }
-            }
-            else
-            {
-                gameMaze.MazeArray[pacman.X, pacman.Y].TileType = pacmanChomp;
-            }
         }
     }
 }
