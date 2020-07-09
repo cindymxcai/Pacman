@@ -31,7 +31,7 @@ namespace Pacman
                 foreach (var tileType in lineData.Select(Parser.GetTileType))
                 {
                     MazeArray[x, y] = new Tile(tileType);
-                    if (tileType == new PelletTile())
+                    if (tileType.Display == new PelletTile().Display)
                     {
                         Pellets++;
                     }

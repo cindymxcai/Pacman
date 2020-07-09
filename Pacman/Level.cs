@@ -64,7 +64,7 @@ namespace Pacman
                 while (!_playerInput.HasNewInput())
                 {
                     var remainingPellets =
-                        _gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType == _pellet);
+                        _gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType.Display == _pellet.Display);
                     
                     LevelScore = Score.GetTotal(_gameMaze.Pellets, remainingPellets);
                     
