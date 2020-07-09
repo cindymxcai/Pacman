@@ -2,9 +2,10 @@ using System;
 
 namespace Pacman.TileTypes
 {
-    public class PacmanRightTile : ITileType
+    public class PacmanTile : ITileType
     {
-        public string Display { get; set; } = " \u15E7 ";
+        public string Display { get; set; } = " \u25EF ";
+
         public ConsoleColor TileColour { get; } = ConsoleColor.Yellow;
     }
 }

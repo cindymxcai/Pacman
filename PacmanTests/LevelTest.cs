@@ -11,6 +11,21 @@ namespace PacmanTests
 {
     public class GameTest
     {
+        
+        private ITileTypeFactory SetUpLevel()
+        {
+            var wallTile = new WallTile();
+            var emptyTile = new EmptyTile();
+            var pelletTile = new PelletTile();
+            var pacmanChompTile = new PacmanChompTile();
+            var pacmanUpTile = new PacmanUpTile();
+            var pacmanDownTile = new PacmanDownTile();
+            var pacmanLeftTile = new PacmanLeftTile();
+            var pacmanRightTile = new PacmanRightTile();
+            var ghostTile = new GhostTile();
+            return new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+        }
+        
         private Maze MazeSetUp()
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
@@ -26,16 +41,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileFactory = new TileFactory();
-            var wallTile = new WallTile();
-            var emptyTile = new EmptyTile();
-            var pelletTile = new PelletTile();
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
-            var ghostTile = new GhostTile();
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var tileTypeFactory = SetUpLevel();
             var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.Equal(0, level.LevelScore);
         }
@@ -46,17 +52,8 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileFactory = new TileFactory();
-            var wallTile = new WallTile();
-            var emptyTile = new EmptyTile();
-            var pelletTile = new PelletTile();
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
-            var ghostTile = new GhostTile();
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
 
+            var tileTypeFactory = SetUpLevel();
             var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( new PelletTile(),  level.Pacman, maze, level.GameLogicValidator);
@@ -72,16 +69,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileFactory = new TileFactory();
-            var wallTile = new WallTile();
-            var emptyTile = new EmptyTile();
-            var pelletTile = new PelletTile();
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
-            var ghostTile = new GhostTile();
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var tileTypeFactory = SetUpLevel();
             var level = new Level( tileTypeFactory, maze, new Display(tileFactory), new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
                 new PacmanBehaviour(), new RandomGhostBehaviour()) {Pacman = {X = 3, Y = 3}};
             level.Ghosts[0].X = 3;
@@ -94,16 +82,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileFactory = new TileFactory();
-            var wallTile = new WallTile();
-            var emptyTile = new EmptyTile();
-            var pelletTile = new PelletTile();
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
-            var ghostTile = new GhostTile();
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var tileTypeFactory = SetUpLevel(); 
             var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.True(level.GameLogicValidator.HasEatenAllPellets(0));
             Assert.False(level.GameLogicValidator.HasEatenAllPellets(2));
@@ -114,17 +93,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileFactory = new TileFactory();
-
-            var wallTile = new WallTile();
-            var emptyTile = new EmptyTile();
-            var pelletTile = new PelletTile();
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
-            var ghostTile = new GhostTile();
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var tileTypeFactory = SetUpLevel();
             var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour());
             Assert.False(level.HasWon);
         }
@@ -135,16 +104,7 @@ namespace PacmanTests
             var maze = MazeSetUp();
             var tileFactory = new TileFactory();
 
-            var wallTile = new WallTile();
-            var emptyTile = new EmptyTile();
-            var pelletTile = new PelletTile();
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
-            var ghostTile = new GhostTile();
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var tileTypeFactory = SetUpLevel();
             var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour()){LivesLeft = 3};
             level.HandleDeath();
             Assert.Equal(2, level.LivesLeft);

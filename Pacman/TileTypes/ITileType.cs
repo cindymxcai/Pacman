@@ -4,8 +4,7 @@ namespace Pacman.TileTypes
 {
     public interface ITileType
     {
-        string Display { get; }
-        public ConsoleColor TileColour { get; }
-        
+        string Display { get; set; }
+        ConsoleColor TileColour { get; }
     }
 }

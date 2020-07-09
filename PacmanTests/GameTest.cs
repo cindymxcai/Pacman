@@ -2,9 +2,6 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using Pacman;
-using Pacman.Enums;
-using Pacman.Factories;
-using Pacman.Sprites;
 using Pacman.TileTypes;
 using Xunit;
 

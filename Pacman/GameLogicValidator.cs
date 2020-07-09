@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Pacman.Enums;
 using Pacman.Interfaces;
 using Pacman.Sprites;
 using Pacman.TileTypes;
