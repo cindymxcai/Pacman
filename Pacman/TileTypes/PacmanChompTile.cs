@@ -7,4 +7,4 @@ namespace Pacman.TileTypes
         public string Display { get; set; } = " \u25EF ";
         public ConsoleColor TileColour { get; } = ConsoleColor.Yellow;
     }
-}
+}  

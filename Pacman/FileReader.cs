@@ -8,7 +8,6 @@ namespace Pacman
         public string[] ReadFile(string fileName)
         {
            return File.ReadAllLines(fileName);
-        
         }
 
         public string ReadAll(string fileName)

@@ -14,6 +14,7 @@ namespace Pacman.Factories
         public ITileType Right { get; }
         public ITileType Ghost { get; }
         
+        
     }
 
     public class TileTypeFactory : ITileTypeFactory

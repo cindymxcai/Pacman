@@ -5,7 +5,6 @@ using Pacman.Enums;
 using Pacman.Factories;
 using Pacman.Interfaces;
 using Pacman.Sprites;
-using Pacman.TileTypes;
 
 namespace Pacman
 {

@@ -1,4 +1,3 @@
-using Pacman.Enums;
 using Pacman.TileTypes;
 
 namespace Pacman.Interfaces

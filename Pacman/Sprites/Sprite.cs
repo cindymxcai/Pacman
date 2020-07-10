@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Pacman.Enums;
 using Pacman.Factories;
 using Pacman.Interfaces;
@@ -14,6 +16,14 @@ namespace Pacman.Sprites
         public Direction CurrentDirection { get; set; }
         public ISpriteBehaviour Behaviour { get; }
         
+        private readonly IDictionary<Direction, ITileType > _directionMap = new Dictionary<Direction, ITileType>() //TODO HOW TO AVOID NEWING UP?
+        {
+            {Direction.Up,  new PacmanUpTile()}, 
+            {Direction.Down, new PacmanDownTile()},
+            {Direction.Left, new PacmanLeftTile()},
+            {Direction.Right, new PacmanRightTile()}
+        };
+
         public Sprite(int x, int y, ISpriteBehaviour spriteBehaviour)
         {
             X = x;
@@ -35,32 +45,7 @@ namespace Pacman.Sprites
 
         public void UpdatePacmanDisplay(ITileTypeFactory tileTypeFactory, bool isChomping, IMaze gameMaze, ISprite pacman, Direction pacmanCurrentDirection)
         {
-            if (!isChomping)
-            {
-                switch (pacmanCurrentDirection)
-                {
-                    case Direction.Up:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = tileTypeFactory.Up;
-                        break;
-                    case Direction.Down:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = tileTypeFactory.Down;
-                        break;
-                    case Direction.Left:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = tileTypeFactory.Left;
-                        break;
-                    case Direction.Right:
-                        gameMaze.MazeArray[pacman.X, pacman.Y].TileType = tileTypeFactory.Right;
-                        break;
-                    default:
-                        gameMaze.MazeArray[pacman.X, pacman.Y] = gameMaze.MazeArray[pacman.X, pacman.Y];
-                        break;
-                }
-            }
-            else
-            {
-                gameMaze.MazeArray[pacman.X, pacman.Y].TileType = tileTypeFactory.Chomp;
-            }
+            gameMaze.MazeArray[pacman.X, pacman.Y].TileType = !isChomping ? _directionMap[pacmanCurrentDirection] : tileTypeFactory.Chomp;
         }
-        
     }
 }
