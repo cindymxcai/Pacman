@@ -13,7 +13,7 @@ namespace Pacman
         public void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory,bool isChomping, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
-            pacman.UpdatePacmanDisplay(tileTypeFactory,isChomping, gameMaze, pacman, pacman.CurrentDirection);
+            pacman.SpriteDisplay.UpdatePacmanDisplay(tileTypeFactory,isChomping, gameMaze, pacman, pacman.CurrentDirection);
             gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, tileTypeFactory.Empty);
             foreach (var ghostSprite in ghosts)
             {

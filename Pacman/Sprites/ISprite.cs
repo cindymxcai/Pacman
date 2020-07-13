@@ -14,8 +14,8 @@ namespace Pacman.Sprites
         void SetNewPosition(int x, int y);
         
         ISpriteBehaviour Behaviour { get; }
+        ISpriteDisplay SpriteDisplay { get; }
 
         void UpdateCurrentDirection(Direction newDirection);
-        void UpdatePacmanDisplay(ITileTypeFactory tileTypeFactory, bool isChomping, IMaze gameMaze, ISprite pacman, Direction pacmanCurrentDirection);
     }
 }

@@ -22,7 +22,7 @@ namespace Pacman
         public IGameEngine GameEngine { get; }
         public IGameLogicValidator GameLogicValidator { get; }
 
-        public Level(ITileTypeFactory tileTypeFactory,  IMaze maze,  IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
+        public Level(ITileTypeFactory tileTypeFactory,  IMaze maze,  IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour, ISpriteDisplay spriteDisplay)
         {
             GameLogicValidator = gameLogicValidator;
             GameEngine = gameEngine;
@@ -31,9 +31,9 @@ namespace Pacman
             _gameMaze = maze;
             _display = display;
             _playerInput = playerInput;
-            Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
-            Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour));
-            Ghosts.Add(spriteFactory.CreateSprite(9,10, ghostBehaviour));
+            Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour, spriteDisplay);
+            Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour, spriteDisplay));
+            Ghosts.Add(spriteFactory.CreateSprite(9,10, ghostBehaviour, spriteDisplay));
             HasWon = false;
             LivesLeft = 3;
         }
