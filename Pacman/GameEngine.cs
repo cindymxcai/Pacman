@@ -10,10 +10,11 @@ namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
-        public void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory,bool isChomping, IMaze gameMaze, ISprite pacman,
+        public void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {
-            pacman.SpriteDisplay.UpdatePacmanDisplay(tileTypeFactory,isChomping, gameMaze, pacman, pacman.CurrentDirection);
+            pacman.UpdateDisplay();
+            gameMaze.UpdateMazeArray(pacman.X, pacman.Y, pacman.SpriteDisplay );
             gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, tileTypeFactory.Empty);
             foreach (var ghostSprite in ghosts)
             {

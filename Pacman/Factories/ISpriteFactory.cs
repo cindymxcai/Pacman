@@ -4,14 +4,14 @@ namespace Pacman.Factories
 {
     public interface ISpriteFactory
     {
-        ISprite CreateSprite(int x, int y, ISpriteBehaviour behaviour, ISpriteDisplay spriteDisplay);
+        ISprite CreateSprite(int x, int y, ISpriteBehaviour behaviour);
     }
 
     public class SpriteFactory : ISpriteFactory
     {
-        public ISprite CreateSprite(int x, int y, ISpriteBehaviour behaviour, ISpriteDisplay spriteDisplay)
+        public ISprite CreateSprite(int x, int y, ISpriteBehaviour behaviour)
         {
-            return new Sprite(x, y, behaviour, spriteDisplay );
+            return new Sprite(x, y, behaviour );
         }
     }
 }

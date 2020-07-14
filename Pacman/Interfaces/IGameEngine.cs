@@ -7,7 +7,7 @@ namespace Pacman.Interfaces
 {
     public interface IGameEngine
     {
-        void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory,bool isChomping, IMaze gameMaze, ISprite pacman,
+        void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts);
 
         void UpdateSpritePosition(ITileType tileType, ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator);

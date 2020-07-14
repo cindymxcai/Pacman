@@ -22,7 +22,7 @@ namespace Pacman
         public IGameEngine GameEngine { get; }
         public IGameLogicValidator GameLogicValidator { get; }
 
-        public Level(ITileTypeFactory tileTypeFactory,  IMaze maze,  IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour, ISpriteDisplay spriteDisplay)
+        public Level(ITileTypeFactory tileTypeFactory,  IMaze maze,  IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour)
         {
             GameLogicValidator = gameLogicValidator;
             GameEngine = gameEngine;
@@ -31,9 +31,9 @@ namespace Pacman
             _gameMaze = maze;
             _display = display;
             _playerInput = playerInput;
-            Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour, spriteDisplay);
-            Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour, spriteDisplay));
-            Ghosts.Add(spriteFactory.CreateSprite(9,10, ghostBehaviour, spriteDisplay));
+            Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
+            Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour));
+            Ghosts.Add(spriteFactory.CreateSprite(9,10, ghostBehaviour));
             HasWon = false;
             LivesLeft = 3;
         }
@@ -43,7 +43,6 @@ namespace Pacman
             while (!HasWon)
             {
                 var newDirection = _playerInput.TakeInput(Pacman.CurrentDirection);
-                var isChomping = false;
 
                 while (!_playerInput.HasNewInput())
                 {
@@ -53,7 +52,7 @@ namespace Pacman
                     LevelScore = Score.GetTotal(_gameMaze.Pellets, remainingPellets);
                     
                     UpdateSpritePositions(newDirection);
-                    GameEngine.UpdateMazeTileDisplays(_tileTypeFactory,isChomping, _gameMaze, Pacman, Ghosts);
+                    GameEngine.UpdateMazeTileDisplays(_tileTypeFactory,_gameMaze, Pacman, Ghosts);
                     
                     if (GameLogicValidator.HasCollidedWithGhost(Pacman, Ghosts)) 
                         HandleDeath();
@@ -68,7 +67,7 @@ namespace Pacman
                     _display.OutputMaze(_gameMaze); 
                     _display.GameStats(LevelScore, LivesLeft);
 
-                    isChomping = !isChomping;
+                    Pacman.Behaviour.IsChomping = !Pacman.Behaviour.IsChomping;
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.2));
                 }
                 

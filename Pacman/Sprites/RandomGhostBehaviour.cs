@@ -1,12 +1,14 @@
 using System;
 using Pacman.Enums;
 using Pacman.Interfaces;
+using Pacman.TileTypes;
 
 namespace Pacman.Sprites
 {
     public class RandomGhostBehaviour : ISpriteBehaviour
     {
         public IRng Rng;
+        public bool IsChomping { get; set; }
 
         public RandomGhostBehaviour()
         {
@@ -24,6 +26,11 @@ namespace Pacman.Sprites
                 _ => throw new Exception()
             };
             return direction;
+        }
+
+        public ITileType SetTileType(Direction direction)
+        {
+            return new GhostTile();
         }
     }
 }

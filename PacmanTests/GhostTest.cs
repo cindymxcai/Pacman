@@ -33,7 +33,7 @@ namespace PacmanTests
             var mockRandom = new Mock<ISpriteBehaviour>();
             mockRandom.Setup(m => m.ChooseDirection()).Returns(Direction.Right);
 
-            var ghost = new Sprite(0,0, mockRandom.Object, new SpriteDisplay());
+            var ghost = new Sprite(0,0, mockRandom.Object);
             Assert.Equal(Direction.Right,ghost.CurrentDirection);
         }
 
@@ -75,8 +75,8 @@ namespace PacmanTests
             var gameEngine = new GameEngine();
             var tileTypeFactory = SetUpLevel();
 
-            var level = new Level(tileTypeFactory, maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(), new RandomGhostBehaviour(), new SpriteDisplay())
-                {Ghosts = { new Sprite(4, 5, mockRandom.Object, new SpriteDisplay())}};
+            var level = new Level(tileTypeFactory, maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile()), new RandomGhostBehaviour())
+                {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
 
             var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], maze);
             level.Ghosts[2].SetNewPosition(x, y);

@@ -1,23 +1,25 @@
 using Pacman.Enums;
+using Pacman.Factories;
+using Pacman.TileTypes;
 
 namespace Pacman.Sprites
 {
     public class Sprite : ISprite
     {
-        public ISpriteDisplay SpriteDisplay { get; }
+        public ITileType SpriteDisplay { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int PrevX { get; private set; }
         public int PrevY { get; private set; }
         public Direction CurrentDirection { get; set; }
         public ISpriteBehaviour Behaviour { get; }
-        public Sprite(int x, int y, ISpriteBehaviour spriteBehaviour, ISpriteDisplay spriteDisplay)
+        public Sprite(int x, int y, ISpriteBehaviour spriteBehaviour)
         {
-            SpriteDisplay = spriteDisplay;
             X = x;
             Y = y;
             Behaviour = spriteBehaviour;
             CurrentDirection = Behaviour.ChooseDirection();
+            SpriteDisplay = Behaviour.SetTileType(CurrentDirection);
         }
 
         public void SetNewPosition(int x, int y)
@@ -31,6 +33,11 @@ namespace Pacman.Sprites
         public void UpdateCurrentDirection(Direction newDirection)
         {
             CurrentDirection = newDirection;
+        }
+
+        public void UpdateDisplay()
+        {
+            SpriteDisplay = Behaviour.SetTileType(CurrentDirection);
         }
     }
 }

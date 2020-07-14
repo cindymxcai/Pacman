@@ -18,9 +18,8 @@ namespace Pacman.Factories
         private readonly IPlayerInput _playerInput;
         private readonly ISpriteBehaviour _pacmanBehaviour;
         private readonly ISpriteBehaviour _ghostBehaviour;
-        private readonly ISpriteDisplay _spriteDisplay;
 
-        public LevelFactory(ITileTypeFactory tileTypeFactory, IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour, ISpriteDisplay spriteDisplay )
+        public LevelFactory(ITileTypeFactory tileTypeFactory, IDisplay display, ISpriteFactory spriteFactory, IGameLogicValidator gameLogicValidator, IGameEngine gameEngine, IPlayerInput playerInput, ISpriteBehaviour pacmanBehaviour, ISpriteBehaviour ghostBehaviour )
         {
             _tileTypeFactory = tileTypeFactory;
             _display = display;
@@ -30,11 +29,10 @@ namespace Pacman.Factories
             _playerInput = playerInput;
             _pacmanBehaviour = pacmanBehaviour;
             _ghostBehaviour = ghostBehaviour;
-            _spriteDisplay = spriteDisplay;
         }
         public ILevel CreateLevel(IMaze maze)
         {
-            return new Level(_tileTypeFactory, maze, _display, _spriteFactory, _gameLogicValidator, _gameEngine, _playerInput, _pacmanBehaviour, _ghostBehaviour, _spriteDisplay);
+            return new Level(_tileTypeFactory, maze, _display, _spriteFactory, _gameLogicValidator, _gameEngine, _playerInput, _pacmanBehaviour, _ghostBehaviour);
         }
     }
 }
