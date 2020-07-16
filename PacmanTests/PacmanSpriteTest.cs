@@ -19,13 +19,8 @@ namespace PacmanTests
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
             var ghostTile = new GhostTile();
-            return new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            return new TileTypeFactory(wallTile, emptyTile, pelletTile, ghostTile);
         }
         
         [Theory]
@@ -44,7 +39,7 @@ namespace PacmanTests
             var tileFactory = new TileFactory();
 
             var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile()), new RandomGhostBehaviour());            
+            var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour());            
             maze.MazeArray[1, 2].TileType = new PelletTile();
             
             level.GameEngine.GetNewPosition(level.Pacman, maze);
@@ -68,7 +63,7 @@ namespace PacmanTests
             var tileFactory = new TileFactory();
 
             var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile()), new RandomGhostBehaviour());
+            var level = new Level(tileTypeFactory, maze, new Display(tileFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour());
             maze.MazeArray[1, 2].TileType = new WallTile();
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( maze.MazeArray[1,2].TileType, level.Pacman, maze, level.GameLogicValidator);
@@ -89,7 +84,7 @@ namespace PacmanTests
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
-            var pacman = new Sprite(1,2, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile()));
+            var pacman = new Sprite(1,2, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()));
             var gameLogicValidator = new GameLogicValidator();
             maze.MazeArray[1, 2].TileType = new WallTile();
             Assert.True(gameLogicValidator.HasCollidedWithWall(maze.MazeArray[1,2].TileType, (pacman.X, pacman.Y), maze));
@@ -98,7 +93,7 @@ namespace PacmanTests
         [Fact]
         public void SetNewPositionShouldUpdateOldPositionToo()
         {
-            var pacman = new Sprite(3,0, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile()));
+            var pacman = new Sprite(3,0, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()));
             pacman.SetNewPosition(1,2);
             Assert.Equal(1,pacman.X);
             Assert.Equal(2,pacman.Y);
@@ -109,7 +104,7 @@ namespace PacmanTests
         [Fact]
         public void UpdateFacingDirectionChangesPacmansCurrentPosition()
         {
-            var pacman = new Sprite(0,0, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile()));
+            var pacman = new Sprite(0,0, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()));
             pacman.UpdateCurrentDirection(Direction.Up);
             Assert.Equal(Direction.Up, pacman.CurrentDirection);
         }

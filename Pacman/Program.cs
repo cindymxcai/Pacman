@@ -18,7 +18,7 @@
             var pacmanRightTile = new PacmanRightTile();
             var ghostTile = new GhostTile();
             
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, pacmanChompTile, pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, ghostTile);
+            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, ghostTile);
             var tileDisplay = new TileFactory();
             var display = new Display(tileDisplay);
             var fileReader = new FileReader();
@@ -27,7 +27,7 @@
             var playerInput = new PlayerInput();
             var mazeFactory = new MazeFactory(fileReader);
             var spriteFactory = new SpriteFactory();
-            var pacmanBehaviour  = new PacmanBehaviour(pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile);
+            var pacmanBehaviour  = new PacmanBehaviour(pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, pacmanChompTile);
             var ghostBehaviour = new RandomGhostBehaviour();
             var gameSettingLoader = new GameSettingLoader(fileReader);
             var levelFactory = new LevelFactory(tileTypeFactory, display, spriteFactory, gameLogicValidator, gameEngine, playerInput, pacmanBehaviour, ghostBehaviour);

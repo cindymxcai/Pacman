@@ -10,16 +10,18 @@ namespace Pacman.Sprites
         private readonly PacmanDownTile _pacmanDownTile;
         private readonly PacmanLeftTile _pacmanLeftTile;
         private readonly PacmanRightTile _pacmanRightTile;
+        private readonly PacmanChompTile _pacmanChompTile;
 
-        public PacmanBehaviour(PacmanUpTile pacmanUpTile, PacmanDownTile pacmanDownTile, PacmanLeftTile pacmanLeftTile, PacmanRightTile pacmanRightTile)
+        public PacmanBehaviour(PacmanUpTile pacmanUpTile, PacmanDownTile pacmanDownTile, PacmanLeftTile pacmanLeftTile, PacmanRightTile pacmanRightTile, PacmanChompTile pacmanChompTile)
         {
             _pacmanUpTile = pacmanUpTile;
             _pacmanDownTile = pacmanDownTile;
             _pacmanLeftTile = pacmanLeftTile;
             _pacmanRightTile = pacmanRightTile;
+            _pacmanChompTile = pacmanChompTile;
         }
 
-        public bool IsChomping { get; set; }
+        public bool IsChomping { get; set; } //todo should this be here? 
 
         public Direction ChooseDirection()
         {
@@ -30,7 +32,7 @@ namespace Pacman.Sprites
         {
             if (IsChomping)
             {
-                return new PacmanChompTile();
+                return _pacmanChompTile;
             }
 
             return direction switch
