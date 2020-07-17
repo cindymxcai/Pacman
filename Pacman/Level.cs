@@ -26,7 +26,6 @@ namespace Pacman
         {
             GameLogicValidator = gameLogicValidator;
             GameEngine = gameEngine;
-
             _tileTypeFactory = tileTypeFactory;
             _gameMaze = maze;
             _display = display;
@@ -67,7 +66,6 @@ namespace Pacman
                     _display.OutputMaze(_gameMaze); 
                     _display.GameStats(LevelScore, LivesLeft);
 
-                    Pacman.Behaviour.IsChomping = !Pacman.Behaviour.IsChomping;
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.2));
                 }
                 

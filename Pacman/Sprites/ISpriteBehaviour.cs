@@ -8,6 +8,5 @@ namespace Pacman.Sprites
         Direction ChooseDirection();
 
         ITileType SetTileType(Direction direction);
-        bool IsChomping { get; set; }
     }
 }

@@ -8,7 +8,6 @@ namespace Pacman.Sprites
     public class RandomGhostBehaviour : ISpriteBehaviour
     {
         public IRng Rng;
-        public bool IsChomping { get; set; }
 
         public RandomGhostBehaviour()
         {
@@ -30,7 +29,7 @@ namespace Pacman.Sprites
 
         public ITileType SetTileType(Direction direction)
         {
-            return new GhostTile();
+            return new GhostTile(); //TODO pass in ghost
         }
     }
 }

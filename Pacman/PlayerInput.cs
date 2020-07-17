@@ -15,7 +15,6 @@ namespace Pacman
                     ConsoleKey.DownArrow => Direction.Down,
                 _ => currentDirection
                 };
-            
         }
 
         public bool HasPressedQuit()

@@ -1,4 +1,3 @@
-using System;
 using Pacman.Enums;
 using Pacman.TileTypes;
 
@@ -21,15 +20,18 @@ namespace Pacman.Sprites
             _pacmanChompTile = pacmanChompTile;
         }
 
-        public bool IsChomping { get; set; } //todo should this be here? 
+        public bool IsChomping { get; set; }
 
         public Direction ChooseDirection()
         {
-            return Direction.Right;
+            return Direction.Right; //TODO 
         }
 
         public ITileType SetTileType(Direction direction)
         {
+
+            IsChomping = !IsChomping;
+            
             if (IsChomping)
             {
                 return _pacmanChompTile;
@@ -42,7 +44,6 @@ namespace Pacman.Sprites
                 Direction.Left => _pacmanLeftTile,
                 Direction.Right => _pacmanRightTile
             };
-
         }
 
     }

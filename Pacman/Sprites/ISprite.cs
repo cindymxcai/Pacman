@@ -16,7 +16,6 @@ namespace Pacman.Sprites
         
         ISpriteBehaviour Behaviour { get; }
         ITileType SpriteDisplay { get; }
-
         void UpdateCurrentDirection(Direction newDirection);
         void UpdateDisplay();
     }

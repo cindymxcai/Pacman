@@ -6,6 +6,9 @@ using Pacman.TileTypes;
 
 namespace Pacman
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class GameLogicValidator : IGameLogicValidator
     {
         public bool HasCollidedWithWall(ITileType wall,(int x, int y) newPosition, IMaze gameMaze)
