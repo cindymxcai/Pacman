@@ -89,9 +89,10 @@ namespace Pacman
         { 
             Pacman.UpdateCurrentDirection(newDirection);
             GameEngine.UpdateSpritePosition(_tileTypeFactory.Wall, Pacman, _gameMaze, GameLogicValidator);
+            
             foreach (var ghostSprite in Ghosts)
             {
-                ghostSprite.CurrentDirection = ghostSprite.Behaviour.ChooseDirection();
+                ghostSprite.UpdateCurrentDirection(ghostSprite.Behaviour.ChooseDirection());
                 GameEngine.UpdateSpritePosition(_tileTypeFactory.Wall, ghostSprite, _gameMaze, GameLogicValidator);
             }
         }

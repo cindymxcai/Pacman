@@ -1,5 +1,6 @@
 using System;
 using Pacman.Enums;
+using Pacman.Factories;
 using Pacman.Interfaces;
 using Pacman.TileTypes;
 
@@ -7,10 +8,12 @@ namespace Pacman.Sprites
 {
     public class RandomGhostBehaviour : ISpriteBehaviour
     {
+        private readonly ITileType _ghostTile;
         public IRng Rng;
 
-        public RandomGhostBehaviour()
+        public RandomGhostBehaviour(ITileType ghostTile)
         {
+            _ghostTile = ghostTile;
             Rng = new Rng();
         }
 
@@ -29,7 +32,7 @@ namespace Pacman.Sprites
 
         public ITileType SetTileType(Direction direction)
         {
-            return new GhostTile(); //TODO pass in ghost
+            return _ghostTile;
         }
     }
 }

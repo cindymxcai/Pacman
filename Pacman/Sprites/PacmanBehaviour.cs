@@ -20,11 +20,11 @@ namespace Pacman.Sprites
             _pacmanChompTile = pacmanChompTile;
         }
 
-        public bool IsChomping { get; set; }
+        private bool IsChomping { get; set; }
 
         public Direction ChooseDirection()
         {
-            return Direction.Right; //TODO 
+            return Direction.Right; 
         }
 
         public ITileType SetTileType(Direction direction)

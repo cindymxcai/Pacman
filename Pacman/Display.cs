@@ -6,8 +6,8 @@ namespace Pacman
 {
     public class Display : IDisplay
     {
-        private readonly ITileFactory _tileFactory;
-        public Display(ITileFactory tileFactory)
+        private readonly ITileTypeFactory _tileFactory;
+        public Display(ITileTypeFactory tileFactory)
         {
             _tileFactory = tileFactory;
         }

@@ -43,7 +43,7 @@ namespace PacmanTests
             var mockRandom = new Mock<IRng>();
             mockRandom.Setup(m => m.Next(0,4)).Returns(randomNumber);
 
-            var randomGhostBehaviour = new RandomGhostBehaviour{Rng = mockRandom.Object};
+            var randomGhostBehaviour = new RandomGhostBehaviour(new GhostTile()){Rng = mockRandom.Object};
             Assert.Equal(expectedDirection,randomGhostBehaviour.ChooseDirection());
         }
         
@@ -65,12 +65,11 @@ namespace PacmanTests
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData);
             var spriteFactory = new SpriteFactory();
-            var tileFactory = new TileFactory();
-            var display = new Display(tileFactory);
             var gameEngine = new GameEngine();
             var tileTypeFactory = SetUpLevel();
+            var display = new Display(tileTypeFactory);
 
-            var level = new Level(tileTypeFactory, maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour())
+            var level = new Level(tileTypeFactory, maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()))
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
 
             var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], maze);

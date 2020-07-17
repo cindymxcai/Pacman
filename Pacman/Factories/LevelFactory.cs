@@ -3,11 +3,6 @@ using Pacman.Sprites;
 
 namespace Pacman.Factories
 {
-    public interface ILevelFactory
-    {
-        ILevel CreateLevel(IMaze maze);
-    }
-
     public class LevelFactory : ILevelFactory
     {
         private readonly ITileTypeFactory _tileTypeFactory;
