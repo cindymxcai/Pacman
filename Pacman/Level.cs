@@ -8,6 +8,11 @@ using Pacman.Sprites;
 
 namespace Pacman
 {
+    /// <summary>
+    /// The level object is executed a level higher by the <c>Game</c> object when a new level begins. Its main
+    /// function is to run the game tick continuously - taking in player control, updating the model and view in return
+    /// - until a certain check has been fulfilled in order to terminate the level loop
+    /// </summary>
     public class Level : ILevel
     {
         private readonly ITileTypeFactory _tileTypeFactory;
@@ -32,7 +37,7 @@ namespace Pacman
             _playerInput = playerInput;
             Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
             Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour));
-            Ghosts.Add(spriteFactory.CreateSprite(9,10, ghostBehaviour));
+            Ghosts.Add(spriteFactory.CreateSprite(9, 10, ghostBehaviour));
             HasWon = false;
             LivesLeft = 3;
         }
@@ -95,6 +100,7 @@ namespace Pacman
                 ghostSprite.UpdateCurrentDirection(ghostSprite.Behaviour.ChooseDirection());
                 GameEngine.UpdateSpritePosition(_tileTypeFactory.Wall, ghostSprite, _gameMaze, GameLogicValidator);
             }
+            
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Pacman
            return File.ReadAllLines(fileName);
         }
 
-        public string ReadAll(string fileName)
+        public string ReadAllData(string fileName)
         {
             return File.ReadAllText(fileName);
         }

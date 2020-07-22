@@ -10,6 +10,10 @@ namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
+        /// <summary>
+        /// This class performs "updates" within the game as the game ticks. Based on logic checks performed by
+        /// <c>GameLogicValidator</c>, this class will change the state of game objects
+        /// </summary>
         public void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {

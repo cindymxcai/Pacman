@@ -30,7 +30,7 @@ namespace Pacman.Sprites
             return direction;
         }
 
-        public ITileType SetTileType(Direction direction)
+        public ITileType GetTileType(Direction direction)
         {
             return _ghostTile;
         }

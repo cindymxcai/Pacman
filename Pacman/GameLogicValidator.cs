@@ -7,7 +7,7 @@ using Pacman.TileTypes;
 namespace Pacman
 {
     /// <summary>
-    /// 
+    /// This class performs logic checks required by the game to then execute actions based on the result of these logic checks
     /// </summary>
     public class GameLogicValidator : IGameLogicValidator
     {

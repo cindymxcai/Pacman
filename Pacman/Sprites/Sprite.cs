@@ -19,7 +19,7 @@ namespace Pacman.Sprites
             Y = y;
             Behaviour = spriteBehaviour;
             CurrentDirection = Behaviour.ChooseDirection();
-            SpriteDisplay = Behaviour.SetTileType(CurrentDirection);
+            SpriteDisplay = Behaviour.GetTileType(CurrentDirection);
         }
 
         public void SetNewPosition(int x, int y)
@@ -37,7 +37,7 @@ namespace Pacman.Sprites
 
         public void UpdateDisplay()
         {
-            SpriteDisplay = Behaviour.SetTileType(CurrentDirection);
+            SpriteDisplay = Behaviour.GetTileType(CurrentDirection);
         }
     }
 }

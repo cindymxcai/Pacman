@@ -27,7 +27,7 @@ namespace Pacman.Sprites
             return Direction.Right; 
         }
 
-        public ITileType SetTileType(Direction direction)
+        public ITileType GetTileType(Direction direction)
         {
 
             IsChomping = !IsChomping;

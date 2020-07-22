@@ -17,7 +17,7 @@ namespace Pacman
         public GameSettings GetLevelData()
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
-            var json = _fileReader.ReadAll(jsonFileName);
+            var json = _fileReader.ReadAllData(jsonFileName);
             return JsonConvert.DeserializeObject<GameSettings>(json);
         }
     }
