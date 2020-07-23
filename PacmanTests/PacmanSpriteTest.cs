@@ -22,31 +22,6 @@ namespace PacmanTests
             var ghostTile = new GhostTile();
             return new TileTypeFactory(wallTile, emptyTile, pelletTile, ghostTile);
         }
-        
-        [Theory]
-        [InlineData(Direction.Right, 1, 2 )]
-        public void ShouldContinueToMoveInCurrentDirection(Direction newDirection, int newX, int newY )
-        {
-            var mockInput = new Mock<IPlayerInput>();
-            mockInput.Setup(input => input.TakeInput(newDirection)).Returns(newDirection);
-            
-            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
-            var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
-            var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.LevelSettings[0]);
-            var maze = new Maze(mazeData);
-
-            var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(tileTypeFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));            
-            maze.MazeArray[1, 2].TileType = new PelletTile();
-            
-            level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( new WallTile(), level.Pacman, maze, level.GameLogicValidator);
-           
-            Assert.Equal(newX, level.Pacman.X);
-            Assert.Equal(newY, level.Pacman.Y);
-        }
 
         [Fact]
         public void ShouldNotMoveInCurrentDirectionIfNextPositionIsAWall()
@@ -69,24 +44,7 @@ namespace PacmanTests
             Assert.Equal(1, level.Pacman.X);
             Assert.Equal(1, level.Pacman.Y); 
         }
-
-
-        [Fact]
-        public void WallCollisionIsTrueIfPacmansNextTileIsAWall()
-        {
-            var mockInput = new Mock<IPlayerInput>();
-            mockInput.Setup(input => input.TakeInput(Direction.Right)).Returns(Direction.Right);
-            var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
-            var json = File.ReadAllText(jsonFileName);
-            var levels = JsonConvert.DeserializeObject<GameSettings>(json);
-            var fileReader = new FileReader();
-            var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
-            var maze = new Maze(mazeData);
-            var pacman = new Sprite(1,2, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()));
-            var gameLogicValidator = new GameLogicValidator();
-            maze.MazeArray[1, 2].TileType = new WallTile();
-            Assert.True(gameLogicValidator.HasCollidedWithWall(maze.MazeArray[1,2].TileType, (pacman.X, pacman.Y), maze));
-        }
+        
 
         [Fact]
         public void SetNewPositionShouldUpdateOldPositionToo()

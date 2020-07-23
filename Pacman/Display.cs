@@ -11,6 +11,7 @@ namespace Pacman
         {
             _tileFactory = tileFactory;
         }
+        
         public void OutputMaze(IMaze maze)
         {
             for (var i = 0; i < maze.Height; i++)

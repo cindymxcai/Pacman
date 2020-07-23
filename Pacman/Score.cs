@@ -2,9 +2,9 @@ namespace Pacman
 {
     public static class Score
     {
-        public static int GetTotal(int totalPellets, int remainingPellets)
+        public static int GetTotal(int remainingPellets)
         {
-            return (totalPellets - remainingPellets) * 10;
+            return remainingPellets * 10;
         }
     }
 }

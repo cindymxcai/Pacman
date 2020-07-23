@@ -50,24 +50,19 @@ namespace Pacman
 
                 while (!_playerInput.HasNewInput())
                 {
-                    var remainingPellets =
-                        _gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.TileType.Display == _tileTypeFactory.Pellet.Display);
-                    
-                    LevelScore = Score.GetTotal(_gameMaze.Pellets, remainingPellets);
+                    var pelletsEaten = _gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.HasBeenEaten);
+                    LevelScore = Score.GetTotal(pelletsEaten);
                     
                     UpdateSpritePositions(newDirection);
                     GameEngine.UpdateMazeTileDisplays(_tileTypeFactory,_gameMaze, Pacman, Ghosts);
                     
                     if (GameLogicValidator.HasCollidedWithGhost(Pacman, Ghosts)) 
                         HandleDeath();
-                    
                     if (LivesLeft == 0)
                         break;
-
-                    HasWon = GameLogicValidator.HasEatenAllPellets(remainingPellets);
+                    HasWon = GameLogicValidator.HasEatenAllPellets(_gameMaze.Pellets, pelletsEaten);
                     
                     Console.Clear();
-
                     _display.OutputMaze(_gameMaze); 
                     _display.GameStats(LevelScore, LivesLeft);
 
