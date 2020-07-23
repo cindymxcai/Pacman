@@ -24,9 +24,9 @@ namespace Pacman
                 ghost.PrevY == pacmanSprite.Y && ghost.X == pacmanSprite.PrevX && ghost.Y == pacmanSprite.PrevY);
         }
 
-        public bool HasEatenAllPellets(int totalPellets, int remainingPellets)
+        public bool HasEatenAllPellets(int totalPellets, int eatenPellets)
         {
-            return remainingPellets == totalPellets;
+            return eatenPellets == totalPellets;
         }
     }
 }

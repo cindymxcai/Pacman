@@ -9,14 +9,12 @@ namespace Pacman.Factories
         public ITileType Wall { get; }
         public ITileType Empty { get; }
         public ITileType Pellet { get; }
-        public ITileType Ghost { get; }
 
-        public TileTypeFactory(ITileType wall, ITileType empty, ITileType pellet, ITileType ghost)
+        public TileTypeFactory(ITileType wall, ITileType empty, ITileType pellet)
         {
             Wall = wall;
             Empty = empty;
             Pellet = pellet;
-            Ghost = ghost;
         }
         
         public void DisplayTile(ITile tile)

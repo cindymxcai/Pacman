@@ -6,24 +6,6 @@ namespace Pacman
 {
     public class Display : IDisplay
     {
-        private readonly ITileTypeFactory _tileFactory;
-        public Display(ITileTypeFactory tileFactory)
-        {
-            _tileFactory = tileFactory;
-        }
-        
-        public void OutputMaze(IMaze maze)
-        {
-            for (var i = 0; i < maze.Height; i++)
-            {
-                for (var j = 0; j < maze.Width; j++)
-                {
-                    _tileFactory.DisplayTile(maze.MazeArray[i,j]);
-                }
-                Console.WriteLine();
-            }
-        }
-
         public void GameStats(int score, int livesLeft)
         {
             Console.ForegroundColor = ConsoleColor.DarkMagenta;

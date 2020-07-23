@@ -8,6 +8,6 @@ namespace Pacman.Interfaces
     {
         bool HasCollidedWithWall(ITileType tileType, (int x, int y) newPosition, IMaze gameMaze);
         bool HasCollidedWithGhost(ISprite pacmanSprite, IEnumerable<ISprite> ghostSprites);
-        bool HasEatenAllPellets(int gameMazePellets, int remainingPellets);
+        bool HasEatenAllPellets(int gameMazePellets, int eatenPellets);
     }
 }

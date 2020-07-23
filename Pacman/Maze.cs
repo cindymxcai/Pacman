@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pacman.Enums;
+using Pacman.Factories;
 using Pacman.Interfaces;
 using Pacman.TileTypes;
 
@@ -13,9 +15,13 @@ namespace Pacman
         public int Width { get; private set; } 
         public int Pellets { get; private set; }
 
-        public Maze(IReadOnlyList<string> mazeData)
+        private readonly ITileTypeFactory _tileFactory;
+        
+        public Maze(IReadOnlyList<string> mazeData, ITileTypeFactory tileTypeFactory)
         {
            CreateMaze(mazeData);
+           _tileFactory = tileTypeFactory;
+
         }
 
         private void CreateMaze(IReadOnlyList<string> mazeData)
@@ -49,5 +55,18 @@ namespace Pacman
                 MazeArray[x, y].HasBeenEaten = true;
             }
         }
+        
+        public void OutputMaze()
+        {
+            for (var i = 0; i < Height; i++)
+            {
+                for (var j = 0; j < Width; j++)
+                {
+                    _tileFactory.DisplayTile(MazeArray[i,j]);
+                }
+                Console.WriteLine();
+            }
+        }
+
     }
 }

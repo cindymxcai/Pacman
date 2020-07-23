@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using Pacman;
+using Pacman.Factories;
 using Pacman.TileTypes;
 using Xunit;
 
@@ -9,6 +10,16 @@ namespace PacmanTests
 {
     public class MazeTest
     {
+        
+        private ITileTypeFactory SetUp()
+        {
+            var wallTile = new WallTile();
+            var emptyTile = new EmptyTile();
+            var pelletTile = new PelletTile();
+            var ghostTile = new GhostTile();
+            return new TileTypeFactory(wallTile, emptyTile, pelletTile);
+        }
+        
         [Theory]
         [InlineData(1, 11, 25)]
         [InlineData(2, 21, 19)]
@@ -19,7 +30,7 @@ namespace PacmanTests
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[level-1]);
-            var maze = new Maze(mazeData);
+            var maze = new Maze(mazeData, SetUp());
             Assert.Equal(height, maze.Height);
             Assert.Equal(width, maze.Width);
         }
@@ -32,7 +43,7 @@ namespace PacmanTests
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[0]);
-            var maze = new Maze(mazeData);
+            var maze = new Maze(mazeData, SetUp());
             Assert.Equal(11, maze.Height);
             Assert.Equal(25, maze.Width);
             Assert.Equal(new WallTile().Display, maze.MazeArray[0,2].TileType.Display);

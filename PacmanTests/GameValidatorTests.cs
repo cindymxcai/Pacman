@@ -14,13 +14,12 @@ namespace PacmanTests
 {
     public class GameValidatorTests
     {
-        private ITileTypeFactory SetUpLevel()
+        private ITileTypeFactory SetUp()
         {
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
-            var ghostTile = new GhostTile();
-            return new TileTypeFactory(wallTile, emptyTile, pelletTile,  ghostTile);
+            return new TileTypeFactory(wallTile, emptyTile, pelletTile);
         }
         
         private Maze MazeSetUp()
@@ -30,7 +29,7 @@ namespace PacmanTests
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
-            return new Maze(mazeData);
+            return new Maze(mazeData, SetUp());
         }
         
         [Fact]
@@ -43,7 +42,7 @@ namespace PacmanTests
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
-            var maze = new Maze(mazeData);
+            var maze = new Maze(mazeData, SetUp());
             var pacman = new Sprite(1,2, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()));
             var gameLogicValidator = new GameLogicValidator();
             maze.MazeArray[1, 2].TileType = new WallTile();
@@ -54,8 +53,8 @@ namespace PacmanTests
         public void GhostCollisionIsTrueIfGhostAndPacmanAreOnSameTile()
         {
             var maze = MazeSetUp();
-            var tileTypeFactory = SetUpLevel();
-            var level = new Level( tileTypeFactory, maze, new Display(tileTypeFactory), new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
+            var tileTypeFactory = SetUp();
+            var level = new Level( tileTypeFactory, maze, new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
                 new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile())) {Pacman = {X = 3, Y = 3}};
             level.Ghosts[0].X = 3;
             level.Ghosts[0].Y = 3;
@@ -66,10 +65,10 @@ namespace PacmanTests
         public void HasEatenAllPelletsIfRemainingPelletsEqualsZero()
         {
             var maze = MazeSetUp();
-            var tileTypeFactory = SetUpLevel(); 
-            var level = new Level(tileTypeFactory, maze, new Display(tileTypeFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
-            Assert.True(level.GameLogicValidator.HasEatenAllPellets(0));
-            Assert.False(level.GameLogicValidator.HasEatenAllPellets(2));
+            var tileTypeFactory = SetUp(); 
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
+            Assert.True(level.GameLogicValidator.HasEatenAllPellets(maze.Pellets, maze.Pellets));
+            Assert.False(level.GameLogicValidator.HasEatenAllPellets(maze.Pellets, 2));
         }
     }
 }

@@ -2,7 +2,6 @@ namespace Pacman.Interfaces
 {
     public interface IDisplay
     {
-        void OutputMaze(IMaze maze);
         void GameStats(int score, int livesLeft);
         void LostLife(int livesLeft); 
         void Welcome();

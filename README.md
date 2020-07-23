@@ -7,7 +7,7 @@ Build the docker image
 ````
 docker build --tag pacmandev -f Pacman/Dockerfile .
 ````
-and the run the game 
+and then run the game 
 ``````
 docker run -it pacmandev 
 ``````

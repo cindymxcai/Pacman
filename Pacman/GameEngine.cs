@@ -27,7 +27,7 @@ namespace Pacman
                     : tileTypeFactory.Pellet;
                 
                 gameMaze.UpdateMazeArray(ghostSprite.PrevX, ghostSprite.PrevY, prevTileType);
-                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, tileTypeFactory.Ghost); 
+                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, ghostSprite.SpriteDisplay); 
             }
         }
 

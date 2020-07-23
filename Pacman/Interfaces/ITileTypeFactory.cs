@@ -8,7 +8,6 @@ namespace Pacman.Factories
         public ITileType Wall { get; }
         public ITileType Empty { get; }
         public ITileType Pellet { get; }
-        public ITileType Ghost { get; }
         void DisplayTile(ITile mazeMaze);
     }
 }

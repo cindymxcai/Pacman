@@ -21,11 +21,11 @@
             var pacmanRightTile = new PacmanRightTile();
             var pacmanBehaviour  = new PacmanBehaviour(pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, pacmanChompTile);
             
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile, ghostTile);
-            var display = new Display(tileTypeFactory);
+            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile);
+            var display = new Display();
             
             var fileReader = new FileReader();
-            var mazeFactory = new MazeFactory(fileReader);
+            var mazeFactory = new MazeFactory(fileReader, tileTypeFactory);
             var gameSettingLoader = new GameSettingLoader(fileReader);
             
             var gameLogicValidator = new GameLogicValidator();

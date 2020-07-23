@@ -14,13 +14,12 @@ namespace PacmanTests
 {
     public class GameEngineTests
     {
-        private ITileTypeFactory SetUpLevel()
+        private ITileTypeFactory SetUp()
         {
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
-            var ghostTile = new GhostTile();
-            return new TileTypeFactory(wallTile, emptyTile, pelletTile,  ghostTile);
+            return new TileTypeFactory(wallTile, emptyTile, pelletTile);
         }
         
         private Maze MazeSetUp()
@@ -30,7 +29,7 @@ namespace PacmanTests
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
-            return new Maze(mazeData);
+            return new Maze(mazeData, SetUp());
         }
 
         [Fact]
@@ -38,8 +37,8 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
 
-            var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(tileTypeFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
+            var tileTypeFactory = SetUp();
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( new PelletTile(),  level.Pacman, maze, level.GameLogicValidator);
             level.GameEngine.UpdateMazeTileDisplays(tileTypeFactory, maze, level.Pacman, level.Ghosts);
@@ -61,10 +60,10 @@ namespace PacmanTests
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[0]);
-            var maze = new Maze(mazeData);
+            var maze = new Maze(mazeData, SetUp());
 
-            var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(tileTypeFactory), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));            
+            var tileTypeFactory = SetUp();
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));            
             maze.MazeArray[1, 2].TileType = new PelletTile();
             
             level.GameEngine.GetNewPosition(level.Pacman, maze);

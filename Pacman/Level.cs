@@ -63,7 +63,7 @@ namespace Pacman
                     HasWon = GameLogicValidator.HasEatenAllPellets(_gameMaze.Pellets, pelletsEaten);
                     
                     Console.Clear();
-                    _display.OutputMaze(_gameMaze); 
+                    _gameMaze.OutputMaze(); 
                     _display.GameStats(LevelScore, LivesLeft);
 
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.2));

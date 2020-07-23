@@ -14,13 +14,12 @@ namespace PacmanTests
 {
     public class GhostTest
     {
-        private ITileTypeFactory SetUpLevel()
+        private ITileTypeFactory SetUp()
         {
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
-            var ghostTile = new GhostTile();
-            return new TileTypeFactory(wallTile, emptyTile, pelletTile, ghostTile);
+            return new TileTypeFactory(wallTile, emptyTile, pelletTile);
         }
         [Fact]
         public void GivenRandomDirectionShouldChangeCorrectly()
@@ -63,13 +62,12 @@ namespace PacmanTests
             var levels = JsonConvert.DeserializeObject<GameSettings>(json);
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
-            var maze = new Maze(mazeData);
+            var maze = new Maze(mazeData, SetUp());
             var spriteFactory = new SpriteFactory();
             var gameEngine = new GameEngine();
-            var tileTypeFactory = SetUpLevel();
-            var display = new Display(tileTypeFactory);
+            var display = new Display();
 
-            var level = new Level(tileTypeFactory, maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()))
+            var level = new Level(SetUp(), maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()))
                 {Ghosts = { new Sprite(4, 5, mockRandom.Object)}};
 
             var (x, y) = gameEngine.GetNewPosition(level.Ghosts[2], maze);
