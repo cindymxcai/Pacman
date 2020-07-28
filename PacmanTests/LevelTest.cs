@@ -35,7 +35,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
             Assert.Equal(0, level.LevelScore);
         }
         
@@ -45,7 +45,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
             Assert.False(level.HasWon);
         }
         
@@ -54,7 +54,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileTypeFactory = SetUpLevel();
-            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile())){LivesLeft = 3};
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile())){LivesLeft = 3};
             level.HandleDeath();
             Assert.Equal(2, level.LivesLeft);
             Assert.Equal(1, level.Pacman.X);

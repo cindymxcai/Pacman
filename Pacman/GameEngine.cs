@@ -10,6 +10,12 @@ namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
+        private readonly IGameLogicValidator _gameLogicValidator;
+
+        public GameEngine(IGameLogicValidator gameLogicValidator)
+        {
+            _gameLogicValidator = gameLogicValidator;
+        }
         /// <summary>
         /// This class performs "updates" within the game as the game ticks. Based on logic checks performed by
         /// <c>GameLogicValidator</c>, this class will change the state of game objects
@@ -31,10 +37,10 @@ namespace Pacman
             }
         }
 
-        public void UpdateSpritePosition(ITileTypeFactory tileTypeFactory, ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator)
+        public void UpdateSpritePosition(ITileTypeFactory tileTypeFactory, ISprite sprite, IMaze gameMaze)
         {
             var (x, y) = GetNewPosition(sprite, gameMaze);
-            if (!gameLogicValidator.HasCollidedWithWall(tileTypeFactory, (x, y), gameMaze)) 
+            if (!_gameLogicValidator.HasCollidedWithWall(tileTypeFactory, (x, y), gameMaze)) 
                 sprite.SetNewPosition(x, y);
         }
 

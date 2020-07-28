@@ -60,7 +60,8 @@ namespace Pacman
                         HandleDeath();
                     if (LivesLeft == 0)
                         break;
-                    HasWon = _gameMaze.HasEatenAllPellets(pelletsEaten); //TODO BELONGS TO MAZE
+                    
+                    HasWon = _gameMaze.HasEatenAllPellets(pelletsEaten); 
                     
                     Console.Clear();
                     _gameMaze.Render();
@@ -88,12 +89,12 @@ namespace Pacman
         private void UpdateSpritePositions(Direction newDirection)
         { 
             Pacman.UpdateCurrentDirection(newDirection);
-            GameEngine.UpdateSpritePosition(_tileTypeFactory, Pacman, _gameMaze, GameLogicValidator); //TODO VALIDATOR
+            GameEngine.UpdateSpritePosition(_tileTypeFactory, Pacman, _gameMaze); 
 
             foreach (var ghostSprite in Ghosts)
             {
                 ghostSprite.UpdateCurrentDirection(ghostSprite.Behaviour.ChooseDirection()); //TODO ENCAPSULATE
-                GameEngine.UpdateSpritePosition(_tileTypeFactory, ghostSprite, _gameMaze, GameLogicValidator);
+                GameEngine.UpdateSpritePosition(_tileTypeFactory, ghostSprite, _gameMaze);
             }
         }
     }

@@ -54,7 +54,7 @@ namespace PacmanTests
         {
             var maze = MazeSetUp();
             var tileTypeFactory = SetUp();
-            var level = new Level( tileTypeFactory, maze, new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(),
+            var level = new Level( tileTypeFactory, maze, new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(),
                 new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile())) {Pacman = {X = 3, Y = 3}};
             level.Ghosts[0].X = 3;
             level.Ghosts[0].Y = 3;
@@ -65,8 +65,6 @@ namespace PacmanTests
         public void HasEatenAllPelletsIfRemainingPelletsEqualsZero()
         {
             var maze = MazeSetUp();
-            var tileTypeFactory = SetUp(); 
-            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
             Assert.True(maze.HasEatenAllPellets(maze.Pellets));
             Assert.False(maze.HasEatenAllPellets(2));
         }

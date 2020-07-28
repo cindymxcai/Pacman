@@ -38,9 +38,9 @@ namespace PacmanTests
             var maze = MazeSetUp();
 
             var tileTypeFactory = SetUp();
-            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( tileTypeFactory,  level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition( tileTypeFactory,  level.Pacman, maze);
             level.GameEngine.UpdateMazeTileDisplays(tileTypeFactory, maze, level.Pacman, level.Ghosts);
 
             Assert.Equal(new EmptyTile().Display, maze.MazeArray[level.Pacman.PrevX, level.Pacman.PrevY].TileType.Display);
@@ -63,11 +63,11 @@ namespace PacmanTests
             var maze = new Maze(mazeData, SetUp());
 
             var tileTypeFactory = SetUp();
-            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));            
+            var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));            
             maze.MazeArray[1, 2].TileType = new PelletTile();
             
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( tileTypeFactory, level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition( tileTypeFactory, level.Pacman, maze);
            
             Assert.Equal(newX, level.Pacman.X);
             Assert.Equal(newY, level.Pacman.Y);

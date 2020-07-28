@@ -29,7 +29,7 @@
             var gameSettingLoader = new GameSettingLoader(fileReader);
             
             var gameLogicValidator = new GameLogicValidator();
-            var gameEngine = new GameEngine();
+            var gameEngine = new GameEngine(gameLogicValidator);
             
             var playerInput = new PlayerInput();
             var spriteFactory = new SpriteFactory();

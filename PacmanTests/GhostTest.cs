@@ -64,7 +64,7 @@ namespace PacmanTests
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData, SetUp());
             var spriteFactory = new SpriteFactory();
-            var gameEngine = new GameEngine();
+            var gameEngine = new GameEngine(new GameLogicValidator());
             var display = new Display();
 
             var level = new Level(SetUp(), maze, display, spriteFactory,  new GameLogicValidator(), gameEngine, new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()))
