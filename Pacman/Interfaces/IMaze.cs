@@ -8,7 +8,8 @@ namespace Pacman.Interfaces
         int Height { get; }
         int Width { get; }
         int Pellets { get; }
-        void UpdateMazeArray(int x, int y, ITileType tileType);
-        void OutputMaze();
+        void UpdateMazeArray(int x, int y, ITileType tileType, ITileType empty);
+        void Render();
+        bool HasEatenAllPellets(int pelletsEaten);
     }
 }

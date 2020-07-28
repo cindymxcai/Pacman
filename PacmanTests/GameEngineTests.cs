@@ -40,7 +40,7 @@ namespace PacmanTests
             var tileTypeFactory = SetUp();
             var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( new PelletTile(),  level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition( tileTypeFactory,  level.Pacman, maze, level.GameLogicValidator);
             level.GameEngine.UpdateMazeTileDisplays(tileTypeFactory, maze, level.Pacman, level.Ghosts);
 
             Assert.Equal(new EmptyTile().Display, maze.MazeArray[level.Pacman.PrevX, level.Pacman.PrevY].TileType.Display);
@@ -67,7 +67,7 @@ namespace PacmanTests
             maze.MazeArray[1, 2].TileType = new PelletTile();
             
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( new WallTile(), level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition( tileTypeFactory, level.Pacman, maze, level.GameLogicValidator);
            
             Assert.Equal(newX, level.Pacman.X);
             Assert.Equal(newY, level.Pacman.Y);

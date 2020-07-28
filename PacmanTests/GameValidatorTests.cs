@@ -46,7 +46,7 @@ namespace PacmanTests
             var pacman = new Sprite(1,2, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()));
             var gameLogicValidator = new GameLogicValidator();
             maze.MazeArray[1, 2].TileType = new WallTile();
-            Assert.True(gameLogicValidator.HasCollidedWithWall(maze.MazeArray[1,2].TileType, (pacman.X, pacman.Y), maze));
+            Assert.True(gameLogicValidator.HasCollidedWithWall(SetUp(), (pacman.X, pacman.Y), maze));
         }
         
         [Fact]
@@ -67,8 +67,8 @@ namespace PacmanTests
             var maze = MazeSetUp();
             var tileTypeFactory = SetUp(); 
             var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
-            Assert.True(level.GameLogicValidator.HasEatenAllPellets(maze.Pellets, maze.Pellets));
-            Assert.False(level.GameLogicValidator.HasEatenAllPellets(maze.Pellets, 2));
+            Assert.True(maze.HasEatenAllPellets(maze.Pellets));
+            Assert.False(maze.HasEatenAllPellets(2));
         }
     }
 }

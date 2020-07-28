@@ -11,6 +11,9 @@
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
+            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile);
+            var display = new Display();
+            
             var ghostTile = new GhostTile();
             var ghostBehaviour = new RandomGhostBehaviour(ghostTile);
             
@@ -20,9 +23,6 @@
             var pacmanLeftTile = new PacmanLeftTile();
             var pacmanRightTile = new PacmanRightTile();
             var pacmanBehaviour  = new PacmanBehaviour(pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, pacmanChompTile);
-            
-            var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile);
-            var display = new Display();
             
             var fileReader = new FileReader();
             var mazeFactory = new MazeFactory(fileReader, tileTypeFactory);

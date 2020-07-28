@@ -38,7 +38,7 @@ namespace PacmanTests
             var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));
             maze.MazeArray[1, 2].TileType = new WallTile();
             level.GameEngine.GetNewPosition(level.Pacman, maze);
-            level.GameEngine.UpdateSpritePosition( maze.MazeArray[1,2].TileType, level.Pacman, maze, level.GameLogicValidator);
+            level.GameEngine.UpdateSpritePosition(tileTypeFactory, level.Pacman, maze, level.GameLogicValidator);
            
             Assert.Equal(1, level.Pacman.X);
             Assert.Equal(1, level.Pacman.Y); 

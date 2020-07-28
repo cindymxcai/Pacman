@@ -7,6 +7,6 @@ namespace Pacman.Sprites
     { 
         Direction ChooseDirection();
 
-        ITileType GetTileType(Direction direction);
+        ITileType UpdateTileType(Direction direction);
     }
 }

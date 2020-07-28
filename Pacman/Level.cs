@@ -60,10 +60,10 @@ namespace Pacman
                         HandleDeath();
                     if (LivesLeft == 0)
                         break;
-                    HasWon = GameLogicValidator.HasEatenAllPellets(_gameMaze.Pellets, pelletsEaten);
+                    HasWon = _gameMaze.HasEatenAllPellets(pelletsEaten); //TODO BELONGS TO MAZE
                     
                     Console.Clear();
-                    _gameMaze.OutputMaze(); 
+                    _gameMaze.Render();
                     _display.GameStats(LevelScore, LivesLeft);
 
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.2));
@@ -79,7 +79,7 @@ namespace Pacman
             LivesLeft--;
             _display.LostLife(LivesLeft);
             _gameMaze.UpdateMazeArray(Pacman.X, Pacman.Y,
-                _gameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? _tileTypeFactory.Empty: _tileTypeFactory.Pellet);
+                _gameMaze.MazeArray[Pacman.X, Pacman.Y].HasBeenEaten ? _tileTypeFactory.Empty: _tileTypeFactory.Pellet, _tileTypeFactory.Empty);
 
             Pacman.X = 1;
             Pacman.Y = 1;
@@ -88,14 +88,13 @@ namespace Pacman
         private void UpdateSpritePositions(Direction newDirection)
         { 
             Pacman.UpdateCurrentDirection(newDirection);
-            GameEngine.UpdateSpritePosition(_tileTypeFactory.Wall, Pacman, _gameMaze, GameLogicValidator);
-            
+            GameEngine.UpdateSpritePosition(_tileTypeFactory, Pacman, _gameMaze, GameLogicValidator); //TODO VALIDATOR
+
             foreach (var ghostSprite in Ghosts)
             {
-                ghostSprite.UpdateCurrentDirection(ghostSprite.Behaviour.ChooseDirection());
-                GameEngine.UpdateSpritePosition(_tileTypeFactory.Wall, ghostSprite, _gameMaze, GameLogicValidator);
+                ghostSprite.UpdateCurrentDirection(ghostSprite.Behaviour.ChooseDirection()); //TODO ENCAPSULATE
+                GameEngine.UpdateSpritePosition(_tileTypeFactory, ghostSprite, _gameMaze, GameLogicValidator);
             }
-            
         }
     }
 }

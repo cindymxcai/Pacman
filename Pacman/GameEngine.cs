@@ -18,23 +18,23 @@ namespace Pacman
             IEnumerable<ISprite> ghosts)
         {
             pacman.UpdateDisplay();
-            gameMaze.UpdateMazeArray(pacman.X, pacman.Y, pacman.SpriteDisplay );
-            gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, tileTypeFactory.Empty);
+            gameMaze.UpdateMazeArray(pacman.X, pacman.Y, pacman.SpriteDisplay, tileTypeFactory.Empty );
+            gameMaze.UpdateMazeArray(pacman.PrevX, pacman.PrevY, tileTypeFactory.Empty, tileTypeFactory.Empty);
             foreach (var ghostSprite in ghosts)
             {
                 var prevTileType = gameMaze.MazeArray[ghostSprite.PrevX, ghostSprite.PrevY].HasBeenEaten
                     ? tileTypeFactory.Empty
                     : tileTypeFactory.Pellet;
                 
-                gameMaze.UpdateMazeArray(ghostSprite.PrevX, ghostSprite.PrevY, prevTileType);
-                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, ghostSprite.SpriteDisplay); 
+                gameMaze.UpdateMazeArray(ghostSprite.PrevX, ghostSprite.PrevY, prevTileType, tileTypeFactory.Empty);
+                gameMaze.UpdateMazeArray(ghostSprite.X, ghostSprite.Y, ghostSprite.SpriteDisplay, tileTypeFactory.Empty); 
             }
         }
 
-        public void UpdateSpritePosition(ITileType wall, ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator)
+        public void UpdateSpritePosition(ITileTypeFactory tileTypeFactory, ISprite sprite, IMaze gameMaze, IGameLogicValidator gameLogicValidator)
         {
             var (x, y) = GetNewPosition(sprite, gameMaze);
-            if (!gameLogicValidator.HasCollidedWithWall(wall, (x, y), gameMaze)) 
+            if (!gameLogicValidator.HasCollidedWithWall(tileTypeFactory, (x, y), gameMaze)) 
                 sprite.SetNewPosition(x, y);
         }
 

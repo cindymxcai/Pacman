@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pacman.Enums;
 using Pacman.Factories;
 using Pacman.Interfaces;
 using Pacman.TileTypes;
@@ -19,12 +18,11 @@ namespace Pacman
         
         public Maze(IReadOnlyList<string> mazeData, ITileTypeFactory tileTypeFactory)
         {
-           CreateMaze(mazeData);
+           CreateMaze(mazeData, tileTypeFactory.Pellet);
            _tileFactory = tileTypeFactory;
-
         }
 
-        private void CreateMaze(IReadOnlyList<string> mazeData)
+        private void CreateMaze(IReadOnlyList<string> mazeData, ITileType pellet)
         {
             Height = mazeData.Count;
             Width = mazeData[0].Length;
@@ -37,7 +35,7 @@ namespace Pacman
                 foreach (var tileType in lineData.Select(Parser.GetTileType))
                 {
                     MazeArray[x, y] = new Tile(tileType);
-                    if (tileType.Display == new PelletTile().Display)
+                    if (tileType.Display == pellet.Display)
                     {
                         Pellets++;
                     }
@@ -47,16 +45,16 @@ namespace Pacman
             }
         }
 
-        public void UpdateMazeArray(int x, int y, ITileType tileType)
+        public void UpdateMazeArray(int x, int y, ITileType tileType, ITileType empty)
         {
             MazeArray[x, y].TileType = tileType;
-            if (MazeArray[x, y].TileType.Display == new EmptyTile().Display)
+            if (MazeArray[x, y].TileType.Display == empty.Display)
             {
-                MazeArray[x, y].HasBeenEaten = true;
+                MazeArray[x, y].HasBeenEaten = true; //TODO remove
             }
         }
         
-        public void OutputMaze()
+        public void Render()
         {
             for (var i = 0; i < Height; i++)
             {
@@ -68,5 +66,9 @@ namespace Pacman
             }
         }
 
+        public bool HasEatenAllPellets(int pelletsEaten)
+        {
+            return pelletsEaten == Pellets;
+        }
     }
 }
