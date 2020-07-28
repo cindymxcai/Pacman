@@ -1,5 +1,6 @@
 using Pacman.Enums;
 using Pacman.Factories;
+using Pacman.Interfaces;
 using Pacman.TileTypes;
 
 namespace Pacman.Sprites
@@ -18,7 +19,7 @@ namespace Pacman.Sprites
             X = x;
             Y = y;
             Behaviour = spriteBehaviour;
-            CurrentDirection = Behaviour.ChooseDirection();
+            CurrentDirection = Behaviour.ChooseDirection(CurrentDirection);
             SpriteDisplay = Behaviour.UpdateTileType(CurrentDirection);
         }
 
@@ -30,9 +31,9 @@ namespace Pacman.Sprites
             Y = y;
         }
 
-        public void UpdateCurrentDirection(Direction newDirection)
+        public void UpdateCurrentDirection(Direction direction)
         {
-            CurrentDirection = newDirection;
+            CurrentDirection = Behaviour.ChooseDirection(direction);
         }
 
         public void UpdateDisplay()

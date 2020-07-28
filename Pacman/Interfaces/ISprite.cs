@@ -11,12 +11,12 @@ namespace Pacman.Sprites
         int Y { get; set; }
         int PrevX { get; }
         int PrevY { get; }
-        Direction CurrentDirection { get; set; }
+        Direction CurrentDirection { get;  }
         void SetNewPosition(int x, int y);
         
         ISpriteBehaviour Behaviour { get; }
         ITileType SpriteDisplay { get; }
-        void UpdateCurrentDirection(Direction newDirection);
+        void UpdateCurrentDirection(Direction direction);
         void UpdateDisplay();
     }
 }

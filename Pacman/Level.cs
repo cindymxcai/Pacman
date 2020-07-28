@@ -21,6 +21,7 @@ namespace Pacman
         private readonly IPlayerInput _playerInput;
         public readonly ISprite Pacman;
         public readonly List<ISprite> Ghosts = new List<ISprite>();
+        public readonly List<ISprite> AllSprites = new List<ISprite>();
         public int LivesLeft { get; set; }
         public bool HasWon { get; private set; }
         public int LevelScore { get; private set; }
@@ -38,6 +39,8 @@ namespace Pacman
             Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
             Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour));
             Ghosts.Add(spriteFactory.CreateSprite(9, 10, ghostBehaviour));
+            AllSprites.Add(Pacman);
+            AllSprites.AddRange(Ghosts);
             HasWon = false;
             LivesLeft = 3;
         }
@@ -47,7 +50,7 @@ namespace Pacman
             while (!HasWon)
             {
                 var newDirection = _playerInput.TakeInput(Pacman.CurrentDirection);
-
+                
                 while (!_playerInput.HasNewInput())
                 {
                     var pelletsEaten = _gameMaze.MazeArray.Cast<Tile>().Count(tile => tile.HasBeenEaten);
@@ -87,14 +90,11 @@ namespace Pacman
         }
 
         private void UpdateSpritePositions(Direction newDirection)
-        { 
-            Pacman.UpdateCurrentDirection(newDirection);
-            GameEngine.UpdateSpritePosition(_tileTypeFactory, Pacman, _gameMaze); 
-
-            foreach (var ghostSprite in Ghosts)
+        {
+            foreach (var sprite in AllSprites)
             {
-                ghostSprite.UpdateCurrentDirection(ghostSprite.Behaviour.ChooseDirection()); //TODO ENCAPSULATE
-                GameEngine.UpdateSpritePosition(_tileTypeFactory, ghostSprite, _gameMaze);
+                sprite.UpdateCurrentDirection(newDirection);
+                GameEngine.UpdateSpritePosition(_tileTypeFactory, sprite, _gameMaze);
             }
         }
     }

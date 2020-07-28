@@ -17,9 +17,10 @@ namespace Pacman.Sprites
             Rng = new Rng();
         }
 
-        public Direction ChooseDirection()
+
+        public Direction ChooseDirection(Direction newDirection)
         {
-            var direction = Rng.Next(0, 4) switch
+             newDirection = Rng.Next(0, 4) switch
             {
                 0 => Direction.Up,
                 1 => Direction.Down,
@@ -27,7 +28,7 @@ namespace Pacman.Sprites
                 3 => Direction.Right,
                 _ => throw new Exception()
             };
-            return direction;
+            return newDirection;
         }
 
         public ITileType UpdateTileType(Direction direction)

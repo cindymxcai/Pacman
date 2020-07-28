@@ -1,4 +1,5 @@
 using Pacman.Enums;
+using Pacman.Interfaces;
 using Pacman.TileTypes;
 
 namespace Pacman.Sprites
@@ -10,7 +11,6 @@ namespace Pacman.Sprites
         private readonly PacmanLeftTile _pacmanLeftTile;
         private readonly PacmanRightTile _pacmanRightTile;
         private readonly PacmanChompTile _pacmanChompTile;
-
         public PacmanBehaviour(PacmanUpTile pacmanUpTile, PacmanDownTile pacmanDownTile, PacmanLeftTile pacmanLeftTile, PacmanRightTile pacmanRightTile, PacmanChompTile pacmanChompTile)
         {
             _pacmanUpTile = pacmanUpTile;
@@ -22,9 +22,10 @@ namespace Pacman.Sprites
 
         private bool IsChomping { get; set; }
 
-        public Direction ChooseDirection()
+
+        public Direction ChooseDirection(Direction direction)
         {
-            return Direction.Right; 
+            return direction;
         }
 
         public ITileType UpdateTileType(Direction direction)

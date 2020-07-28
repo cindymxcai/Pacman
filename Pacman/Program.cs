@@ -8,6 +8,8 @@
     {
         public static void Main(string[] args)
         {
+            var playerInput = new PlayerInput();
+            
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
@@ -31,7 +33,6 @@
             var gameLogicValidator = new GameLogicValidator();
             var gameEngine = new GameEngine(gameLogicValidator);
             
-            var playerInput = new PlayerInput();
             var spriteFactory = new SpriteFactory();
             var levelFactory = new LevelFactory(tileTypeFactory, display, spriteFactory, gameLogicValidator, gameEngine, playerInput, pacmanBehaviour, ghostBehaviour);
             
