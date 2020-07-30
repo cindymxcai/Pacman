@@ -7,18 +7,11 @@ namespace Pacman.Sprites
 {
     public class PacmanBehaviour : ISpriteBehaviour
     {
-        private readonly PacmanUpTile _pacmanUpTile;
-        private readonly PacmanDownTile _pacmanDownTile;
-        private readonly PacmanLeftTile _pacmanLeftTile;
-        private readonly PacmanRightTile _pacmanRightTile;
-        private readonly PacmanChompTile _pacmanChompTile;
-        public PacmanBehaviour(PacmanUpTile pacmanUpTile, PacmanDownTile pacmanDownTile, PacmanLeftTile pacmanLeftTile, PacmanRightTile pacmanRightTile, PacmanChompTile pacmanChompTile)
+        private readonly PacmanTile _pacmanTile;
+
+        public PacmanBehaviour(PacmanTile pacmanTile)
         {
-            _pacmanUpTile = pacmanUpTile;
-            _pacmanDownTile = pacmanDownTile;
-            _pacmanLeftTile = pacmanLeftTile;
-            _pacmanRightTile = pacmanRightTile;
-            _pacmanChompTile = pacmanChompTile;
+            _pacmanTile = pacmanTile;
         }
 
         private bool IsChomping { get; set; }
@@ -32,16 +25,9 @@ namespace Pacman.Sprites
         {
             UpdateChompingState();
 
-            return IsChomping
-                ? (ITileType) _pacmanChompTile
-                : direction switch
-                {
-                    Direction.Up => _pacmanUpTile,
-                    Direction.Down => _pacmanDownTile,
-                    Direction.Left => _pacmanLeftTile,
-                    Direction.Right => _pacmanRightTile,
-                    _ => throw new Exception()
-                };
+            _pacmanTile.SetTileDisplay(IsChomping, direction);
+
+            return _pacmanTile;
         }
 
         private void UpdateChompingState()

@@ -18,12 +18,8 @@
             var ghostTile = new GhostTile();
             var ghostBehaviour = new RandomGhostBehaviour(ghostTile);
             
-            var pacmanChompTile = new PacmanChompTile();
-            var pacmanUpTile = new PacmanUpTile();
-            var pacmanDownTile = new PacmanDownTile();
-            var pacmanLeftTile = new PacmanLeftTile();
-            var pacmanRightTile = new PacmanRightTile();
-            var pacmanBehaviour  = new PacmanBehaviour(pacmanUpTile, pacmanDownTile, pacmanLeftTile, pacmanRightTile, pacmanChompTile);
+            var pacmanTile = new PacmanTile();
+            var pacmanBehaviour  = new PacmanBehaviour(pacmanTile);
             
             var fileReader = new FileReader();
             var mazeFactory = new MazeFactory(fileReader, tileTypeFactory);

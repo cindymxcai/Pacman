@@ -35,7 +35,7 @@ namespace Pacman
             var mazeData = _gameSettingLoader.GetMazeData();
             while (IsPlaying)
             {
-                var maze = _mazeFactory.CreateMaze(mazeData.LevelSettings[CurrentLevelNumber]);
+                var maze = _mazeFactory.CreateMaze(mazeData.LevelSettings[CurrentLevelNumber-1]);
                 var level = _levelFactory.CreateLevel(maze);
                 level.PlayLevel();
                 if (level.HasWon)

@@ -43,7 +43,7 @@ namespace PacmanTests
             var fileReader = new FileReader();
             var mazeData = fileReader.ReadFile(levels.LevelSettings[1]);
             var maze = new Maze(mazeData, SetUp());
-            var pacman = new Sprite(1,2, new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()));
+            var pacman = new Sprite(1,2, new PacmanBehaviour(new PacmanTile()));
             var gameLogicValidator = new GameLogicValidator();
             maze.MazeArray[1, 2].TileType = new WallTile();
             Assert.True(gameLogicValidator.HasCollidedWithWall(SetUp(), (pacman.X, pacman.Y), maze));
@@ -55,7 +55,7 @@ namespace PacmanTests
             var maze = MazeSetUp();
             var tileTypeFactory = SetUp();
             var level = new Level( tileTypeFactory, maze, new Display(), new SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(),
-                new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile())) {Pacman = {X = 3, Y = 3}};
+                new PacmanBehaviour(new PacmanTile()), new RandomGhostBehaviour(new GhostTile())) {Pacman = {X = 3, Y = 3}};
             level.Ghosts[0].X = 3;
             level.Ghosts[0].Y = 3;
             Assert.True(level.GameLogicValidator.HasCollidedWithGhost(level.Pacman, level.Ghosts));
