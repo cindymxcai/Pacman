@@ -1,7 +1,4 @@
-using Pacman.Interfaces;
-using Pacman.Sprites;
-
-namespace Pacman.Factories
+namespace Pacman.Interfaces
 {
     public interface ISpriteFactory
     {

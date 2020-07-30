@@ -1,25 +1,23 @@
 using System;
 using System.Collections.Generic;
 using Pacman.Enums;
-using Pacman.Factories;
 using Pacman.Interfaces;
-using Pacman.Sprites;
-using Pacman.TileTypes;
 
 namespace Pacman
 {
     public class GameEngine : IGameEngine
     {
+        /// <summary>
+        /// This class performs "updates" within the game as the game ticks. Based on logic checks performed by
+        /// <c>GameLogicValidator</c>, this class will change the state of game objects
+        /// </summary>
         private readonly IGameLogicValidator _gameLogicValidator;
 
         public GameEngine(IGameLogicValidator gameLogicValidator)
         {
             _gameLogicValidator = gameLogicValidator;
         }
-        /// <summary>
-        /// This class performs "updates" within the game as the game ticks. Based on logic checks performed by
-        /// <c>GameLogicValidator</c>, this class will change the state of game objects
-        /// </summary>
+      
         public void UpdateMazeTileDisplays(ITileTypeFactory tileTypeFactory, IMaze gameMaze, ISprite pacman,
             IEnumerable<ISprite> ghosts)
         {

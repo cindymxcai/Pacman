@@ -12,10 +12,10 @@ namespace Pacman.Factories
             _fileReader = fileReader;
             _tileTypeFactory = tileTypeFactory;
         }
-        public IMaze CreateMaze( GameSettings gameSettings, int currentLevelNumber )
+        public IMaze CreateMaze(string mazeData)
         {
-            var mazeData = _fileReader.ReadFile(gameSettings.LevelSettings[currentLevelNumber - 1]);
-            return new Maze(mazeData, _tileTypeFactory );
+            var mazeDataForLevel = _fileReader.ReadFile(mazeData);
+            return new Maze(mazeDataForLevel, _tileTypeFactory );
         }
     }
 }

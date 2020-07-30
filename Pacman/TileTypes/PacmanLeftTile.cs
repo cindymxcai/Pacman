@@ -1,10 +1,11 @@
 using System;
+using Pacman.Interfaces;
 
 namespace Pacman.TileTypes
 {
     public class PacmanLeftTile : ITileType
     {
-        public string Display { get; set; } = " \u15E4 ";
+        public string Display { get; } = " \u15E4 ";
         public ConsoleColor TileColour { get; } = ConsoleColor.Yellow;
     }
 }

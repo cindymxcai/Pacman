@@ -1,5 +1,4 @@
 using Pacman.Interfaces;
-using Pacman.Sprites;
 
 namespace Pacman.Factories
 {

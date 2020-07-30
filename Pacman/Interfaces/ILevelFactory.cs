@@ -1,6 +1,4 @@
-using Pacman.Interfaces;
-
-namespace Pacman.Factories
+namespace Pacman.Interfaces
 {
     public interface ILevelFactory
     {

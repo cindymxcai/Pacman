@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using Pacman.Factories;
-using Pacman.Sprites;
-using Pacman.TileTypes;
 
 namespace Pacman.Interfaces
 {

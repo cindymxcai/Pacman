@@ -14,7 +14,6 @@
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
             var tileTypeFactory = new TileTypeFactory(wallTile, emptyTile, pelletTile);
-            var display = new Display();
             
             var ghostTile = new GhostTile();
             var ghostBehaviour = new RandomGhostBehaviour(ghostTile);
@@ -33,6 +32,7 @@
             var gameLogicValidator = new GameLogicValidator();
             var gameEngine = new GameEngine(gameLogicValidator);
             
+            var display = new Display();
             var spriteFactory = new SpriteFactory();
             var levelFactory = new LevelFactory(tileTypeFactory, display, spriteFactory, gameLogicValidator, gameEngine, playerInput, pacmanBehaviour, ghostBehaviour);
             

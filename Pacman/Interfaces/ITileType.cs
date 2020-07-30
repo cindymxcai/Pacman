@@ -1,10 +1,10 @@
 using System;
 
-namespace Pacman.TileTypes
+namespace Pacman.Interfaces
 {
     public interface ITileType
     {
-        string Display { get; set; }
+        string Display { get;  }
         ConsoleColor TileColour { get; }
     }
 }

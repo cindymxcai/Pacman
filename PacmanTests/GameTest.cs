@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Pacman;
 using Pacman.Factories;
+using Pacman.Interfaces;
 using Pacman.TileTypes;
 using Xunit;
 
@@ -11,12 +12,11 @@ namespace PacmanTests
     public class MazeTest
     {
         
-        private ITileTypeFactory SetUp()
+        private static ITileTypeFactory SetUp()
         {
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
             var pelletTile = new PelletTile();
-            var ghostTile = new GhostTile();
             return new TileTypeFactory(wallTile, emptyTile, pelletTile);
         }
         
@@ -54,7 +54,7 @@ namespace PacmanTests
         public void LevelSettingsFileShouldReturnCorrectInfo()
         {
             var gameSettingLoader = new GameSettingLoader(new FileReader());
-            var levelData = gameSettingLoader.GetLevelData();
+            var levelData = gameSettingLoader.GetMazeData();
             Assert.Equal(3, levelData.MaxLevels);
         }
     }

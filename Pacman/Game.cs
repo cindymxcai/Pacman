@@ -1,5 +1,4 @@
 using System;
-using Pacman.Factories;
 using Pacman.Interfaces;
 
 namespace Pacman
@@ -33,10 +32,10 @@ namespace Pacman
         {
             CurrentLevelNumber = 1;
             _display.Welcome();
-            var gameSettings = _gameSettingLoader.GetLevelData();
+            var mazeData = _gameSettingLoader.GetMazeData();
             while (IsPlaying)
             {
-                var maze = _mazeFactory.CreateMaze(gameSettings, CurrentLevelNumber);
+                var maze = _mazeFactory.CreateMaze(mazeData.LevelSettings[CurrentLevelNumber]);
                 var level = _levelFactory.CreateLevel(maze);
                 level.PlayLevel();
                 if (level.HasWon)
@@ -50,7 +49,7 @@ namespace Pacman
                     HandleLostLevel();
                 }
 
-                if (CurrentLevelNumber >= gameSettings.MaxLevels)
+                if (CurrentLevelNumber >= mazeData.MaxLevels)
                 {
                     IsPlaying = false;
                 }

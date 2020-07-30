@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Pacman;
 using Pacman.Factories;
+using Pacman.Interfaces;
 using Pacman.Sprites;
 using Pacman.TileTypes;
 using Xunit;

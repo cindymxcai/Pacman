@@ -14,7 +14,7 @@ namespace PacmanTests
 {
     public class GameEngineTests
     {
-        private ITileTypeFactory SetUp()
+        private static ITileTypeFactory SetUp()
         {
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
@@ -22,7 +22,7 @@ namespace PacmanTests
             return new TileTypeFactory(wallTile, emptyTile, pelletTile);
         }
         
-        private Maze MazeSetUp()
+        private static Maze MazeSetUp()
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = File.ReadAllText(jsonFileName);
@@ -44,13 +44,13 @@ namespace PacmanTests
             level.GameEngine.UpdateMazeTileDisplays(tileTypeFactory, maze, level.Pacman, level.Ghosts);
 
             Assert.Equal(new EmptyTile().Display, maze.MazeArray[level.Pacman.PrevX, level.Pacman.PrevY].TileType.Display);
-            var tile = new Tile(new PacmanRightTile());
+            var tile = new Tile(new PacmanUpTile());
             Assert.Equal(tile.TileType.Display, maze.MazeArray[level.Pacman.X, level.Pacman.Y].TileType.Display);
         }
         
         [Theory]
-        [InlineData(Direction.Right, 1, 2 )]
-        public void SpriteShouldUpatePositionGivenCurrentDirection(Direction newDirection, int newX, int newY )
+        [InlineData(Direction.Up, 1, 1 )]
+        public void SpriteShouldUpdatePositionGivenCurrentDirection(Direction newDirection, int newX, int newY )
         {
             var mockInput = new Mock<IPlayerInput>();
             mockInput.Setup(input => input.TakeInput(newDirection)).Returns(newDirection);
@@ -64,7 +64,7 @@ namespace PacmanTests
 
             var tileTypeFactory = SetUp();
             var level = new Level(tileTypeFactory, maze, new Display(), new  SpriteFactory(), new GameLogicValidator(), new GameEngine(new GameLogicValidator()), new PlayerInput(), new PacmanBehaviour(new PacmanUpTile(), new PacmanDownTile(), new PacmanLeftTile(), new PacmanRightTile(), new PacmanChompTile()), new RandomGhostBehaviour(new GhostTile()));            
-            maze.MazeArray[1, 2].TileType = new PelletTile();
+            maze.MazeArray[0, 1].TileType = new WallTile();
             
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition( tileTypeFactory, level.Pacman, maze);

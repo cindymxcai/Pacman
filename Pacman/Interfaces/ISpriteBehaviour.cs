@@ -1,12 +1,10 @@
 using Pacman.Enums;
-using Pacman.TileTypes;
 
 namespace Pacman.Interfaces
 {
     public interface ISpriteBehaviour
     { 
-        Direction ChooseDirection( Direction direction);
-
-        ITileType UpdateTileType(Direction direction);
+        Direction GetNewDirection( Direction direction);
+        ITileType SetDisplayTile(Direction direction);
     }
 }

@@ -1,5 +1,3 @@
-using Pacman.TileTypes;
-
 namespace Pacman.Interfaces
 {
     public interface IMaze

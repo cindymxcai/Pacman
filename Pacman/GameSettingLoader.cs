@@ -14,7 +14,7 @@ namespace Pacman
             _fileReader = fileReader;
         }
         
-        public GameSettings GetLevelData()
+        public GameSettings GetMazeData()
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = _fileReader.ReadAllData(jsonFileName);

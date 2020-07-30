@@ -14,7 +14,7 @@ namespace PacmanTests
 {
     public class PacmanSpriteTest
     {
-        private ITileTypeFactory SetUpLevel()
+        private static ITileTypeFactory SetUpLevel()
         {
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
@@ -40,7 +40,7 @@ namespace PacmanTests
             level.GameEngine.GetNewPosition(level.Pacman, maze);
             level.GameEngine.UpdateSpritePosition(tileTypeFactory, level.Pacman, maze);
            
-            Assert.Equal(1, level.Pacman.X);
+            Assert.Equal(0, level.Pacman.X);
             Assert.Equal(1, level.Pacman.Y); 
         }
         

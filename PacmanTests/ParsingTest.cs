@@ -1,6 +1,5 @@
 using System;
 using Pacman;
-using Pacman.Enums;
 using Pacman.TileTypes;
 using Xunit;
 

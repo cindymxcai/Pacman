@@ -1,9 +1,6 @@
 using Pacman.Enums;
-using Pacman.Factories;
-using Pacman.Interfaces;
-using Pacman.TileTypes;
 
-namespace Pacman.Sprites
+namespace Pacman.Interfaces
 {
     public interface ISprite
     {
@@ -13,8 +10,6 @@ namespace Pacman.Sprites
         int PrevY { get; }
         Direction CurrentDirection { get;  }
         void SetNewPosition(int x, int y);
-        
-        ISpriteBehaviour Behaviour { get; }
         ITileType SpriteDisplay { get; }
         void UpdateCurrentDirection(Direction direction);
         void UpdateDisplay();

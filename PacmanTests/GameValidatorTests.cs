@@ -14,7 +14,7 @@ namespace PacmanTests
 {
     public class GameValidatorTests
     {
-        private ITileTypeFactory SetUp()
+        private static ITileTypeFactory SetUp()
         {
             var wallTile = new WallTile();
             var emptyTile = new EmptyTile();
@@ -22,7 +22,7 @@ namespace PacmanTests
             return new TileTypeFactory(wallTile, emptyTile, pelletTile);
         }
         
-        private Maze MazeSetUp()
+        private static Maze MazeSetUp()
         {
             var jsonFileName = Path.Combine(Environment.CurrentDirectory, "GameSettings.json");
             var json = File.ReadAllText(jsonFileName);

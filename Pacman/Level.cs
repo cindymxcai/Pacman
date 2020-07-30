@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pacman.Enums;
-using Pacman.Factories;
 using Pacman.Interfaces;
-using Pacman.Sprites;
 
 namespace Pacman
 {
@@ -21,7 +19,7 @@ namespace Pacman
         private readonly IPlayerInput _playerInput;
         public readonly ISprite Pacman;
         public readonly List<ISprite> Ghosts = new List<ISprite>();
-        public readonly List<ISprite> AllSprites = new List<ISprite>();
+        private readonly List<ISprite> _allSprites = new List<ISprite>();
         public int LivesLeft { get; set; }
         public bool HasWon { get; private set; }
         public int LevelScore { get; private set; }
@@ -39,8 +37,8 @@ namespace Pacman
             Pacman = spriteFactory.CreateSprite(1, 1, pacmanBehaviour);
             Ghosts.Add(spriteFactory.CreateSprite(9,9, ghostBehaviour));
             Ghosts.Add(spriteFactory.CreateSprite(9, 10, ghostBehaviour));
-            AllSprites.Add(Pacman);
-            AllSprites.AddRange(Ghosts);
+            _allSprites.Add(Pacman);
+            _allSprites.AddRange(Ghosts);
             HasWon = false;
             LivesLeft = 3;
         }
@@ -91,7 +89,7 @@ namespace Pacman
 
         private void UpdateSpritePositions(Direction newDirection)
         {
-            foreach (var sprite in AllSprites)
+            foreach (var sprite in _allSprites)
             {
                 sprite.UpdateCurrentDirection(newDirection);
                 GameEngine.UpdateSpritePosition(_tileTypeFactory, sprite, _gameMaze);
